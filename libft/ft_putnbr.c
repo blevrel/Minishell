@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: pirabaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/24 17:05:55 by blevrel           #+#    #+#             */
-/*   Updated: 2022/04/26 16:35:35 by blevrel          ###   ########.fr       */
+/*   Created: 2022/02/21 08:53:24 by pirabaud          #+#    #+#             */
+/*   Updated: 2022/08/16 16:54:22 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 int	ft_putnbr(int nb)
@@ -18,20 +19,21 @@ int	ft_putnbr(int nb)
 	count = 0;
 	if (nb == -2147483648)
 	{
-		write(1, "-2147483648", 11);
-		return (11);
+		count = count + ft_putnbr(nb / 10);
+		count += ft_putchar('8');
 	}
-	if (nb < 0)
+	else if (nb < 0)
 	{
+		count += ft_putchar('-');
 		nb = -nb;
-		ft_putchar('-');
+		count = count + ft_putnbr(nb);
 	}
-	if (nb >= 10)
+	else if (nb >= 10)
 	{
-		count += ft_putnbr(nb / 10);
-		count += ft_putnbr(nb % 10);
+		count = count + ft_putnbr(nb / 10);
+		count += ft_putchar(nb % 10 + '0');
 	}
 	else
-		count += ft_putchar(nb + '0');
+		count += ft_putchar(nb % 10 + '0');
 	return (count);
 }

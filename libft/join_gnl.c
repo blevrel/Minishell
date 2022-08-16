@@ -1,39 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin_gnl.c                                   :+:      :+:    :+:   */
+/*   join_gnl.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: pirabaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/06 16:35:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/05/06 17:04:25 by blevrel          ###   ########.fr       */
+/*   Created: 2022/04/02 11:00:19 by pirabaud          #+#    #+#             */
+/*   Updated: 2022/07/27 10:01:39 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
-char	*ft_strjoin_gnl(char *s1, char *s2)
+char	*join_gnl(char *s1, char *s2)
 {
-	size_t	i;
-	size_t	j;
-	char	*dest;
+	char	*res;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
-	dest = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)) + 1);
-	if (dest == NULL)
+	res = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (res == NULL)
 		return (NULL);
-	while (s1[i])
+	if (s1 != NULL)
 	{
-		dest[i] = s1[i];
-		i++;
+		while (s1[i])
+		{
+			res[i] = s1[i];
+			i++;
+		}
 	}
 	while (s2[j])
 	{
-		dest[i] = s2[j];
-		i++;
+		res[i + j] = s2[j];
 		j++;
 	}
-	dest[i] = '\0';
+	res[i + j] = '\0';
 	free(s1);
-	return (dest);
+	return (res);
 }

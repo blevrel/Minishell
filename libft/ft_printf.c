@@ -3,62 +3,101 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/27 11:41:11 by blevrel           #+#    #+#             */
-/*   Updated: 2022/04/27 11:41:12 by blevrel          ###   ########.fr       */
+/*   Created: 2022/04/21 08:44:02 by pirabaud          #+#    #+#             */
+/*   Updated: 2022/08/16 14:23:51 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	check_percent(const char c, va_list ap)
+int	putnbr_hex(unsigned int nb, char *str)
 {
 	int	count;
 
 	count = 0;
-	if (c == 'c')
-		count = ft_putchar_va_arg(ap);
-	else if (c == 's')
-		count = ft_putstr_va_arg(ap);
-	else if (c == 'p')
-		count = ft_putaddr_va_arg(ap);
-	else if (c == 'd' || c == 'i')
-		count = ft_putnbr_va_arg(ap);
-	else if (c == 'u')
-		count = ft_putnbr_unsigned_va_arg(ap);
-	else if (c == 'x')
-		count = ft_putnbr_hexa_va_arg_x(ap);
-	else if (c == 'X')
-		count = ft_putnbr_hexa_va_arg_up(ap);
-	else if (c == '%')
+	if (nb >= 16)
 	{
-		ft_putchar(c);
-		count++;
+		count = count + putnbr_hex(nb / 16, str);
+		ft_putchar(str[nb % 16]);
+		++count;
+	}
+	else
+	{
+		ft_putchar(str[nb % 16]);
+		++count;
+	}
+	return (count);
+}
+
+int	putnbr_adress(unsigned long long int nb, char *str)
+{
+	int	count;
+
+	count = 0;
+	if (nb == 0)
+	{
+		ft_putstr("(nil)");
+		return (5);
+	}
+	if (nb >= 16)
+	{
+		count = count + putnbr_adress(nb / 16, str);
+		ft_putchar(str[nb % 16]);
+		++count;
+	}
+	else
+	{
+		ft_putchar(str[nb % 16]);
+		++count;
+	}
+	return (count);
+}
+
+int	putnbr_unsigned(unsigned int nb)
+{
+	int	count;
+
+	count = 0;
+	if (nb >= 10)
+	{
+		count = count + putnbr_unsigned(nb / 10);
+		ft_putchar((nb % 10) + '0');
+		++count;
+	}
+	else
+	{
+		ft_putchar(nb + '0');
+		++count;
 	}
 	return (count);
 }
 
 int	ft_printf(const char *format, ...)
 {
-	va_list	ap;
+	va_list	param;
 	int		i;
 	int		count;
 
-	i = 0;
 	count = 0;
-	va_start(ap, format);
+	i = 0;
+	va_start(param, format);
 	while (format[i])
 	{
 		if (format[i] == '%')
 		{
-			count += check_percent(format[i + 1], ap);
-			i++;
+			++i;
+			count = count + check_print(format[i], param);
+			++i;
 		}
 		else
-			count += ft_putchar(format[i]);
-		i++;
+		{
+			write(1, &format[i], 1);
+			++count;
+			++i;
+		}
 	}
-	va_end(ap);
+	va_end(param);
 	return (count);
 }

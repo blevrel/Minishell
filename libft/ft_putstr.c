@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_hexa_X.c                                 :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/26 08:55:34 by blevrel           #+#    #+#             */
-/*   Updated: 2022/04/27 11:32:24 by blevrel          ###   ########.fr       */
+/*   Created: 2022/04/22 16:12:02 by pirabaud          #+#    #+#             */
+/*   Updated: 2022/08/16 16:56:00 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
-int	ft_putnbr_hexa_up(unsigned int nb)
+int	ft_putstr(char *str)
 {
+	int	i;
 	int	count;
 
+	i = 0;
 	count = 0;
-	if (nb >= 16)
+	if (str == NULL)
+		return (ft_putstr("(null)"));
+	while (str[i])
 	{
-		count += ft_putnbr_hexa_up(nb / 16);
-		count += ft_putnbr_hexa_up(nb % 16);
+		ft_putchar(str[i++]);
+		++count;
 	}
-	else if (nb >= 10)
-		count += ft_putchar(nb + '7');
-	else
-		count += ft_putchar(nb + '0');
 	return (count);
 }

@@ -3,58 +3,62 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: blevrel <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: pirabaud <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/03/28 11:59:56 by blevrel           #+#    #+#              #
-#    Updated: 2022/08/16 09:56:01 by blevrel          ###   ########.fr        #
+#    Created: 2022/03/30 09:35:24 by pirabaud          #+#    #+#              #
+#    Updated: 2022/07/20 13:57:29 by pirabaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libft.a
+SRCS	= ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
+	  ft_isprint.c ft_strlen.c ft_memset.c ft_strnstr.c \
+	  ft_bzero.c ft_memcpy.c ft_memmove.c ft_strlcpy.c \
+	  ft_strlcat.c ft_toupper.c ft_tolower.c ft_strchr.c \
+	  ft_strrchr.c ft_strncmp.c ft_memchr.c ft_memcmp.c \
+	  ft_atoi.c ft_calloc.c ft_strdup.c ft_substr.c \
+	  ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c \
+	  ft_strmapi.c ft_striteri.c ft_putchar_fd.c \
+	  ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c \
+	  ft_putstr.c ft_putchar.c ft_putnbr.c ft_putnbr_base.c \
+	  ft_printf.c ft_printf_utils.c get_next_line.c \
+	  get_next_line_utils.c join_gnl.c ft_strcmp.c	\
 
-SRCS = 	ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c ft_isprint.c ft_isint.c ft_strlen.c ft_memset.c\
-		ft_memcpy.c ft_memmove.c ft_strlcpy.c ft_bzero.c ft_strlcat.c ft_toupper.c ft_tolower.c\
-		ft_strchr.c ft_strrchr.c ft_strncmp.c ft_memchr.c ft_memcmp.c ft_strnstr.c ft_atoi.c\
-		ft_calloc.c ft_strdup.c ft_strcmp.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c\
-		ft_strjoin.c ft_substr.c ft_itoa.c ft_strtrim.c ft_striteri.c ft_strmapi.c ft_split.c\
-		ft_putchar.c ft_putnbr.c ft_putnbr_hexa_x.c ft_putnbr_hexa_X.c ft_putnbr_hexa_p.c \
-		ft_putchar_va_arg.c ft_putstr_va_arg.c ft_putnbr_unsigned_va_arg.c \
-		ft_putnbr_va_arg.c ft_putnbr_unsigned.c ft_putnbr_hexa_va_arg_x.c ft_putnbr_hexa_va_arg_X.c\
-		ft_putaddr_va_arg.c ft_printf.c get_next_line.c get_next_line_utils.c ft_strjoin_gnl.c \
-		ft_atol.c
+SRCSBNS	= ft_lstadd_front.c ft_lstnew.c ft_lstsize.c \
+          ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c \
+	  ft_lstclear.c ft_lstiter.c ft_lstmap.c
 
-BON =	ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c\
-		ft_lstclear.c ft_lstiter.c ft_lstmap.c
+OBJS	= ${SRCS:.c=.o}
 
-OBJSBON = ${BON:.c=.o}
+OBJSBNS = ${SRCSBNS:.c=.o}
 
-OBJSRCS = ${SRCS:.c=.o}
+NAME	= libft.a
 
-CC = gcc
+CC	= gcc
+RM	= rm -f
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror
 
-ARRC = ar rc
+.c.o:
+	${CC} ${CFLAGS} -c $< -o ${<:.c=.o} -g
 
-RM = rm -f
 
-all: ${NAME}
+$(NAME):	$(OBJS)
+	ar rc  $(NAME) $(OBJS)
+so:
+	$(CC) -nostartfiles -fPIC $(CFLAGS) $(SRCS) $(SRCSBNS)
+	gcc -nostartfiles -shared -o libft.so $(OBJS) $(SRCSBNS)
+
+bonus: $(NAME) $(OBJSBNS) 
+	ar rc $(NAME)  $(OBJSBNS)
+
+all:	$(NAME)
 
 clean:
-	${RM} ${OBJSRCS} ${OBJSBON}
+	${RM} ${OBJS} ${OBJSBNS}
 
-fclean: clean
+fclean:	clean
 	${RM} ${NAME}
 
-bonus: ${NAME} ${OBJSBON}
-	${ARRC} ${NAME} ${OBJSBON}
-	ranlib ${NAME}
+re:	fclean all
 
-re: fclean all
-
-$(NAME):${OBJSRCS}
-	${ARRC} ${NAME} ${OBJSRCS}
-	ranlib libft.a
-
-.PHONY: clean all fclean re
-
+.PHONY:	all clean fclean re

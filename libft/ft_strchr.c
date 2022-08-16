@@ -3,28 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: pirabaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/30 15:12:44 by blevrel           #+#    #+#             */
-/*   Updated: 2022/03/31 12:02:37 by blevrel          ###   ########.fr       */
+/*   Created: 2022/03/30 15:03:14 by pirabaud          #+#    #+#             */
+/*   Updated: 2022/08/16 14:19:30 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 char	*ft_strchr(const char *s, int c)
 {
-	int		i;
-	char	*cast;
+	int		index;
+	char	*occ;
 
-	i = 0;
-	cast = (char *)s;
-	while (s[i])
+	index = 0;
+	occ = (char *)s;
+	while (s[index])
 	{
-		if (cast[i] == (unsigned char)c)
-			return (&cast[i]);
-		i++;
+		if (s[index] == (unsigned char)c)
+			return (&occ[index]);
+		index++;
 	}
 	if (c == 0)
-		return (&cast[i]);
-	else
-		return (0);
+		return (&occ[index]);
+	return (0);
 }

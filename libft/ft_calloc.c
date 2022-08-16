@@ -3,27 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: pirabaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/01 10:24:08 by blevrel           #+#    #+#             */
-/*   Updated: 2022/04/11 13:25:58 by blevrel          ###   ########.fr       */
+/*   Created: 2022/03/31 16:01:27 by pirabaud          #+#    #+#             */
+/*   Updated: 2022/07/27 10:28:18 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdlib.h>
+
 #include "libft.h"
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
-	void	*tab;
+	char	*res;
+	size_t	i;
 
-	if (nmemb <= 4294967295 && size <= 4294967295)
-	{		
-		tab = (void *)malloc(size * nmemb);
-		if (tab == NULL)
-			return (NULL);
-		ft_bzero(tab, nmemb * size);
-		return (tab);
-	}
-	else
+	i = 0;
+	if ((float) nmemb * size >= (float) 18446744073709551615UL)
+		return (NULL);
+	res = malloc(nmemb * size);
+	if (res == NULL)
 		return (0);
+	while (i < (nmemb * size))
+	{
+		res[i] = 0;
+		++i;
+	}
+	return (res);
 }

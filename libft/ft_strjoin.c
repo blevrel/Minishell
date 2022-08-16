@@ -3,37 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: pirabaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/04 08:19:32 by blevrel           #+#    #+#             */
-/*   Updated: 2022/04/11 13:39:26 by blevrel          ###   ########.fr       */
+/*   Created: 2022/04/02 11:00:19 by pirabaud          #+#    #+#             */
+/*   Updated: 2022/07/27 11:47:17 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdlib.h>
+
 #include "libft.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	size_t	i;
-	size_t	j;
-	char	*dest;
+	char	*res;
+	int		i;
+	int		j;
 
 	i = 0;
-	j = 0;
-	dest = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)) + 1);
-	if (dest == NULL)
+	j = -1;
+	res = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (res == NULL)
 		return (NULL);
-	while (s1[i])
+	if (s1 != NULL)
 	{
-		dest[i] = s1[i];
-		i++;
+		while (s1[i])
+		{
+			res[i] = s1[i];
+			i++;
+		}
 	}
-	while (s2[j])
+	if (s2 != NULL)
 	{
-		dest[i] = s2[j];
-		i++;
-		j++;
+		while (s2[++j])
+			res[i + j] = s2[j];
 	}
-	dest[i] = '\0';
-	return (dest);
+	res[i + j] = '\0';
+	return (res);
 }

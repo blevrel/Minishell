@@ -3,101 +3,99 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/04 11:11:57 by blevrel           #+#    #+#             */
-/*   Updated: 2022/04/11 13:29:56 by blevrel          ###   ########.fr       */
+/*   Created: 2022/04/06 17:30:00 by pirabaud          #+#    #+#             */
+/*   Updated: 2022/07/27 10:31:43 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdlib.h>
+
 #include "libft.h"
 
-static int	find_size(int n)
+static int	lgstr(int n)
 {
-	int	i;
-	int	res;
+	int	count;
 
-	i = 1;
-	res = 0;
-	while (n > 9 || n < -9)
+	count = 1;
+	if (n < 0)
 	{
-		res = n / 10;
-		n = res;
-		i++;
+		++count;
+		if (n == -2147483648)
+		{
+			n = n / 10;
+			++count;
+		}
+		n = -n;
 	}
-	return (i);
+	while (n >= 10)
+	{
+		++count;
+		n = n / 10;
+	}
+	return (count);
 }
 
-static char	*ft_strdup_loc(const char *s)
+static char	*swaploc(char *str)
 {
 	int		i;
-	char	*dup;
-	int		len;
+	int		j;
+	char	temp;
 
 	i = 0;
-	len = 0;
-	while (s[i])
+	j = 0;
+	while (str[j])
+		++j;
+	--j;
+	while (i < j)
 	{
-		len++;
-		i++;
+		if (str[i] == '-')
+			++i;
+		temp = str[i];
+		str[i] = str[j];
+		str[j] = temp;
+		--j;
+		++i;
 	}
-	i = 0;
-	dup = malloc(len + 1 * sizeof(char));
-	while (s[i])
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
+	return (str);
 }
 
-static void	*ft_calloc_loc(size_t nmemb, size_t size, int n)
+static char	*init_str(char *str, int n)
 {
-	void	*tab;
+	int	i;
 
-	if (n >= 0)
+	i = 0;
+	if (n == 0)
+		str[i++] = '0';
+	while (n > 0 || n < 0)
 	{
-		tab = (void *)malloc(size * nmemb);
-		if (tab == NULL)
-			return (NULL);
-		ft_bzero(tab, nmemb * size);
+		if (n < 0)
+		{
+			str[i++] = '-';
+			if (n == -2147483648)
+			{
+				str[i++] = '8';
+				n = n / 10;
+			}
+			n = n * -1;
+		}
+		str[i] = n % 10 + '0';
+		++i;
+		n = n / 10;
 	}
-	else
-	{
-		tab = (void *)malloc(size * nmemb + 1);
-		if (tab == NULL)
-			return (NULL);
-		ft_bzero(tab, nmemb * size + 1);
-	}
-	return (tab);
+	str[i] = '\0';
+	str = swaploc(str);
+	return (str);
 }
 
 char	*ft_itoa(int n)
 {
-	char	*res;
-	size_t	size;
-	int		nbr;
+	char	*str;
+	int		leng;
 
-	size = find_size(n);
-	if (n == -2147483648)
-		return (ft_strdup_loc("-2147483648"));
-	res = ft_calloc_loc(size + 1, 1, n);
-	if (res == NULL)
+	leng = lgstr(n);
+	str = malloc((leng + 1) * sizeof(char));
+	if (str == NULL)
 		return (NULL);
-	if (n < 0)
-	{
-		size++;
-		n *= -1;
-	}
-	while (size > 0)
-	{
-		nbr = n % 10;
-		res[size - 1] = nbr + 48;
-		n = n / 10;
-		size--;
-	}
-	if (res[size] == '0' && res[size + 1] != '\0')
-		res[size] = '-';
-	return (res);
+	str = init_str(str, n);
+	return (str);
 }

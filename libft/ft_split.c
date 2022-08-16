@@ -3,133 +3,114 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: pirabaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/07 14:46:26 by blevrel           #+#    #+#             */
-/*   Updated: 2022/06/06 14:13:27 by blevrel          ###   ########.fr       */
+/*   Created: 2022/04/05 14:29:55 by pirabaud          #+#    #+#             */
+/*   Updated: 2022/07/27 10:43:10 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdlib.h>
-#include "libft.h"
 
-static void	*ft_calloc_loc(size_t nmemb, size_t size)
+#include "libft.h"
+#include <stdio.h>
+
+static	int	strlenloc(char *s, char c)
 {
-	void	*tab;
-	size_t	i;
-	char	*cast;
+	int	i;
 
 	i = 0;
-	tab = (void *)malloc(size * nmemb);
-	cast = tab;
-	if (tab == NULL)
-		return (NULL);
-	while (i < nmemb * size)
-	{
-		cast[i] = '1';
-		i++;
-	}
-	return (tab);
+	while (s[i] != c && s[i])
+		++i;
+	return (i);
 }
 
-static int	count_malloc(char const *s, char sep)
+static int	nb_str(char *s, char c)
 {
-	int		i;
-	int		count;
-	int		trigger;
+	int	i;
+	int	nb_lett;
+	int	count;
 
 	i = 0;
 	count = 0;
-	trigger = 1;
+	if (s == NULL)
+		return (0);
+	if (c == '\0')
+	{
+		count = 1;
+		return (count);
+	}
 	while (s[i])
 	{
-		if (s[i] == sep && trigger == 1)
-			i++;
-		else if (s[i] == sep && trigger == 0)
+		nb_lett = strlenloc(&s[i], c);
+		if (nb_lett > 0)
 		{
-			trigger = 1;
-			count++;
+			++count;
+			i = nb_lett + i;
+		}
+		else
 			i++;
-		}
-		else if (s[i] != sep)
-		{
-			if (s[++i] == '\0')
-				count++;
-			trigger = 0;
-		}
 	}
 	return (count);
 }
 
-static char	**size_malloc(char const *s, char sep, char **res)
+static char	*strduploc(char *s, char c)
 {
-	int	i;
-	int	j;
-	int	k;
+	int		i;
+	char	*str;
 
 	i = 0;
-	k = 0;
-	while (s[i])
-	{
-		j = 0;
-		if (s[i] == sep)
-			i++;
-		else if (s[i] != sep)
-		{
-			while (s[i] != sep && s[i])
-			{
-				i++;
-				j++;
-			}
-			res[k] = ft_calloc_loc(j + 1, sizeof(char));
-			res[k][j] = '\0';
-			k++;
-		}
-	}
-	return (res);
-}
-
-static char	**fill_tab(char const *s, char sep, char **res)
-{
-	int	i;
-	int	j;
-	int	k;
-
-	i = 0;
-	k = 0;
-	while (s[i])
-	{
-		j = 0;
-		if (s[i] == sep)
-			i++;
-		else if (s[i] != sep)
-		{
-			while (s[i] != sep && res[k][j])
-			{
-				res[k][j] = s[i];
-				i++;
-				j++;
-			}
-			k++;
-		}
-	}
-	res[k] = 0;
-	return (res);
-}
-
-char	**ft_split(char *s, char c)
-{
-	char	**res;
-
-	if (count_malloc(s, c) == 0)
-	{
-		res = malloc(sizeof(char *));
-		res[0] = NULL;
-		return (res);
-	}
-	res = ft_calloc_loc(count_malloc(s, c) + 1, sizeof(char *));
-	if (res == NULL)
+	str = malloc((strlenloc(s, c) + 1) * sizeof(char));
+	if (str == NULL)
 		return (NULL);
-	res = size_malloc(s, c, res);
-	res = fill_tab(s, c, res);
-	return (res);
+	while (s[i] != c && s[i])
+	{
+		str[i] = s[i];
+		++i;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+static char	**check_s(char const *s)
+{
+	char	**str;
+	int		i;
+
+	i = 0;
+	if (s[i] == '\0')
+	{
+		str = malloc(sizeof(char *));
+		str[0] = NULL;
+	}
+	else
+		str = NULL;
+	return (str);
+}
+
+char	**ft_split(char const *s, char c)
+{
+	char	**split;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	if (!s)
+		return (NULL);
+	if (s[0] == '\0')
+	{
+		split = check_s((char *)s);
+		return (split);
+	}
+	split = malloc((nb_str((char *)s, c) + 1) * sizeof(char *));
+	if (split == NULL)
+		return (NULL);
+	while (nb_str((char *)s, c) > j)
+	{
+		while (s[i] == c)
+			++i;
+		split[j++] = strduploc((char *)&s[i], c);
+		i = strlenloc((char *)&s[i], c) + i;
+	}
+	split[j] = NULL;
+	return (split);
 }

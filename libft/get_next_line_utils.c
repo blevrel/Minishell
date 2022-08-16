@@ -1,26 +1,56 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/13 10:37:28 by blevrel           #+#    #+#             */
-/*   Updated: 2022/05/03 13:47:45 by blevrel          ###   ########.fr       */
+/*   Created: 2022/04/19 17:30:15 by pirabaud          #+#    #+#             */
+/*   Updated: 2022/05/10 11:36:51 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
-int	check_eol(char	*s)
+char	*ft_copy(char *dest, char *src)
 {
 	int	i;
 
 	i = 0;
-	while (s[i])
+	if (src == NULL)
+		return (dest);
+	while (src[i])
 	{
-		if (s[i] == '\n')
-			return (1);
-		i++;
+		dest[i] = src[i];
+		++i;
 	}
-	return (0);
+	dest[i] = '\0';
+	return (dest);
+}
+
+char	*ft_strjoin_free(char *str, char *buff)
+{
+	int		i;
+	int		j;
+	char	*dest;
+
+	j = 0;
+	i = 0;
+	if (buff[i] == 0)
+		return (str);
+	while (buff[i])
+		++i;
+	dest = malloc((i + ft_strlen(str) + 1) * sizeof(char));
+	i = 0;
+	if (str != NULL)
+	{
+		dest = ft_copy(dest, str);
+		while (dest[i])
+			++i;
+	}
+	while (buff[j])
+		dest[i++] = buff[j++];
+	dest[i] = '\0';
+	free(str);
+	return (dest);
 }

@@ -3,39 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: pirabaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/04 09:04:18 by blevrel           #+#    #+#             */
-/*   Updated: 2022/04/11 13:42:03 by blevrel          ###   ########.fr       */
+/*   Created: 2022/03/31 17:28:32 by pirabaud          #+#    #+#             */
+/*   Updated: 2022/08/16 14:13:19 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
-#include <stdlib.h>
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+#include "libft.h"
+
+static size_t	ft_strlenloc(char const *s)
 {
 	size_t	i;
-	char	*dest;
 
 	i = 0;
-	if (start >= (ft_strlen(s)))
+	while (s[i])
 	{
-		dest = malloc(sizeof(char) * 1);
-		dest[0] = '\0';
-		return (dest);
+		++i;
 	}
-	if (len > ft_strlen(s) - start)
-		dest = malloc(sizeof(char) * ((ft_strlen(s)) - start) + 1);
-	else
-		dest = malloc(sizeof(char) * (len + 1));
-	if (dest == NULL)
-		return (NULL);
-	while (i < len && s[start])
+	return (i);
+}
+
+static size_t	diffls(char const *s, unsigned int start)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[start])
 	{
-		dest[i] = s[start];
 		i++;
 		start++;
 	}
-	dest[i] = '\0';
-	return (dest);
+	return (i);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*str;
+	size_t	i;
+
+	i = 0;
+	if (ft_strlenloc(s) <= start)
+	{
+		str = malloc(sizeof(char));
+		str[i] = '\0';
+		return (str);
+	}
+	else if (diffls(s, start) >= len)
+		str = malloc((len + 1) * sizeof(char));
+	else
+		str = malloc((diffls(s, start) + 1) * sizeof(char));
+	if (str == NULL)
+		return (NULL);
+	if (ft_strlenloc(s) <= start)
+	{
+		str[i] = '\0';
+		return (str);
+	}
+	while (s[start] && i < len)
+		str[i++] = s[start++];
+	str[i] = '\0';
+	return (str);
 }

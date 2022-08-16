@@ -3,132 +3,124 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/13 10:29:13 by blevrel           #+#    #+#             */
-/*   Updated: 2022/05/06 17:03:29 by blevrel          ###   ########.fr       */
+/*   Created: 2022/04/12 09:04:41 by pirabaud          #+#    #+#             */
+/*   Updated: 2022/07/27 10:27:41 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
-char	*stock_excess(char *stock, char *src)
+char	*ft_cpy_save(char *save)
 {
-	char	*dest;
-	int		total_size;
+	char	*dst;
 	int		i;
-	int		size;
 
-	size = 0;
-	if (stock == NULL)
-		stock = ft_calloc(1, sizeof(char));
 	i = 0;
-	total_size = ft_strlen(src);
-	while (src[size] != '\n' && src[size])
-		size++;
-	dest = ft_calloc((total_size - size + 1), sizeof(char));
-	while (src[size])
+	while (save[i] != '\n' && save[i])
+		++i;
+	if (save[i] == '\n')
+		++i;
+	++i;
+	dst = malloc(i * sizeof(char));
+	i = 0;
+	while (save[i] != '\n' && save[i])
 	{
-		size++;
-		dest[i] = src[size];
-		i++;
+		dst[i] = save[i];
+		++i;
 	}
-	dest = ft_strjoin_gnl(dest, stock);
-	free(stock);
-	stock = NULL;
-	return (dest);
+	if (save[i] == '\n')
+		dst[i++] = '\n';
+	dst[i] = '\0';
+	return (dst);
 }
 
-char	*fill_dest(char *str)
+char	*free_save(char *save)
 {
-	char	*dest;
-	int		size;
+	char	*str;
+	int		i;
+	int		j;
 
-	size = 0;
-	if (*str == '\0')
+	i = 0;
+	j = 0;
+	while (save[i] != '\n' && save[i])
+		++i;
+	if (save[i] == '\n')
+		++i;
+	str = malloc((ft_strlen(&save[i]) + 1) * sizeof(char));
+	while (save[i])
+		str[j++] = save[i++];
+	str[j] = '\0';
+	free(save);
+	save = NULL;
+	if (str[0] == '\0')
 	{
-		free(str);
+		free (str);
 		return (NULL);
 	}
+	return (str);
+}
+
+int	check_n(char *str)
+{
+	int	i;
+
+	i = 0;
 	if (str == NULL)
-		return (NULL);
-	while (str[size] != '\n' && str[size])
-		size++;
-	if (str[size] == '\n')
-		size++;
-	dest = ft_calloc(size + 1, sizeof(char));
-	size = -1;
-	while (str[++size] != '\n' && str[size])
-		dest[size] = str[size];
-	if (str[size] == '\n')
-		dest[size] = '\n';
-	free(str);
-	return (dest);
-}
-
-char	*add_stock(char	*stock)
-{
-	int		i;
-	char	*dest;
-
-	i = 0;
-	while (stock[i])
-		i++;
-	dest = ft_calloc((i + 1), sizeof(char));
-	i = 0;
-	while (stock[i])
+		return (1);
+	while (str[i] != 0)
 	{
-		dest[i] = stock[i];
-		i++;
+		if (str[i] == '\n')
+			return (0);
+		++i;
 	}
-	return (dest);
+	return (1);
 }
 
-char	*read_line(char *buff, char *dest, int fd, int buffer_size)
+char	*ft_read(int fd, char *save, int buffer_size)
 {
-	int			read_ret;
+	char	*buff;
+	int		ret;
 
-	if (dest == NULL)
-		dest = ft_calloc(1, sizeof(char));
-	read_ret = 1;
-	while (check_eol(buff) == 0 && read_ret != 0)
+	ret = 1;
+	buff = malloc((buffer_size + 1) * sizeof(char));
+	while (ret)
 	{
-		read_ret = read(fd, buff, buffer_size);
-		if (read_ret == -1)
+		ret = read(fd, buff, buffer_size);
+		if (ret < 0)
 		{
 			free(buff);
-			free(dest);
 			return (NULL);
 		}
-		buff[read_ret] = '\0';
-		dest = ft_strjoin_gnl(dest, buff);
+		buff[ret] = '\0';
+		if (buff[0] != 0)
+			save = join_gnl(save, buff);
+		if (check_n(save) == 0)
+		{
+			free(buff);
+			return (save);
+		}
 	}
-	free(buff);
-	return (dest);
+	free (buff);
+	return (save);
 }
 
 char	*get_next_line(int fd, int buffer_size)
 {
-	char			*dest;
-	char			*buff;
-	static char		*stock[1024];
+	static char	*save[1024];
+	char		*dest;
 
 	dest = NULL;
-	if (stock[fd] != NULL)
-	{
-		dest = add_stock(stock[fd]);
-		free(stock[fd]);
-		stock[fd] = NULL;
-	}
-	buff = ft_calloc((buffer_size + 1), sizeof(char));
-	dest = read_line(buff, dest, fd, buffer_size);
-	if (dest == NULL)
+	save[fd] = ft_read(fd, save[fd], buffer_size);
+	if (save[fd] == NULL)
 		return (NULL);
-	stock[fd] = stock_excess(stock[fd], dest);
-	dest = fill_dest(dest);
-	if (*stock[fd] == '\0')
+	if (save[fd][0] == 0)
 	{
-		free(stock[fd]);
-		stock[fd] = NULL;
+		free(save[fd]);
+		return (NULL);
 	}
+	dest = ft_cpy_save(save[fd]);
+	save[fd] = free_save(save[fd]);
 	return (dest);
 }
