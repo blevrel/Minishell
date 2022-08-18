@@ -6,7 +6,7 @@
 /*   By: pirabaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:24:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/07/20 13:56:51 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/08/16 17:40:15 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,5 @@ int		ft_printf(const char *s, ...);
 char	*get_next_line(int fd, int buffer_size);
 char	*join_gnl(char *s1, char *s2);
 int		ft_strcmp(const char *s1, const char *s2);
+char	**dup_dp(char **str);
 #endif
