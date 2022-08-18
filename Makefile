@@ -6,7 +6,7 @@
 #    By: blevrel <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 09:35:57 by blevrel           #+#    #+#              #
-#    Updated: 2022/08/18 10:22:18 by pirabaud         ###   ########.fr        #
+#    Updated: 2022/08/18 10:51:56 by blevrel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME = minishell
 SRCS =	srcs/main.c \
 		srcs/command.c \
 		srcs/redirection.c \
+		srcs/signal_handling.c \
 		
 
 OBJS = ${SRCS:.c=.o}

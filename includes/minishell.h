@@ -32,3 +32,4 @@ void	simple_cmd(t_data data);
 void	entry_red(t_data data);
 void	exit_red(t_data data);
 char	*check_path(char *cmd, char **env);
+void	catch_signal(int signal);

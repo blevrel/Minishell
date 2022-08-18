@@ -66,11 +66,15 @@ int	main(int argc, char **argv, char **env)
 		printf("Program takes no arguments\n");
 		return (0);
 	}
+	signal(SIGINT, catch_signal);
+	signal(SIGQUIT, catch_signal);
 	(void)argv;
 	data.envp = dup_dp(env);
 	while (run == 0)
 	{
 		data.arg = readline("minishell ");
+		if (data.arg == NULL)
+			exit(1);
 		init_cmd(data);
 		free(data.arg);
 	}
