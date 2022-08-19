@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:42:14 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/08/19 14:27:41 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/08/19 17:41:32 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,18 @@ char **check_arg(char **cmd, char c)
 	}
 	res[i] = NULL;
 	return (res);
+}
+
+int	ft_strchr_int(const char *s, int c)
+{
+	int		index;
+
+	index = 0;
+	while (s[index])
+	{
+		if (s[index] == (unsigned char)c)
+			return (1);
+		index++;
+	}
+	return (0);
 }

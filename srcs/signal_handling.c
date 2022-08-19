@@ -6,10 +6,16 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 16:49:41 by blevrel           #+#    #+#             */
-/*   Updated: 2022/08/17 17:21:19 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/08/19 17:44:19 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
+
+void	signal_handler(void)
+{
+	signal(SIGINT, catch_signal);
+	signal(SIGQUIT, catch_signal);
+}
 
 void	catch_signal(int signal)
 {
@@ -23,10 +29,9 @@ void	catch_signal(int signal)
 	}
 	if (signal == SIGQUIT)
 	{
-		printf("\r\x1b[2K");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		printf("\b\b");
+		printf("  ");
+		printf("\b\b");
 		return ;
 	}
 }

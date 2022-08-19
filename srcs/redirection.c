@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 16:34:01 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/08/19 15:33:46 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/08/19 18:02:10 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,13 +118,13 @@ void	exit_red(t_data data)
 		i = 0;
 		while (ft_strcmp(data.cmd[i], ">") != 0)
 			++i;
-		fd = open(data.cmd[i + 1], O_WRONLY | O_trunc | O_CREAT, S_IRWXU);
+		fd = open(data.cmd[i + 1], O_WRONLY | O_TRUNC | O_CREAT, S_IRWXU);
 		if (fd == -1)
 			printf("file simple red entry");
 		dup2(fd, 1);
 		close (fd);
 		execve(path, arg, data.envp);
-		exit(0);
+		exit(1);
 	}
 	waitpid(son, NULL, 0);
 }
