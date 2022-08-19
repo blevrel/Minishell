@@ -6,7 +6,7 @@
 #    By: blevrel <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 09:35:57 by blevrel           #+#    #+#              #
-#    Updated: 2022/08/18 10:51:56 by blevrel          ###   ########.fr        #
+#    Updated: 2022/08/19 14:24:40 by pirabaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,9 @@ SRCS =	srcs/main.c \
 		srcs/command.c \
 		srcs/redirection.c \
 		srcs/signal_handling.c \
-		
+		srcs/check.c \
+		srcs/check_path.c \
+		srcs/minishell_utils.c \
 
 OBJS = ${SRCS:.c=.o}
 
@@ -24,7 +26,7 @@ CC = cc
 
 LIB = -L libft -lft
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 HEAD = -I includes -I libft
 
@@ -49,6 +51,6 @@ re: fclean all
 
 ${NAME}:${OBJS}
 	make -sC libft
-	${CC} ${CFLAGS} ${READLINE} ${OBJS} ${HEAD} ${READLINE} ${LIB} -o ${NAME} -g
+	${CC} ${CFLAGS} ${READLINE} ${OBJS} ${HEAD} ${READLINE} ${LIB} -o ${NAME} 
 
 .PHONY: bonus re clean fclean

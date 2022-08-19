@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/08/18 10:28:58 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/08/19 15:30:39 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -33,3 +33,8 @@ void	entry_red(t_data data);
 void	exit_red(t_data data);
 char	*check_path(char *cmd, char **env);
 void	catch_signal(int signal);
+int		check_redirection(t_data data);
+void	here_doc(t_data data);
+int		check_double_red(t_data data);
+char	**check_arg(char **cmd, char c);
+void	append(t_data data);

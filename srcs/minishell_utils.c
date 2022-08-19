@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command.c                                          :+:      :+:    :+:   */
+/*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/18 13:10:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/08/18 13:13:34 by pirabaud         ###   ########.fr       */
+/*   Created: 2022/08/19 13:42:14 by pirabaud          #+#    #+#             */
+/*   Updated: 2022/08/19 14:27:41 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	simple_cmd(t_data data)
+char **check_arg(char **cmd, char c)
 {
-	char *path;
-	
-	path = check_path(data.cmd[0], data.envp);
-	pid_t son;
+	int	i;
+	char **res;
 
-	son = fork();
-	if (son == 0)
-		execve(path, data.cmd, data.envp);
-	waitpid(son, NULL, 0);
+	i = 0;
+	while(cmd[i] != NULL && cmd[i][0] != c)
+		++i;
+	res = malloc(i * sizeof(char *));
+	i = 0;
+	while(cmd[i] != NULL && cmd[i][0] != c)
+	{
+		res[i] = ft_strdup(cmd[i]);
+		++i;
+	}
+	res[i] = NULL;
+	return (res);
 }
