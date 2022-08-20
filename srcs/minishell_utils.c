@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:42:14 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/08/19 17:41:32 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/08/20 15:35:09 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,15 @@ char **check_arg(char **cmd, char c)
 int	ft_strchr_int(const char *s, int c)
 {
 	int		index;
+	int		count;
 
 	index = 0;
+	count = 0;
 	while (s[index])
 	{
 		if (s[index] == (unsigned char)c)
-			return (1);
+			count++;
 		index++;
 	}
-	return (0);
+	return (count);
 }

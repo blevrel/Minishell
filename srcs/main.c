@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/08/19 18:08:52 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/08/20 17:00:11 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -21,18 +21,25 @@ int	size_tab(char **str)
 	return (i - 1);
 }
 
-int		init_cmd(t_data data)
+void	init_cmd(t_data data)
 {
+	int	i;
+
+	i = 0;
 	data.cmd = ft_split(data.arg, ' ');
 	if (!data.cmd || !data.cmd[0])
-		return (1);
+		return ;
+	while (data.cmd[i])
+	{
+		if (check_quotes(&data, i) == -1)
+			return ;
+		i++;
+	}
 	if (check_double_red(data) == 1)
-		return (1);
+		return ;
 	if	(check_redirection(data) == 1)
-		return (1);
+		return ;
 	simple_cmd(data);
-	
-	return (0);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -57,7 +64,8 @@ int	main(int argc, char **argv, char **env)
 		if (data.arg == NULL)
 			exit(printf("\n"));
 		init_cmd(data);
-		free(data.arg);
+		if (data.arg)
+			free(data.arg);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: blevrel <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 09:35:57 by blevrel           #+#    #+#              #
-#    Updated: 2022/08/19 14:24:40 by pirabaud         ###   ########.fr        #
+#    Updated: 2022/08/20 17:45:38 by blevrel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRCS =	srcs/main.c \
 		srcs/check.c \
 		srcs/check_path.c \
 		srcs/minishell_utils.c \
+		srcs/modify_quotes.c \
 
 OBJS = ${SRCS:.c=.o}
 

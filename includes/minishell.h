@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/08/19 17:56:03 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/08/20 18:16:12 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -41,3 +41,7 @@ void	signal_handler(void);
 int		ft_strchr_int(const char *s, int c);
 void	*cmd_not_found(char *cmd);
 void	append(t_data data);
+int		check_quotes(t_data *data, int i);
+void	modify_quotes(t_data *data, int i);
+void	modify_single_quotes(char *cmd, int len);
+void	modify_double_quotes(char *cmd, int len);
