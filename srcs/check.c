@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 11:16:34 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/08/20 18:15:30 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/08/22 13:16:28 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -30,19 +30,19 @@ int	check_quotes(t_data *data, int i)
 	return (1);
 }
 
-int	check_double_red(t_data data)
+int	check_double_red(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	while (data.cmd[i])
+	while (data->cmd[i])
 	{
-		if (ft_strcmp(data.cmd[i], "<<") == 0)
+		if (ft_strcmp(data->cmd[i], "<<") == 0)
 		{
 			here_doc(data);
 			return (1);
 		}
-		if (ft_strcmp(data.cmd[i], ">>") == 0)
+		if (ft_strcmp(data->cmd[i], ">>") == 0)
 		{
 			append(data);
 			return (1);
@@ -52,19 +52,19 @@ int	check_double_red(t_data data)
 	return (0);
 }
 
-int	check_redirection(t_data data)
+int	check_redirection(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	while (data.cmd[i])
+	while (data->cmd[i])
 	{
-		if (ft_strcmp(data.cmd[i], "<") == 0)
+		if (ft_strcmp(data->cmd[i], "<") == 0)
 		{
 			entry_red(data);
 			return (1);
 		}
-		if (ft_strcmp(data.cmd[i], ">") == 0)
+		if (ft_strcmp(data->cmd[i], ">") == 0)
 		{
 			exit_red(data);
 			return (1);

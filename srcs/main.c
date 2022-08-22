@@ -6,46 +6,50 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/08/20 17:00:11 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/08/22 14:19:55 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-int	size_tab(char **str)
+void	free_cmd(t_data *data)
 {
 	int	i;
-	
+
 	i = 0;
-	while (str[i] != NULL)
-		++i;
-	return (i - 1);
+	while (data->cmd[i])
+	{
+		free(data->cmd[i]);
+		i++;
+	}
+	free(data->cmd);
 }
 
-void	init_cmd(t_data data)
+void	init_cmd(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	data.cmd = ft_split(data.arg, ' ');
-	if (!data.cmd || !data.cmd[0])
+	if (!data->arg)
 		return ;
-	while (data.cmd[i])
+	parsing_arg(data);
+	while (data->cmd[i])
 	{
-		if (check_quotes(&data, i) == -1)
+		if (check_quotes(data, i) == -1)
 			return ;
 		i++;
 	}
 	if (check_double_red(data) == 1)
 		return ;
-	if	(check_redirection(data) == 1)
+	if (check_redirection(data) == 1)
 		return ;
 	simple_cmd(data);
 }
 
 int	main(int argc, char **argv, char **env)
 {
-	int	run;
+	int		run;
 	t_data	data;
+	int		i;
 
 	run = 0;
 	if (argc != 1)
@@ -58,14 +62,22 @@ int	main(int argc, char **argv, char **env)
 	data.envp = dup_dp(env);
 	while (run == 0)
 	{
+		i = 0;
 		data.arg = readline("minishell ");
 		if (data.arg && data.arg[0])
 			add_history(data.arg);
 		if (data.arg == NULL)
 			exit(printf("\n"));
-		init_cmd(data);
+		init_cmd(&data);
+		while (data.cmd[i])
+		{
+			printf("Valeur de data.cmd[%d] : %s\n", i, data.cmd[i]);
+			i++;
+		}
 		if (data.arg)
 			free(data.arg);
+		if (data.cmd && data.cmd[0])
+			free_cmd(&data);
 	}
 	return (0);
 }
