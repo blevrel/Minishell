@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/08/22 14:19:55 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/08/23 15:15:55 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -36,6 +36,8 @@ void	init_cmd(t_data *data)
 	{
 		if (check_quotes(data, i) == -1)
 			return ;
+		else if (check_quotes(data, i) == 1)
+			modify_quotes(data, i);
 		i++;
 	}
 	if (check_double_red(data) == 1)

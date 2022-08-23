@@ -6,7 +6,7 @@
 #    By: blevrel <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 09:35:57 by blevrel           #+#    #+#              #
-#    Updated: 2022/08/21 17:19:20 by blevrel          ###   ########.fr        #
+#    Updated: 2022/08/23 13:01:45 by blevrel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRCS =	srcs/main.c \
 		srcs/modify_quotes.c \
 		srcs/parsing_arg.c \
 		srcs/check_parsing.c \
+		srcs/parsing_quotes.c \
 
 OBJS = ${SRCS:.c=.o}
 
