@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/08/24 16:27:15 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/08/24 17:55:16 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -29,8 +29,12 @@ void	init_cmd(t_data *data)
 	int	i;
 
 	i = 0;
-	if (!data->arg)
+	if (ft_strchr_int(data->arg, 34) % 2 == 1 || ft_strchr_int(data->arg, 39)
+		% 2 == 1)
+	{
+		printf("Missing quote\n");
 		return ;
+	}
 	parsing_arg(data);
 	while (data->cmd[i])
 	{
