@@ -6,13 +6,13 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 16:34:01 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/08/22 14:19:31 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/08/24 16:53:02 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	create_file(t_data *data)
+int	create_file(char *limiter)
 {
 	int		fd;
 	char	*line;
@@ -20,7 +20,7 @@ int	create_file(t_data *data)
 	fd = open ("here_doc", O_WRONLY | O_CREAT, S_IRWXU);
 	line = get_next_line(0, 1);
 	line[ft_strlen(line) - 1] = 0;
-	while (ft_strcmp(line, data->cmd[1]))
+	while (ft_strcmp(line, limiter))
 	{
 		ft_putstr_fd(line, fd);
 		ft_putchar_fd('\n', fd);
@@ -66,16 +66,21 @@ void	here_doc(t_data *data)
 	int		fd;
 
 	path = check_path(data->cmd[0], data->envp);
-	fd = create_file(data);
+	if (ft_strcmp(data->cmd[0], "<<") == 0)
+		fd = create_file(data->cmd[1]);
+	else
+		fd = create_file(data->cmd[2]);
 	son = fork();
 	if (son == 0)
 	{
 		dup2(fd, 0);
 		close(fd);
-		execve(path, data->cmd, data->envp);
+		if (execve(path, data->cmd, data->envp) == -1)
+			return ;
 	}
 	waitpid(son, NULL, 0);
 	close(fd);
+	unlink("here_doc");
 }
 
 void	entry_red(t_data *data)

@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/08/22 14:21:22 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/08/24 17:04:40 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,28 @@ void	*cmd_not_found(char *cmd)
 	return (NULL);
 }
 
-void	simple_cmd(t_data *data)
+void	directory(t_data *data)
+{
+	chdir(data->cmd[1]);
+}
+
+int	simple_cmd(t_data *data)
 {
 	char	*path;
 	pid_t	son;
 
+	if (ft_strcmp(data->cmd[0], "cd") == 0)
+	{
+		directory(data);
+		return (0);
+	}
 	path = check_path(data->cmd[0], data->envp);
 	if (!path)
-		return ;
+		return (1);
 	son = fork();
 	if (son == 0)
 		execve(path, data->cmd, data->envp);
 	free(path);
 	waitpid(son, NULL, 0);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/08/24 15:06:38 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/08/24 16:31:31 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -28,7 +28,7 @@ typedef struct	s_data
 	char *arg;
 }	t_data;
 
-void	simple_cmd(t_data *data);
+int		simple_cmd(t_data *data);
 void	entry_red(t_data *data);
 void	exit_red(t_data *data);
 char	*check_path(char *cmd, char **env);

@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:54 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/08/22 14:11:21 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/08/24 16:35:31 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,5 @@ char	*check_path(char *cmd, char **env)
 	if (access(cmd, F_OK) == 0)
 		return (ft_strdup(cmd));
 	else
-		return (cmd_not_found(cmd));
+		return (NULL);
 }

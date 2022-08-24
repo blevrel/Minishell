@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/08/23 15:15:55 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/08/24 16:27:15 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -44,7 +44,8 @@ void	init_cmd(t_data *data)
 		return ;
 	if (check_redirection(data) == 1)
 		return ;
-	simple_cmd(data);
+	if (simple_cmd(data) == 1)
+		cmd_not_found(data->cmd[0]);
 }
 
 int	main(int argc, char **argv, char **env)
