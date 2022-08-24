@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/08/24 16:31:31 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/08/24 17:50:12 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -51,3 +51,5 @@ int		check_char(char c);
 void	parsing_arg(t_data *data);
 void	free_double_tab(char **tab);
 int		cmd_tab_size_quotes(int *i, char *arg);
+int		allocate_cmd_with_quotes(int *i, char *arg, int *trigger);
+void	fill_cmd_tab_with_quotes(int *i, char *arg, char *cmd);

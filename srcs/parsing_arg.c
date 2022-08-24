@@ -6,12 +6,12 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 11:26:43 by blevrel           #+#    #+#             */
-/*   Updated: 2022/08/24 15:06:21 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/08/24 17:18:34 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
-//ne pas oublier de traiter tous les whitespaces comme des espaces
-//calculer la taille pour un truc comme echo "test""prout" = 3 ou echo "tgdsg"dsada"dsadsa" = 4
+
+//faire la difference entre ' et ", pour l'instant ca les traite de la meme facon
 int	get_cmd_tab_size(char *arg)
 {
 	int		i;
@@ -19,7 +19,7 @@ int	get_cmd_tab_size(char *arg)
 
 	i = 0;
 	count = 1;
-	while (arg[i] == ' ')
+	while ((arg[i] >= 9 && arg[i] <= 13) || arg[i] == ' ')
 		i++;
 	while (arg[i])
 	{
@@ -37,7 +37,6 @@ int	get_cmd_tab_size(char *arg)
 		}
 		i++;
 	}
-	printf("%d\n", count);
 	return (count);
 }
 
@@ -50,11 +49,16 @@ void	fill_cmd_tab(char *arg, char *cmd)
 	j = 0;
 	trigger = 0;
 	i++;
-	while (arg[i] == ' ')
+	while ((arg[i] >= 9 && arg[i] <= 13) || arg[i] == ' ')
 		i++;
 	while (arg[i])
 	{
-		if ((check_char(arg[i]) != check_char(arg[i + 1])) || !arg[i + 1])
+		if (check_char(arg[i]) == -1)
+		{
+			fill_cmd_tab_with_quotes(&i, arg, cmd);
+			return ;
+		}
+		if (trigger == 0 && (check_char(arg[i]) != check_char(arg[i + 1]) || !arg[i + 1]))
 			trigger++;
 		if (trigger != 0)
 		{
@@ -68,6 +72,7 @@ void	fill_cmd_tab(char *arg, char *cmd)
 		i++;
 	}
 }
+
 //faire la difference entre ' et ", pour l'instant ca les traite de la meme facon
 void	allocate_cmd(char *arg, char **cmd)
 {
@@ -78,24 +83,12 @@ void	allocate_cmd(char *arg, char **cmd)
 	size = 0;
 	trigger = 0;
 	i++;
-	while (arg[i] == ' ')
+	while ((arg[i] >= 9 && arg[i] <= 13) || arg[i] == ' ')
 		i++;
 	while (arg[i])
 	{
 		if (check_char(arg[i]) == -1)
-		{
-			i++;
-			size++;
-			while (check_char(arg[i]) != -1)
-			{
-				if (!arg[i + 1])
-					i = -1;
-				size++;
-				i++;
-			}
-			trigger = 1;
-			size++;
-		}
+			size += allocate_cmd_with_quotes(&i, arg, &trigger);
 		if ((trigger == 0 && ((check_char(arg[i]) != check_char(arg[i + 1]))
 			|| !arg[i + 1])))
 		{
@@ -104,7 +97,7 @@ void	allocate_cmd(char *arg, char **cmd)
 		}
 		if (trigger != 0)
 		{
-			//printf("%d\n", size);
+			printf("%d\n", size);
 			*cmd = ft_calloc(sizeof(char), size + 1);
 			fill_cmd_tab(arg, *cmd);
 			if (!arg[i + 1])
