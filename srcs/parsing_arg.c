@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 11:26:43 by blevrel           #+#    #+#             */
-/*   Updated: 2022/08/23 18:08:44 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/08/24 15:06:21 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -24,15 +24,7 @@ int	get_cmd_tab_size(char *arg)
 	while (arg[i])
 	{
 		if (check_char(arg[i]) == -1 && count != 1)
-		{
-			i++;
-			while (check_char(arg[i]) != -1)
-			{
-				if (!arg[i + 1])
-					break ;
-				i++;
-			}
-		}
+			count += cmd_tab_size_quotes(&i, arg);
 		if (check_char(arg[i]) == 1 && check_char(arg[i + 1]) < 1
 			&& check_char(check_last_non_spc_char(i, arg)) <= 1 && arg[i + 1])
 			count++;

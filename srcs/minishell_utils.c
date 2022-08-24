@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:42:14 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/08/22 14:20:34 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/08/24 11:37:30 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**check_arg(char **cmd, char c)
 	i = 0;
 	while (cmd[i] != NULL && cmd[i][0] != c)
 		++i;
-	res = malloc(i * sizeof(char *));
+	res = malloc((i + 1) * sizeof(char *));
 	i = 0;
 	while (cmd[i] != NULL && cmd[i][0] != c)
 	{

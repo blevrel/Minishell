@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/08/23 13:46:14 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/08/24 15:06:38 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -50,3 +50,4 @@ char	check_next_non_spc_char(int i, char *str);
 int		check_char(char c);
 void	parsing_arg(t_data *data);
 void	free_double_tab(char **tab);
+int		cmd_tab_size_quotes(int *i, char *arg);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   copy_dp.c                                          :+:      :+:    :+:   */
+/*   ft_dup_dp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:32:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/08/16 17:37:50 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/08/24 11:24:00 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	**dup_dp(char **str)
 	j = 0;
 	while(str[i] != NULL)
 		++i;
-	res = malloc(i * sizeof(char *));
+	res = malloc((i + 1) * sizeof(char *));
 	while (str[j] != NULL)
 	{
 		res[j] = ft_strdup(str[j]);
