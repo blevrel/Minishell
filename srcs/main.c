@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/08/24 17:55:16 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/08/25 15:36:33 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -19,9 +19,11 @@ void	free_cmd(t_data *data)
 	while (data->cmd[i])
 	{
 		free(data->cmd[i]);
+		data->cmd[i] = NULL;
 		i++;
 	}
 	free(data->cmd);
+	data->cmd = NULL;
 }
 
 void	init_cmd(t_data *data)
@@ -48,8 +50,7 @@ void	init_cmd(t_data *data)
 		return ;
 	if (check_redirection(data) == 1)
 		return ;
-	if (simple_cmd(data) == 1)
-		cmd_not_found(data->cmd[0]);
+	simple_cmd(data);
 }
 
 int	main(int argc, char **argv, char **env)

@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/08/24 17:50:12 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/08/25 15:37:30 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -28,7 +28,7 @@ typedef struct	s_data
 	char *arg;
 }	t_data;
 
-int		simple_cmd(t_data *data);
+void	simple_cmd(t_data *data);
 void	entry_red(t_data *data);
 void	exit_red(t_data *data);
 char	*check_path(char *cmd, char **env);
@@ -50,6 +50,6 @@ char	check_next_non_spc_char(int i, char *str);
 int		check_char(char c);
 void	parsing_arg(t_data *data);
 void	free_double_tab(char **tab);
-int		cmd_tab_size_quotes(int *i, char *arg);
-int		allocate_cmd_with_quotes(int *i, char *arg, int *trigger);
-void	fill_cmd_tab_with_quotes(int *i, char *arg, char *cmd);
+int		cmd_tab_size_quotes(int *i, char *arg, int c);
+int		allocate_cmd_with_quotes(int *i, char *arg, int *trigger, int c);
+void	fill_cmd_tab_with_quotes(int *i, char *arg, char *cmd, int c);

@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 17:15:26 by blevrel           #+#    #+#             */
-/*   Updated: 2022/08/24 16:29:38 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/08/25 15:33:01 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -35,8 +35,10 @@ char	check_next_non_spc_char(int i, char *str)
 
 int	check_char(char c)
 {
-	if (c == 34 || c == 39)
+	if (c == 34)
 		return (-1);
+	if (c == 39)
+		return (-2);
 	if (c == '<' || c == '>' || c == '|' || c == '&' || c == '*')
 		return (2);
 	if ((c >= 9 && c <= 13) || c == ' ')

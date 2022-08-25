@@ -6,12 +6,12 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:55:54 by blevrel           #+#    #+#             */
-/*   Updated: 2022/08/24 17:16:44 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/08/25 15:35:18 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-int	cmd_tab_size_quotes(int *i, char *arg)
+int	cmd_tab_size_quotes(int *i, char *arg, int c)
 {
 	int	count;
 
@@ -19,7 +19,7 @@ int	cmd_tab_size_quotes(int *i, char *arg)
 	if (check_char(arg[*i - 1]) == 0)
 		count++;
 	*i += 1;
-	while (check_char(arg[*i]) != -1)
+	while (check_char(arg[*i]) != c)
 	{
 		if (!arg[*i + 1])
 			break ;
@@ -30,14 +30,14 @@ int	cmd_tab_size_quotes(int *i, char *arg)
 	return (count);
 }
 
-int	allocate_cmd_with_quotes(int *i, char *arg, int *trigger)
+int	allocate_cmd_with_quotes(int *i, char *arg, int *trigger, int c)
 {
 	int	size;
 
 	size = 0;
 	*i += 1;
 	size++;
-	while (check_char(arg[*i]) != -1)
+	while (check_char(arg[*i]) != c)
 	{
 		if (!arg[*i + 1])
 			*i = -1;
@@ -49,7 +49,7 @@ int	allocate_cmd_with_quotes(int *i, char *arg, int *trigger)
 	return (size);
 }
 
-void	fill_cmd_tab_with_quotes(int *i, char *arg, char *cmd)
+void	fill_cmd_tab_with_quotes(int *i, char *arg, char *cmd, int c)
 {
 	int	j;
 
@@ -57,7 +57,7 @@ void	fill_cmd_tab_with_quotes(int *i, char *arg, char *cmd)
 	cmd[j] = arg[*i];
 	*i += 1;
 	j++;
-	while (check_char(arg[*i]) != -1)
+	while (check_char(arg[*i]) != c)
 	{
 		cmd[j] = arg[*i];
 		*i += 1;

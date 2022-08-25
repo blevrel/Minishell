@@ -6,12 +6,11 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 11:26:43 by blevrel           #+#    #+#             */
-/*   Updated: 2022/08/24 17:18:34 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/08/25 15:36:06 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-//faire la difference entre ' et ", pour l'instant ca les traite de la meme facon
 int	get_cmd_tab_size(char *arg)
 {
 	int		i;
@@ -23,12 +22,13 @@ int	get_cmd_tab_size(char *arg)
 		i++;
 	while (arg[i])
 	{
-		if (check_char(arg[i]) == -1 && count != 1)
-			count += cmd_tab_size_quotes(&i, arg);
+		if (check_char(arg[i]) < 0 && count != 1)
+			count += cmd_tab_size_quotes(&i, arg, check_char(arg[i]));
 		if (check_char(arg[i]) == 1 && check_char(arg[i + 1]) < 1
 			&& check_char(check_last_non_spc_char(i, arg)) <= 1 && arg[i + 1])
 			count++;
-		else if (check_char(arg[i]) == 2 && check_char(arg[i + 1]) <= 1)
+		else if (count != 1 && check_char(arg[i]) == 2 &&
+				check_char(arg[i + 1]) <= 1)
 		{
 			if (arg[i + 1] && check_char(check_next_non_spc_char(i + 1, arg))
 				<= 1)
@@ -53,12 +53,15 @@ void	fill_cmd_tab(char *arg, char *cmd)
 		i++;
 	while (arg[i])
 	{
-		if (check_char(arg[i]) == -1)
+		if (check_char(arg[i]) < 0)
 		{
-			fill_cmd_tab_with_quotes(&i, arg, cmd);
+			fill_cmd_tab_with_quotes(&i, arg, cmd, check_char(arg[i]));
+			if (!arg[i + 1])
+				i = -1;
 			return ;
 		}
-		if (trigger == 0 && (check_char(arg[i]) != check_char(arg[i + 1]) || !arg[i + 1]))
+		if (trigger == 0 && (check_char(arg[i]) != check_char(arg[i + 1])
+				|| !arg[i + 1]))
 			trigger++;
 		if (trigger != 0)
 		{
@@ -73,7 +76,6 @@ void	fill_cmd_tab(char *arg, char *cmd)
 	}
 }
 
-//faire la difference entre ' et ", pour l'instant ca les traite de la meme facon
 void	allocate_cmd(char *arg, char **cmd)
 {
 	static int	i = -1;
@@ -87,10 +89,11 @@ void	allocate_cmd(char *arg, char **cmd)
 		i++;
 	while (arg[i])
 	{
-		if (check_char(arg[i]) == -1)
-			size += allocate_cmd_with_quotes(&i, arg, &trigger);
+		if (check_char(arg[i]) < 0)
+			size += allocate_cmd_with_quotes(&i, arg, &trigger,
+					check_char(arg[i]));
 		if ((trigger == 0 && ((check_char(arg[i]) != check_char(arg[i + 1]))
-			|| !arg[i + 1])))
+					|| !arg[i + 1])))
 		{
 			size++;
 			trigger++;
