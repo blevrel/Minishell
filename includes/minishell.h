@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/09/05 13:42:34 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/05 15:05:18 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -62,19 +62,37 @@ void	*cmd_not_found(char *cmd);
 char	*check_path(char *cmd, char **env);
 
 //PARSING
+int		check_closing_quotes(char *str);
+void	fill_cmd_quotes(char *arg, int *i, char *cmd, int c);
 char	**check_arg(char **cmd, char c);
 int		check_quotes(t_data *data, int i);
-void	modify_quotes(t_data *data, int i);
+void	modify_quotes(t_data *data, int *i);
 void	modify_single_quotes(char *cmd, int len);
 void	modify_double_quotes(char *cmd, int len);
-char	check_last_non_spc_char(int i, char *str);
-char	check_next_non_spc_char(int i, char *str);
+void	fill_cmd_tab(char *arg, int *i, char *cmd, int *trigger);
+void	fill_cmd_space(char *arg, int *i, int *trigger);
+void	fill_cmd_redirection(char *arg, int *i, char *cmd, int *j);
+char	last_non_spc_char(int i, char *str);
+char	next_non_spc_char(int i, char *str);
+char	last_diff_and_non_spc_char(int i, char *str);
 void	parsing_arg(t_data *data);
-int		cmd_tab_size_quotes(int *i, char *arg, int c);
+void	cmd_tab_size_quotes(int *i, char *arg, int c);
 void	fill_cmd_tab_with_quotes(int *i, char *arg, char *cmd, int c);
 int		allocate_cmd_with_quotes(int *i, char *arg, int *trigger, int c);
+int		alloc_multitab(char *arg, int *i, int *size);
+void	allocate_cmd(char *arg, char **cmd, int tab_size);
+int		get_cmd_tab_size(char *arg);
+int		parsing_with_quotes(char *arg, int *i, int *not_first_arg,
+					int c);
+int		parsing_with_redirection(char *arg, int *i, int *not_first_arg,
+					int size);
+int		parsing_with_space(char *arg, int *i, int *not_first_arg,
+					int *trigger);
+int		parsing_with_quotes_first_arg(char *arg, int *i, int size,
+					int *not_first_arg);
+int		reset_statics(int *i, int *trigger, int size);
 
-//BUILDIN
+//BUILTIN
 void	echo(t_data *data);
 
 //PIPE
@@ -85,14 +103,3 @@ t_cmd	**init_struct_pipe(t_data *data);
 void	check_dup_pipe_first(t_cmd *cmd, int **pipexfd, int i);
 void	check_dup_pipe_n(t_cmd *cmd, int **pipexfd, int i);
 void	check_dup_pipe_last(t_cmd *cmd, int **pipexfd, int i);
-/*void	first_pipe(int	**pipexfd, t_data *cmd);
-void	mid_pipe(int	**pipexfd, t_data *cmd, int i);
-void	last_pipe(int	**pipexfd, t_data *cmd, int i);
-int		first_simple_call(int *pipexfd, t_data *data);
-int		mid_simple_call(int *pipe, int *pipenext, t_data *data, int i);
-int		last_simple_call(int *pipe, int i, t_data *data);
-int		check_builtin_first(int	*pipexfd, t_data *data, int i);
-int		check_builtin_mid(int	*pipe, int *pipenext, t_data *data, int i);
-int		check_builtin_last(int	*pipexfd, t_data *data, int i);
-char	**copy_cmd(char **cmd, t_data *data, char *red, int indexpipe);
-*/

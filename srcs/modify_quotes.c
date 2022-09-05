@@ -11,13 +11,13 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-void	modify_quotes(t_data *data, int i)
+void	modify_quotes(t_data *data, int *i)
 {
 	int	len;
 
-	len = ft_strlen(data->cmd[i]);
-	modify_single_quotes(data->cmd[i], len);
-	modify_double_quotes(data->cmd[i], len);
+	len = ft_strlen(data->cmd[*i]);
+	modify_single_quotes(data->cmd[*i], len);
+	modify_double_quotes(data->cmd[*i], len);
 }
 
 void	modify_single_quotes(char *cmd, int len)

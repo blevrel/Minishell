@@ -19,9 +19,11 @@ void	free_cmd(t_data *data)
 	while (data->cmd[i])
 	{
 		free(data->cmd[i]);
+		data->cmd[i] = NULL;
 		i++;
 	}
 	free(data->cmd);
+	data->cmd = NULL;
 }
 
 void	init_cmd(t_data *data)
@@ -29,21 +31,17 @@ void	init_cmd(t_data *data)
 	int	i;
 
 	i = 0;
-	if (!data->arg)
-		return ;
-	if (ft_strchr_int(data->arg, 34) % 2 == 1 || ft_strchr_int(data->arg, 39)
-		% 2 == 1)
+	if (check_closing_quotes(data->arg) == 1)
 	{
-		printf("Missing quote\n");
+		printf("Missing_quote\n");
 		return ;
 	}
 	parsing_arg(data);
+	if (!data)
+		return ;
 	while (data->cmd[i])
 	{
-		if (check_quotes(data, i) == -1)
-			return ;
-		else if (check_quotes(data, i) == 1)
-			modify_quotes(data, i);
+		modify_quotes(data, &i);
 		i++;
 	}
 	if (check_pipe(data) == 1)
@@ -75,7 +73,8 @@ int	main(int argc, char **argv, char **env)
 			add_history(data.arg);
 		if (data.arg == NULL)
 			exit(printf("\n"));
-		init_cmd(&data);
+		if (data.arg[0])
+			init_cmd(&data);
 		if (data.arg)
 			free(data.arg);
 		if (data.cmd && data.cmd[0])

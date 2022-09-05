@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 10:44:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/05 13:47:15 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/05 16:55:57 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_cmd	*init_cmd_pipe(t_data *data, int index_pipe)
 	t_cmd *res;
 	int	i;
 
-	i = check_index_pipe(data->cmd, index_pipe) + 1; 
+	i = check_index_pipe(data->cmd, index_pipe); 
 	res = malloc(sizeof(t_cmd));
 	res->cmd = malloc((nb_cmd(data->cmd, i) + 1) * sizeof(char *));
 	if (!res->cmd)
@@ -113,6 +113,7 @@ t_cmd	**init_struct_pipe(t_data *data)
 	int		i;
 	t_cmd	**cmd_pipe;
 
+	i = 0;
 	nb_pipe = check_nbpipe(data->cmd);
 	cmd_pipe = malloc((nb_pipe + 1) * sizeof(t_cmd *));
 	if (!cmd_pipe)

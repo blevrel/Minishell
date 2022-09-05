@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_arg.c                                      :+:      :+:    :+:   */
+/*   parsing_with_space.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/21 11:26:43 by blevrel           #+#    #+#             */
-/*   Updated: 2022/08/27 14:32:08 by pirabaud         ###   ########.fr       */
+/*   Created: 2022/08/31 11:01:28 by blevrel           #+#    #+#             */
+/*   Updated: 2022/09/02 15:37:46 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-void	parsing_arg(t_data *data)
+int	parsing_with_space(char *arg, int *i, int *not_first_arg, int *trigger)
 {
-	int	i;
-	int	tab_size;
+	*not_first_arg = 1;
+	*trigger = 1;
+	if (!arg[*i + 1])
+		return (reset_statics(i, not_first_arg, 0));
+	return (0);
+}
 
-	i = 0;
-	tab_size = get_cmd_tab_size(data->arg);
-	data->cmd = ft_calloc(sizeof(char *), tab_size + 1);
-	while (i < tab_size)
-	{
-		allocate_cmd(data->arg, &data->cmd[i], tab_size);
-		if (!data->cmd[i])
-			return ;
-		i++;
-	}
+void	fill_cmd_space(char *arg, int *i, int *trigger)
+{
+	*trigger = 1;
+	if (!arg[*i + 1])
+		*i = 0;
 }

@@ -1,26 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_quotes.c                                   :+:      :+:    :+:   */
+/*   check_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 12:57:51 by blevrel           #+#    #+#             */
-/*   Updated: 2022/08/25 17:38:04 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/05 11:41:56 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-int	check_quotes(t_data *data, int i)
+int	check_closing_quotes(char *str)
 {
-	if (ft_strchr_int(data->cmd[i], 34) % 2 == 1)
-		return (-1);
-	if (ft_strchr_int(data->cmd[i], 39) % 2 == 1)
-		return (-1);
-	if (ft_strchr_int(data->cmd[i], 34) == 0 && ft_strchr_int(data->cmd[i],
-			39) == 0)
-		return (0);
+	int		i;
+	char	quote;
+
+	i = 0;
+	while (str[i])
+	{
+		if (ft_strchr_int(&str[i], 34) == 0 && ft_strchr_int(&str[i], 39) == 0)
+			return (0);
+		if (str[i] == 34 || str[i] == 39)
+		{
+			quote = str[i++];
+			while (str[i] && str[i] != quote)
+				i++;
+			if (str[i] == quote)
+			{
+				i++;
+				if (!str[i])
+					return (0);
+				continue ;
+			}
+		}
+		if (str[i])
+			i++;
+	}
 	return (1);
 }
-
-

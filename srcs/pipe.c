@@ -6,23 +6,25 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 10:22:53 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/05 13:44:23 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/05 17:52:36 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	fi_pipe(t_cmd *cmd, pid_t son, int **pipexfd, char **env)
+void	fi_pipe(t_cmd *cmd, pid_t *son, int **pipexfd, char **env)
 {
 	pipe(pipexfd[0]);
-	son = fork();
-	if (son == 0)
+	son[0] = fork();
+	if (son[0] == 0)
 	{
 		close(pipexfd[0][0]);
 		check_dup_pipe_first(cmd, pipexfd, 0);
 		close(pipexfd[0][1]);
-		execve(cmd->path, cmd->cmd, env);
+		if (execve(cmd->path, cmd->cmd, env) == -1)
+			printf("marche po\n");
 	}
+	waitpid(son[0], NULL, 0);
 }
 
 void	n_pipe(t_cmd *cmd, pid_t *son, int **pipexfd, int i, char **env)
@@ -45,7 +47,6 @@ void	n_pipe(t_cmd *cmd, pid_t *son, int **pipexfd, int i, char **env)
 
 void	l_pipe(t_cmd *cmd, pid_t *son, int **pipexfd, char **env, int i)
 {
-	waitpid(son[i - 1], NULL, 0);
 	son[i] = fork();
 	if (son[i] == 0)
 	{
@@ -79,14 +80,14 @@ int	ft_pipe(t_data *data)
 	pid_t	*son;
 	int		i;
 
-	i = 0;
+	i = 1;
 	nb_pipe = check_nbpipe(data->cmd);
 	data->pipex = init_struct_pipe(data);
 	if (!data->pipex)
 		return (1);
 	pipexfd = malloc_pipe(nb_pipe);
 	son = malloc(nb_pipe * sizeof(int));
-	fi_pipe(data->pipex[0], son[0], pipexfd, data->envp);
+	fi_pipe(data->pipex[0], son, pipexfd, data->envp);
 	while (nb_pipe > 1)
 	{
 		n_pipe(data->pipex[i], son, pipexfd, i, data->envp);

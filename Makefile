@@ -6,28 +6,31 @@
 #    By: blevrel <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 09:35:57 by blevrel           #+#    #+#              #
-#    Updated: 2022/09/05 13:41:28 by pirabaud         ###   ########.fr        #
+#    Updated: 2022/09/05 15:09:42 by blevrel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRCS =	srcs/main.c \
-		srcs/command.c \
-		srcs/redirection.c \
-		srcs/signal_handling.c \
-		srcs/check.c \
-		srcs/check_path.c \
+SRCS =	srcs/command.c \
+		srcs/builtin.c \
 		srcs/minishell_utils.c \
-		srcs/modify_quotes.c \
-		srcs/parsing_arg.c \
-		srcs/check_parsing.c \
-		srcs/parsing_quotes.c \
-		srcs/cmd_tab_size_with_quotes.c \
-		srcs/pipe.c	\
+		srcs/redirection.c \
+		srcs/parsing_with_space.c \
+		srcs/check.c \
+		srcs/check_quotes.c \
 		srcs/dup_pipe.c \
-		srcs/init_struct_pipe.c
-		
+		srcs/modify_quotes.c \
+		srcs/pipe.c	\
+		srcs/check_parsing.c \
+		srcs/fill_cmd.c \
+		srcs/parsing_arg.c \
+		srcs/check_path.c \
+		srcs/init_struct_pipe.c \
+		srcs/parsing_with_quotes.c \
+		srcs/signal_handling.c \
+		srcs/parsing_with_redirection.c \
+		srcs/main.c \
 
 OBJS = ${SRCS:.c=.o}
 
