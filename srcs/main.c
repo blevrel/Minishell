@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/08/25 15:36:33 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/08/27 14:34:27 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -19,11 +19,9 @@ void	free_cmd(t_data *data)
 	while (data->cmd[i])
 	{
 		free(data->cmd[i]);
-		data->cmd[i] = NULL;
 		i++;
 	}
 	free(data->cmd);
-	data->cmd = NULL;
 }
 
 void	init_cmd(t_data *data)
@@ -31,6 +29,8 @@ void	init_cmd(t_data *data)
 	int	i;
 
 	i = 0;
+	if (!data->arg)
+		return ;
 	if (ft_strchr_int(data->arg, 34) % 2 == 1 || ft_strchr_int(data->arg, 39)
 		% 2 == 1)
 	{
@@ -46,20 +46,20 @@ void	init_cmd(t_data *data)
 			modify_quotes(data, i);
 		i++;
 	}
+	if (check_pipe(data) == 1)
+		return ;
 	if (check_double_red(data) == 1)
 		return ;
 	if (check_redirection(data) == 1)
 		return ;
-	simple_cmd(data);
+	if (simple_cmd(data) == 1)
+		cmd_not_found(data->cmd[0]);
 }
 
 int	main(int argc, char **argv, char **env)
 {
-	int		run;
 	t_data	data;
-	int		i;
 
-	run = 0;
 	if (argc != 1)
 	{
 		printf("Program takes no arguments\n");
@@ -68,20 +68,14 @@ int	main(int argc, char **argv, char **env)
 	signal_handler();
 	(void)argv;
 	data.envp = dup_dp(env);
-	while (run == 0)
+	while (1)
 	{
-		i = 0;
-		data.arg = readline("minishell ");
+		data.arg = readline("Mishell->");
 		if (data.arg && data.arg[0])
 			add_history(data.arg);
 		if (data.arg == NULL)
 			exit(printf("\n"));
 		init_cmd(&data);
-		while (data.cmd[i])
-		{
-			printf("Valeur de data.cmd[%d] : %s\n", i, data.cmd[i]);
-			i++;
-		}
 		if (data.arg)
 			free(data.arg);
 		if (data.cmd && data.cmd[0])

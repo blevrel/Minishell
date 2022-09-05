@@ -6,7 +6,7 @@
 #    By: blevrel <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 09:35:57 by blevrel           #+#    #+#              #
-#    Updated: 2022/08/24 17:48:49 by blevrel          ###   ########.fr        #
+#    Updated: 2022/09/05 13:41:28 by pirabaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,11 @@ SRCS =	srcs/main.c \
 		srcs/parsing_arg.c \
 		srcs/check_parsing.c \
 		srcs/parsing_quotes.c \
-		srcs/cmd_tab_with_quotes.c \
+		srcs/cmd_tab_size_with_quotes.c \
+		srcs/pipe.c	\
+		srcs/dup_pipe.c \
+		srcs/init_struct_pipe.c
+		
 
 OBJS = ${SRCS:.c=.o}
 

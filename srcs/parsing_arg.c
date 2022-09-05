@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 11:26:43 by blevrel           #+#    #+#             */
-/*   Updated: 2022/08/25 15:36:06 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/08/27 14:32:08 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -100,7 +100,7 @@ void	allocate_cmd(char *arg, char **cmd)
 		}
 		if (trigger != 0)
 		{
-			printf("%d\n", size);
+			//printf("%d\n", size);
 			*cmd = ft_calloc(sizeof(char), size + 1);
 			fill_cmd_tab(arg, *cmd);
 			if (!arg[i + 1])
