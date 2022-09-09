@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 10:44:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/05 16:55:57 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/09/08 17:46:12 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 static int	check_redirection_pipe(char *str)
 {
-	if(ft_strcmp(str, "<") == 0)
+	if (ft_strcmp(str, "<") == 0)
 		return (1);
-	else if(ft_strcmp(str, ">") == 0)
+	else if (ft_strcmp(str, ">") == 0)
 		return (1);
-	else if(ft_strcmp(str, "<<") == 0)
+	else if (ft_strcmp(str, "<<") == 0)
 		return (1);
-	else if(ft_strcmp(str, ">>") == 0)
+	else if (ft_strcmp(str, ">>") == 0)
 		return (1);
 	else
 		return (0);
@@ -58,7 +58,7 @@ static int	check_index_pipe(char **argv, int index_pipe)
 	return (i);
 }
 
-static int	nb_cmd(char **argv, int	i)
+static int	nb_cmd(char **argv, int i)
 {
 	int	res;
 
@@ -67,7 +67,7 @@ static int	nb_cmd(char **argv, int	i)
 	{
 		if (check_redirection_pipe(argv[i]) == 1)
 			i = i + 2;
-		else 
+		else
 		{
 			++i;
 			++res;
@@ -78,10 +78,10 @@ static int	nb_cmd(char **argv, int	i)
 
 t_cmd	*init_cmd_pipe(t_data *data, int index_pipe)
 {
-	t_cmd *res;
-	int	i;
+	t_cmd	*res;
+	int		i;
 
-	i = check_index_pipe(data->cmd, index_pipe); 
+	i = check_index_pipe(data->cmd, index_pipe);
 	res = malloc(sizeof(t_cmd));
 	res->cmd = malloc((nb_cmd(data->cmd, i) + 1) * sizeof(char *));
 	if (!res->cmd)

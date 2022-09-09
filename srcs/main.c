@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/08/27 14:34:27 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/08 14:58:01 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -28,9 +28,6 @@ void	free_cmd(t_data *data)
 
 void	init_cmd(t_data *data)
 {
-	int	i;
-
-	i = 0;
 	if (check_closing_quotes(data->arg) == 1)
 	{
 		printf("Missing_quote\n");
@@ -39,11 +36,7 @@ void	init_cmd(t_data *data)
 	parsing_arg(data);
 	if (!data)
 		return ;
-	while (data->cmd[i])
-	{
-		modify_quotes(data, &i);
-		i++;
-	}
+	tokenize(data);
 	if (check_pipe(data) == 1)
 		return ;
 	if (check_double_red(data) == 1)

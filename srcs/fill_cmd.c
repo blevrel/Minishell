@@ -6,11 +6,12 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 11:26:43 by blevrel           #+#    #+#             */
-/*   Updated: 2022/09/05 11:38:16 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/09/09 11:53:05 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
-
+//une single quote suivi d'une double en tout debut de string segfault
+//ex : '''e'"cho" test ca segfault
 int	get_cmd_tab_size(char *arg)
 {
 	int		i;

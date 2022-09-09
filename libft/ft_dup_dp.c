@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:32:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/08/24 11:24:00 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/09/08 17:38:28 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 char	**dup_dp(char **str)
 {
-	char **res;
-	int	i;
-	int	j;
-	
+	char	**res;
+	int		i;
+	int		j;
+
 	i = 0;
 	j = 0;
-	while(str[i] != NULL)
+	while (str[i] != NULL)
 		++i;
 	res = malloc((i + 1) * sizeof(char *));
 	while (str[j] != NULL)

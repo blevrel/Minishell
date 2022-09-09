@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:54 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/08/24 16:35:31 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/08 17:42:56 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*check_path(char *cmd, char **env)
 		free(res);
 		res = init_res(path[i++], cmd);
 	}
-	//free_double_tab(path);
+	free_double_tab(path);
 	if (access(res, F_OK) == 0)
 		return (res);
 	free(res);

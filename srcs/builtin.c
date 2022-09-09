@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 08:58:04 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/08/27 09:56:23 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/08 17:47:15 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 int	check_print_end(char *str)
 {
-	if (ft_strcmp(str, ">") == 0 || (ft_strcmp(str, "<") == 0 || ft_strcmp(str, "<<") == 0 || ft_strcmp(str, ">>") == 0)) 
+	if (ft_strcmp(str, ">") == 0 || (ft_strcmp(str, "<") == 0
+			|| ft_strcmp(str, "<<") == 0 || ft_strcmp(str, ">>") == 0))
 		return (1);
-	if (ft_strcmp(str, "|") == 0 || ft_strcmp(str, "||") == 0 || ft_strcmp(str, "&&") == 0)
+	if (ft_strcmp(str, "|") == 0 || ft_strcmp(str, "||") == 0
+		|| ft_strcmp(str, "&&") == 0)
 		return (1);
 	return (0);
 }
@@ -38,5 +40,4 @@ void	echo(t_data *data)
 			ft_printf("%s", data->cmd[i++]);
 		ft_printf("\n");
 	}
-		
 }

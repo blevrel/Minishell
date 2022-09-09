@@ -6,7 +6,7 @@
 #    By: blevrel <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 09:35:57 by blevrel           #+#    #+#              #
-#    Updated: 2022/09/05 15:09:42 by blevrel          ###   ########.fr        #
+#    Updated: 2022/09/08 12:18:21 by blevrel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,10 @@ SRCS =	srcs/command.c \
 		srcs/check.c \
 		srcs/check_quotes.c \
 		srcs/dup_pipe.c \
-		srcs/modify_quotes.c \
+		srcs/tokenizing.c \
+		srcs/get_env_variable.c \
+		srcs/tokenized_quotes_size.c \
+		srcs/fill_tokenized_cmd.c \
 		srcs/pipe.c	\
 		srcs/check_parsing.c \
 		srcs/fill_cmd.c \
@@ -34,7 +37,7 @@ SRCS =	srcs/command.c \
 
 OBJS = ${SRCS:.c=.o}
 
-CC = cc
+CC = gcc
 
 LIB = -L libft -lft
 
