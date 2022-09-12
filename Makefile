@@ -6,7 +6,7 @@
 #    By: blevrel <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 09:35:57 by blevrel           #+#    #+#              #
-#    Updated: 2022/09/08 12:18:21 by blevrel          ###   ########.fr        #
+#    Updated: 2022/09/12 10:08:35 by pirabaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRCS =	srcs/command.c \
 		srcs/signal_handling.c \
 		srcs/parsing_with_redirection.c \
 		srcs/main.c \
+		srcs/init_struct_pipe_utils.c \
 
 OBJS = ${SRCS:.c=.o}
 

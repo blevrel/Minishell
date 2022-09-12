@@ -6,33 +6,36 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 11:16:11 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/08 17:49:31 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/09/12 12:00:14 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	dup_entry(t_cmd *cmd, int **pipexfd, int i)
+{
+	int	fd;
+
+	if (ft_strcmp(cmd->type, ">") == 0)
+		fd = open(cmd->file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	else if (ft_strcmp(cmd->type, ">>") == 0)
+			fd = open(cmd->file, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	dup2(fd, 1);
+	dup2(pipexfd[i - 1][0], 0);
+	close(fd);
+}
+
 void	check_dup_pipe_first(t_cmd *cmd, int **pipexfd, int i)
 {	
 	int	fd;
 
-	if (ft_strcmp(cmd->type, ">") == 0)
-	{
-		fd = open(cmd->file, O_WRONLY | O_TRUNC | O_CREAT, S_IRWXU);
-		dup2(fd, 1);
-		close(fd);
-	}
+	if (ft_strcmp(cmd->type, ">") == 0 || ft_strcmp(cmd->type, ">>") == 0)
+		dup_entry(cmd, pipexfd, i);
 	else if (ft_strcmp(cmd->type, "<") == 0)
 	{
 		fd = open(cmd->file, O_RDONLY);
 		dup2(fd, 0);
 		dup2(pipexfd[i][1], 1);
-		close(fd);
-	}
-	else if (ft_strcmp(cmd->type, ">>") == 0)
-	{
-		fd = open(cmd->file, O_WRONLY | O_APPEND | O_CREAT, S_IRWXU);
-		dup2(fd, 1);
 		close(fd);
 	}
 	else if (ft_strcmp(cmd->type, "<<") == 0)
@@ -45,24 +48,12 @@ void	check_dup_pipe_last(t_cmd *cmd, int **pipexfd, int i)
 {	
 	int	fd;
 
-	if (ft_strcmp(cmd->type, ">") == 0)
-	{
-		fd = open(cmd->file, O_WRONLY | O_TRUNC | O_CREAT, S_IRWXU);
-		dup2(fd, 1);
-		dup2(pipexfd[i - 1][0], 0);
-		close(fd);
-	}
+	if (ft_strcmp(cmd->type, ">") == 0 || ft_strcmp(cmd->type, ">>") == 0)
+		dup_entry(cmd, pipexfd, i);
 	else if (ft_strcmp(cmd->type, "<") == 0)
 	{
 		fd = open(cmd->file, O_RDONLY);
 		dup2(fd, 0);
-		close(fd);
-	}
-	else if (ft_strcmp(cmd->type, ">>") == 0)
-	{
-		fd = open(cmd->file, O_WRONLY | O_APPEND | O_CREAT, S_IRWXU);
-		dup2(fd, 1);
-		dup2(pipexfd[i - 1][0], 0);
 		close(fd);
 	}
 	else if (ft_strcmp(cmd->type, "<<") == 0)
@@ -75,25 +66,13 @@ void	check_dup_pipe_n(t_cmd *cmd, int **pipexfd, int i)
 {	
 	int	fd;
 
-	if (ft_strcmp(cmd->type, ">") == 0)
-	{
-		fd = open(cmd->file, O_WRONLY | O_TRUNC | O_CREAT, S_IRWXU);
-		dup2(fd, 1);
-		dup2(pipexfd[i - 1][0], 0);
-		close(fd);
-	}
+	if (ft_strcmp(cmd->type, ">") == 0 || ft_strcmp(cmd->type, ">>") == 0)
+		dup_entry(cmd, pipexfd, i);
 	else if (ft_strcmp(cmd->type, "<") == 0)
 	{
 		fd = open(cmd->file, O_RDONLY);
 		dup2(fd, 0);
 		dup2(pipexfd[i][1], 1);
-		close(fd);
-	}
-	else if (ft_strcmp(cmd->type, ">>") == 0)
-	{
-		fd = open(cmd->file, O_WRONLY | O_APPEND | O_CREAT, S_IRWXU);
-		dup2(fd, 1);
-		dup2(pipexfd[i - 1][0], 0);
 		close(fd);
 	}
 	else if (ft_strcmp(cmd->type, "<<") == 0)

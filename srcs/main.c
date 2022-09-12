@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/09/08 14:58:01 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/09/09 16:07:00 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -39,10 +39,6 @@ void	init_cmd(t_data *data)
 	tokenize(data);
 	if (check_pipe(data) == 1)
 		return ;
-	if (check_double_red(data) == 1)
-		return ;
-	if (check_redirection(data) == 1)
-		return ;
 	if (simple_cmd(data) == 1)
 		cmd_not_found(data->cmd[0]);
 }
@@ -61,7 +57,7 @@ int	main(int argc, char **argv, char **env)
 	data.envp = dup_dp(env);
 	while (1)
 	{
-		data.arg = readline("Mishell->");
+		data.arg = readline("Mishell-> ");
 		if (data.arg && data.arg[0])
 			add_history(data.arg);
 		if (data.arg == NULL)

@@ -6,104 +6,65 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 10:44:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/08 17:46:12 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/09/12 10:31:05 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check_redirection_pipe(char *str)
+void	init_null_cmd(t_cmd *res)
 {
-	if (ft_strcmp(str, "<") == 0)
-		return (1);
-	else if (ft_strcmp(str, ">") == 0)
-		return (1);
-	else if (ft_strcmp(str, "<<") == 0)
-		return (1);
-	else if (ft_strcmp(str, ">>") == 0)
-		return (1);
-	else
-		return (0);
+	res->type = NULL;
+	res->file = NULL;
 }
 
-int	check_nbpipe(char **argv)
+void	init_file(t_cmd *res, t_data *data, int i)
 {
-	int	res;
-	int	i;
+	if (!res->type)
+		free(res->type);
+	res->type = ft_strdup(data->cmd[i]);
+	if (!res->file)
+		free(res->file);
+	res->file = ft_strdup(data->cmd[i + 1]);
+	check_open(&data->cmd[i]);
+}
 
-	i = 0;
-	res = 0;
-	while (argv[i] != NULL)
+void	init_simple_cmd(t_data *data, t_cmd *res, int i)
+{
+	int	j;
+
+	j = 0;
+	res->cmd = malloc((nb_cmd(data->cmd, i) + 1) * sizeof(char *));
+	if (!res->cmd)
 	{
-		if (ft_strcmp(argv[i], "|") == 0)
-			++res;
-		++i;
+		ft_putstr_fd("error malloc", 2);
+		return ;
 	}
-	return (res);
-}
-
-static int	check_index_pipe(char **argv, int index_pipe)
-{
-	int	nb_pipe;
-	int	i;
-
-	i = 0;
-	nb_pipe = 0;
-	while (argv[i] != NULL && nb_pipe != index_pipe)
+	init_null_cmd(res);
+	while (data->cmd[i] != NULL && ft_strcmp(data->cmd[i], "|"))
 	{
-		++i;
-		if (ft_strcmp(argv[i], "|"))
-			nb_pipe++;
-	}
-	return (i);
-}
-
-static int	nb_cmd(char **argv, int i)
-{
-	int	res;
-
-	res = 0;
-	while (argv[i] != NULL && ft_strcmp(argv[i], "|"))
-	{
-		if (check_redirection_pipe(argv[i]) == 1)
-			i = i + 2;
-		else
+		if (check_redirection_pipe(data->cmd[i]) == 1)
 		{
-			++i;
-			++res;
+			init_file(res, data, i);
+			if (ft_strcmp(data->cmd[i], "<<") != 0)
+				i = i + 2;
 		}
+		else
+			res->cmd[j++] = ft_strdup(data->cmd[i++]);
 	}
-	return (res);
+	res->cmd[j] = NULL;
 }
 
-t_cmd	*init_cmd_pipe(t_data *data, int index_pipe)
+t_cmd	*init_simple_struct(t_data *data, int index_pipe)
 {
 	t_cmd	*res;
 	int		i;
 
 	i = check_index_pipe(data->cmd, index_pipe);
 	res = malloc(sizeof(t_cmd));
-	res->cmd = malloc((nb_cmd(data->cmd, i) + 1) * sizeof(char *));
+	init_simple_cmd(data, res, i);
 	if (!res->cmd)
-	{
-		ft_putstr_fd("error malloc", 2);
 		return (NULL);
-	}
-	while (data->cmd[i] != NULL && ft_strcmp(data->cmd[i], "|"))
-	{
-		if (!res->type && check_redirection_pipe(data->cmd[i]) == 1)
-		{
-			res->type = ft_strdup(data->cmd[i]);
-			res->file = ft_strdup(data->cmd[i + 1]);
-			i = i + 2;
-		}
-		else
-		{
-			res->cmd[i] = ft_strdup(data->cmd[i]);
-			i++;
-		}
-		res->cmd[i] = NULL;
-	}
 	return (res);
 }
 
@@ -118,12 +79,12 @@ t_cmd	**init_struct_pipe(t_data *data)
 	cmd_pipe = malloc((nb_pipe + 1) * sizeof(t_cmd *));
 	if (!cmd_pipe)
 	{
-		ft_putstr_fd("error malloc", 2);
+		ft_putstr_fd("error malloc\n", 2);
 		return (NULL);
 	}
-	while (nb_pipe > 0)
+	while (nb_pipe >= 0)
 	{
-		cmd_pipe[i] = init_cmd_pipe(data, i);
+		cmd_pipe[i] = init_simple_struct(data, i);
 		cmd_pipe[i]->path = check_path(cmd_pipe[i]->cmd[0], data->envp);
 		i++;
 		--nb_pipe;

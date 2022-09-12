@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/09/09 11:16:15 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/09/12 10:24:37 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -39,17 +39,20 @@ typedef struct s_data
 	char	*arg;
 	pid_t	*son;
 	t_cmd	**pipex;
+	int		**pipexfd;
 }				t_data;
 
 int		simple_cmd(t_data *data);
+int		check_open(char **cmd);
+int		nb_cmd(char **argv, int i);
+int		check_redirection_pipe(char *str);
+int		check_nbpipe(char **argv);
+int		check_index_pipe(char **argv, int index_pipe);
+t_cmd	*init_simple_struct(t_data *data, int index_pipe);
 
 //REDIRECTION
-void	entry_red(t_data *data);
-void	exit_red(t_data *data);
 int		check_redirection(t_data *data);
 void	here_doc(t_data *data);
-int		check_double_red(t_data *data);
-void	append(t_data *data);
 
 //SIGNALS
 void	catch_signal(int signal);
