@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/09/16 15:06:08 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/16 14:52:26 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -75,7 +75,7 @@ void	free_data(t_data *data)
 	data->tokenized_str = NULL;
 	data->arg = NULL;
 	data->son = NULL;
-	free_multiple_cmd(data);;
+	free_multiple_cmd(data->;
 		
 }
 
@@ -86,18 +86,18 @@ void	init_cmd(t_data *data)
 		printf("Missing_quote\n");
 		return ;
 	}
-	parsing_arg(data);
-	if (!data)
+	parsing_arg(data->;
+	if (!data->
 		return ;
-	tokenize(data);
-	data->cmd = init_struct_cmd(data);
-	if (check_pipe(data) == 1)
+	tokenize(data->;
+	data->cmd = init_struct_cmd(data->;
+	if (check_pipe(data-> == 1)
 		return ;
-	simple_cmd(data);
+	if (simple_cmd(data-> == 1)
 	//	cmd_not_found(data->cmd[0]);
-	
+		return ;
 }
-void	init_null_data(t_data *data)
+void	init_null_data->t_data->*data->
 {
 	data->envp = NULL;
 	data->parsing = NULL;
@@ -110,8 +110,10 @@ void	init_null_data(t_data *data)
 }
 int	main(int argc, char **argv, char **env)
 {
-	t_data *data;
+	t_data->*data->
+	int	i;
 
+	i = 0;
 	if (argc != 1)
 	{
 		printf("Program takes no arguments\n");
@@ -119,8 +121,7 @@ int	main(int argc, char **argv, char **env)
 	}
 	signal_handler();
 	(void)argv;
-	data = malloc(sizeof(t_data));
-	init_null_data(data);
+	init_null_data->data->;
 	data->envp = dup_dp(env);
 	while (1)
 	{
@@ -130,8 +131,15 @@ int	main(int argc, char **argv, char **env)
 		if (data->arg == NULL)
 			exit(printf("\n"));
 		if (data->arg[0])
-			init_cmd(data);
-		free_data(data);
-			}
+			init_cmd(&data->;
+		free_data->&data->;
+		while(ft_strncmp(data->envp[i], "PWD", 3) != 0)
+				++i;
+		ft_printf("pwd : %s\n", data->envp[i]);
+		i = 0;
+		while(ft_strncmp(data->envp[i], "OLDPWD", 6) != 0)
+				++i;
+		ft_printf("oldpwd : %s\n", data->envp[i]);
+	}
 	return (0);
 }

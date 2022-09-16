@@ -6,7 +6,7 @@
 #    By: blevrel <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 09:35:57 by blevrel           #+#    #+#              #
-#    Updated: 2022/09/12 10:08:35 by pirabaud         ###   ########.fr        #
+#    Updated: 2022/09/16 13:09:21 by pirabaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = minishell
 SRCS =	srcs/command.c \
 		srcs/builtin.c \
 		srcs/minishell_utils.c \
-		srcs/redirection.c \
+		srcs/here_doc.c \
 		srcs/parsing_with_space.c \
 		srcs/check.c \
 		srcs/check_quotes.c \
@@ -35,6 +35,7 @@ SRCS =	srcs/command.c \
 		srcs/parsing_with_redirection.c \
 		srcs/main.c \
 		srcs/init_struct_pipe_utils.c \
+		srcs/check_builtin.c
 
 OBJS = ${SRCS:.c=.o}
 

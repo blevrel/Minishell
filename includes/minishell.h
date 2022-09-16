@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/09/12 10:24:37 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/16 13:34:54 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -29,30 +29,35 @@ typedef struct s_cmd
 	char	*path;
 	char	*type;
 	char	*file;
+	char 	**limiter;
 }			t_cmd;
 
 typedef struct s_data
 {
 	char	**envp;
-	char	**cmd;
+	char	**parsing;
 	char	*tokenized_str;
 	char	*arg;
 	pid_t	*son;
-	t_cmd	**pipex;
+	t_cmd	**cmd;
 	int		**pipexfd;
 }				t_data;
 
 int		simple_cmd(t_data *data);
+
+//INIT_STRUCT_COMMAND
 int		check_open(char **cmd);
 int		nb_cmd(char **argv, int i);
 int		check_redirection_pipe(char *str);
 int		check_nbpipe(char **argv);
 int		check_index_pipe(char **argv, int index_pipe);
 t_cmd	*init_simple_struct(t_data *data, int index_pipe);
+t_cmd	**init_struct_cmd(t_data *data);
 
 //REDIRECTION
 int		check_redirection(t_data *data);
-void	here_doc(t_data *data);
+void	here_doc(t_cmd *cmd, char **env);
+void	here_doc_pipe(t_cmd *cmd, int **pippexfd, char **env, int i);
 
 //SIGNALS
 void	catch_signal(int signal);
@@ -113,13 +118,16 @@ int		get_single_quote_size(char *cmd, int *i);
 int		get_double_quote_size(char *cmd, int *i, char **emvp);
 
 //BUILTIN
-void	echo(t_data *data);
+int		check_builtin(t_cmd *cmd, t_data *data);
+void	echo(t_cmd *data);
+void	pwd(void);
+void	env(char **env);
+void	directory(t_cmd *cmd,t_data *data); 
 
 //PIPE
 int		check_pipe(t_data *data);
 int		ft_pipe(t_data *data);
 int		check_nbpipe(char **argv);
-t_cmd	**init_struct_pipe(t_data *data);
 void	check_dup_pipe_first(t_cmd *cmd, int **pipexfd, int i);
 void	check_dup_pipe_n(t_cmd *cmd, int **pipexfd, int i);
 void	check_dup_pipe_last(t_cmd *cmd, int **pipexfd, int i);

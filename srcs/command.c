@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/08/24 17:04:40 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/16 15:06:06 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,28 +21,51 @@ void	*cmd_not_found(char *cmd)
 	return (NULL);
 }
 
-void	directory(t_data *data)
+void	dup_simple_call(char *type, char *file)
 {
-	chdir(data->cmd[1]);
+	int	fd;
+
+	if (ft_strcmp(type, ">") == 0)
+		{
+			fd = open(file, O_WRONLY | O_TRUNC | O_CREAT, S_IRWXU);
+			dup2(fd, 1);
+			close(fd);
+		}
+	else if (ft_strcmp(type, "<") == 0)
+		{
+			fd = open(file, O_RDONLY);
+			dup2(fd, 0);
+			close(fd);
+		}
+	else if (ft_strcmp(type, ">>") == 0)
+		{
+			fd = open(file, O_WRONLY | O_APPEND | O_CREAT, S_IRWXU);
+			dup2(fd, 1);
+			close(fd);
+		}
+	else
+		return ;
 }
 
 int	simple_cmd(t_data *data)
 {
-	char	*path;
 	pid_t	son;
 
-	if (ft_strcmp(data->cmd[0], "cd") == 0)
+	if (ft_strcmp(data->cmd[0]->type, "<<") == 0)
 	{
-		directory(data);
+		here_doc(data->cmd[0], data->envp);
 		return (0);
 	}
-	path = check_path(data->cmd[0], data->envp);
-	if (!path)
-		return (1);
 	son = fork();
 	if (son == 0)
-		execve(path, data->cmd, data->envp);
-	free(path);
+	{
+		dup_simple_call(data->cmd[0]->type, data->cmd[0]->file);
+		if (check_builtin(data->cmd[0], data))
+			exit (1);
+		if (execve(data->cmd[0]->path, data->cmd[0]->cmd, data->envp) == -1)
+			exit (2);
+	}
 	waitpid(son, NULL, 0);
+	
 	return (0);
 }

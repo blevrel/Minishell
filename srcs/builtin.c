@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 08:58:04 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/08 17:47:15 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/09/16 15:02:45 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	check_print_end(char *str)
 	return (0);
 }
 
-void	echo(t_data *data)
+void	echo(t_cmd *data)
 {
 	int	i;
 
@@ -39,5 +39,56 @@ void	echo(t_data *data)
 		while (data->cmd != NULL && check_print_end(data->cmd[i]) != 1)
 			ft_printf("%s", data->cmd[i++]);
 		ft_printf("\n");
+	}
+}
+
+void	pwd(void)
+{
+	char	buff[10000];
+	
+	if (getcwd(buff, 10000) == NULL)
+	{
+		ft_putstr_fd("error pwd", 2);
+		return ;
+	}
+	ft_printf("%s\n", buff);
+}
+
+void	env(char **env)
+{
+	int	i;
+
+	i = 0;
+	ft_printf("tyu vas bien la ?\n");
+	while (env[i] != NULL)
+	{
+		ft_printf("%s\n", env[i]);
+		i++;
+	}
+}
+
+void	directory(t_cmd *cmd, t_data *data)
+{
+	char	new_pwd[1000];
+	char	*old_pwd;
+	int		i;
+	int		j;
+	
+	i = 0;
+	j = 0;
+	if (chdir(cmd->cmd[1]) == 0)
+	{
+		while(ft_strncmp(data->envp[i], "PWD", 3) != 0)
+				++i;
+		
+		while(ft_strncmp(data->envp[j], "OLDPWD", 6) != 0)
+				++j;
+		free(data->envp[j]);
+		old_pwd = ft_strdup(data->envp[i]);
+		data->envp[j] = ft_strjoin("OLD", old_pwd);
+		free(data->envp[i]);
+		data->envp[i] = ft_strjoin("PWD=", getcwd(new_pwd, 10000));
+		ft_printf("pwd : %s\n", data->envp[i]);
+		free(old_pwd);
 	}
 }

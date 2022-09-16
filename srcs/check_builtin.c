@@ -1,30 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check.c                                            :+:      :+:    :+:   */
+/*   check_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/25 17:20:55 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/13 15:28:59 by pirabaud         ###   ########.fr       */
+/*   Created: 2022/09/15 16:12:18 by pirabaud          #+#    #+#             */
+/*   Updated: 2022/09/16 13:42:29 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_pipe(t_data *data)
+int	check_builtin(t_cmd *cmd, t_data *data)
 {
-	int	i;
-
-	i = 0;
-	while (data->parsing[i])
+	if (ft_strcmp(cmd->cmd[0], "echo") == 0)
 	{
-		if (ft_strcmp(data->parsing[i], "|") == 0)
-		{
-			ft_pipe(data);
-			return (1);
-		}
-		++i;
+		echo(cmd);
+		return (1);
+	}
+	if (ft_strcmp(cmd->cmd[0], "pwd") == 0)
+	{
+		pwd();
+		return (1);
+	}
+	if (ft_strcmp(cmd->cmd[0], "env") == 0)
+	{
+		env(data->envp);
+		return (1);
+	}
+	if (ft_strcmp(cmd->cmd[0], "cd") == 0)
+	{
+		directory(cmd, data);
+		return (1);
 	}
 	return (0);
 }
