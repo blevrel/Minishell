@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/09/16 15:06:08 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/20 09:58:16 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -54,12 +54,15 @@ void	free_multiple_cmd(t_data *data)
 	int	i;
 	
 	i = 0;
-	while (data->cmd[i] != NULL)
+	if (data->cmd)
 	{
-		free_simple_cmd(data->cmd[i]);
-		free(data->cmd[i]);
-		data->cmd[i] = NULL;
-		++i;
+		while (data->cmd[i] != NULL)
+		{
+			free_simple_cmd(data->cmd[i]);
+			free(data->cmd[i]);
+			data->cmd[i] = NULL;
+			++i;
+		}
 	}
 	free(data->cmd);
 	data->cmd = NULL;
@@ -91,6 +94,8 @@ void	init_cmd(t_data *data)
 		return ;
 	tokenize(data);
 	data->cmd = init_struct_cmd(data);
+	if (!data->cmd)
+		return ;
 	if (check_pipe(data) == 1)
 		return ;
 	simple_cmd(data);

@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 10:44:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/20 09:15:14 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/20 09:55:55 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@ t_cmd	**init_struct_cmd(t_data *data)
 	while (nb_pipe > 0)
 	{
 		cmd_pipe[i] = init_simple_struct(data, i);
+		if (cmd_pipe[i] == NULL)
+			return (NULL);
 		cmd_pipe[i]->path = check_path(cmd_pipe[i]->cmd[0], data->envp);
 		if(!cmd_pipe[i]->path && check_redirection_pipe(cmd_pipe[i]->cmd[0]) != 1)
 		{
