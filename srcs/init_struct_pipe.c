@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 10:44:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/15 15:39:59 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/20 09:15:14 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,14 @@ void	init_file(t_cmd *res, t_data *data, int i)
 	if (!res->file)
 		free(res->file);
 	res->file = ft_strdup(data->parsing[i + 1]);
-	check_open(&data->parsing[i]);
+	if (check_open(&data->parsing[i]) == 1)
+	{
+		if (!res->cmd[0])
+			ft_printf("minishell: %s: no such file or directory\n");
+		else
+			ft_printf("%s: %s: no such file or directory\n", res->cmd[0], res->file);
+	}
+		
 }
 
 char 	**check_limiter(char **cmd)
@@ -116,6 +123,11 @@ t_cmd	**init_struct_cmd(t_data *data)
 	{
 		cmd_pipe[i] = init_simple_struct(data, i);
 		cmd_pipe[i]->path = check_path(cmd_pipe[i]->cmd[0], data->envp);
+		if(!cmd_pipe[i]->path && check_redirection_pipe(cmd_pipe[i]->cmd[0]) != 1)
+		{
+			ft_printf("%s : command not found\n", cmd_pipe[i]->cmd[0]);
+			return (NULL);
+		}
 		i++;
 		--nb_pipe;
 	}

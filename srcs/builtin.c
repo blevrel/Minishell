@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 08:58:04 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/16 15:02:45 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/19 11:19:16 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	env(char **env)
 	int	i;
 
 	i = 0;
-	ft_printf("tyu vas bien la ?\n");
 	while (env[i] != NULL)
 	{
 		ft_printf("%s\n", env[i]);
@@ -88,7 +87,6 @@ void	directory(t_cmd *cmd, t_data *data)
 		data->envp[j] = ft_strjoin("OLD", old_pwd);
 		free(data->envp[i]);
 		data->envp[i] = ft_strjoin("PWD=", getcwd(new_pwd, 10000));
-		ft_printf("pwd : %s\n", data->envp[i]);
 		free(old_pwd);
 	}
 }

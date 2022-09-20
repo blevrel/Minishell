@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 11:16:11 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/12 12:00:14 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/19 10:47:35 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	dup_entry(t_cmd *cmd, int **pipexfd, int i)
 	else if (ft_strcmp(cmd->type, ">>") == 0)
 			fd = open(cmd->file, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	dup2(fd, 1);
-	dup2(pipexfd[i - 1][0], 0);
+	dup2(pipexfd[i][0], 0);
 	close(fd);
 }
 
@@ -49,7 +49,7 @@ void	check_dup_pipe_last(t_cmd *cmd, int **pipexfd, int i)
 	int	fd;
 
 	if (ft_strcmp(cmd->type, ">") == 0 || ft_strcmp(cmd->type, ">>") == 0)
-		dup_entry(cmd, pipexfd, i);
+		dup_entry(cmd, pipexfd, i - 1);
 	else if (ft_strcmp(cmd->type, "<") == 0)
 	{
 		fd = open(cmd->file, O_RDONLY);
@@ -67,7 +67,7 @@ void	check_dup_pipe_n(t_cmd *cmd, int **pipexfd, int i)
 	int	fd;
 
 	if (ft_strcmp(cmd->type, ">") == 0 || ft_strcmp(cmd->type, ">>") == 0)
-		dup_entry(cmd, pipexfd, i);
+		dup_entry(cmd, pipexfd, i - 1);
 	else if (ft_strcmp(cmd->type, "<") == 0)
 	{
 		fd = open(cmd->file, O_RDONLY);
