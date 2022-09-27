@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:19:43 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/27 13:33:21 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/27 18:17:13 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	check_unset(char *str, char **env)
 {
 	int	i;
-	int j;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -32,10 +32,10 @@ int	check_unset(char *str, char **env)
 
 char	**new_tab(int i, char **src)
 {
-	int	j;
-	int	k;
-	char **new_tab;
-	
+	int		j;
+	int		k;
+	char	**new_tab;
+
 	j = 0;
 	k = 0;
 	new_tab = malloc(size_tab(src) * sizeof(char *));
@@ -51,4 +51,24 @@ char	**new_tab(int i, char **src)
 	new_tab[j] = NULL;
 	free_double_tab(src);
 	return (new_tab);
+}
+
+void	unset(t_cmd *cmd, t_data *data)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	if (cmd->cmd[1] == NULL)
+		return ;
+	while (cmd->cmd[i] != NULL)
+	{
+		j = check_unset(cmd->cmd[i], data->envp);
+		if (j != -1)
+			data->envp = new_tab(j, data->envp);
+		j = check_unset(cmd->cmd[i], data->envp);
+		if (j != -1)
+			data->export = new_tab(j, data->export);
+		i++;
+	}
 }

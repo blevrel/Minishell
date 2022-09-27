@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/09/27 11:49:13 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:44:41 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -56,6 +56,8 @@ t_cmd	*init_simple_struct(t_data *data, int index_pipe);
 t_cmd	**init_struct_cmd(t_data *data);
 int		check_command(char *str);
 char	**sort_env(char **env);
+void	init_null_cmd(t_cmd *res);
+void	init_data(t_data *data, char **env);
 
 //REDIRECTION
 int		check_redirection(t_data *data);
@@ -149,11 +151,17 @@ int		search_env(char *str, char **env);
 char	**fill_new_export(char **new_export, t_cmd *cmd, t_data *data, int i);
 void	replace_value(char *str, int line, t_data *data);
 char	**replace_value_export(char *str, int line, char **export);
-int	search_new_env(char **cmd, char **env);
-int	check_value(char *str);
+int		search_new_env(char **cmd, char **env);
+int		check_value(char *str);
 
 //UNSET
 int	check_unset(char *str, char **env);
 char **new_tab(int i, char **src);
+
+//FREE
+void	free_parsing(t_data *data);
+void	free_simple_cmd(t_cmd *cmd);
+void	free_multiple_cmd(t_data *data);
+void	free_data(t_data *data);
 
 #endif

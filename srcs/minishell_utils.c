@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:42:14 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/25 15:44:29 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/27 16:35:04 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	free_double_tab(char **tab)
 
 int	size_tab(char **tab)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (tab[i] != NULL)
 		i++;
@@ -82,4 +82,3 @@ char	**cpy_tab(char **dest, char **src)
 	}
 	return (dest);
 }
-

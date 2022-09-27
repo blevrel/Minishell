@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 09:47:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/19 14:39:44 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/27 16:37:15 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ int	nb_cmd(char **argv, int i)
 	res = 0;
 	while (argv[i] != NULL && ft_strcmp(argv[i], "|"))
 	{
-		if (check_redirection_pipe(argv[i]) == 1 && ft_strcmp(argv[i], "<<") == 0)
+		if (check_redirection_pipe(argv[i]) == 1
+			&& ft_strcmp(argv[i], "<<") == 0)
 				i = i + 2;
 		else
 		{

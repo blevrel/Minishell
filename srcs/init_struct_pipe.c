@@ -6,19 +6,11 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 10:44:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/27 11:45:23 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:38:23 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	init_null_cmd(t_cmd *res)
-{
-	res->type = NULL;
-	res->file = NULL;
-	res->path = NULL;
-	res->limiter = NULL;
-}
 
 void	init_file(t_cmd *res, t_data *data, int i)
 {
@@ -121,7 +113,6 @@ t_cmd	**init_struct_cmd(t_data *data)
 	t_cmd	**cmd_pipe;
 
 	i = 0;
-	
 	nb_pipe = check_nbpipe(data->parsing);
 	cmd_pipe = malloc((nb_pipe + 1) * sizeof(t_cmd *));
 	if (!cmd_pipe)
@@ -134,7 +125,6 @@ t_cmd	**init_struct_cmd(t_data *data)
 		cmd_pipe[i] = init_simple_struct(data, i);
 		if (cmd_pipe[i] == NULL)
 			return (NULL);
-		
 		i++;
 		--nb_pipe;
 	}

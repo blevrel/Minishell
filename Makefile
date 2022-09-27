@@ -6,14 +6,14 @@
 #    By: blevrel <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 09:35:57 by blevrel           #+#    #+#              #
-#    Updated: 2022/09/27 11:37:56 by pirabaud         ###   ########.fr        #
+#    Updated: 2022/09/27 18:32:08 by pirabaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 SRCS =	srcs/command.c \
-		srcs/builtin.c \
+		srcs/ch_directory.c \
 		srcs/minishell_utils.c \
 		srcs/here_doc.c \
 		srcs/parsing_with_space.c \
@@ -39,7 +39,12 @@ SRCS =	srcs/command.c \
 		srcs/new_export_env.c \
 		srcs/export_utils.c \
 		srcs/fill_arg.c \
-		srcs/unset.c
+		srcs/unset.c \
+		srcs/init_null.c\
+		srcs/free.c \
+		srcs/echo.c \
+		srcs/pwd.c \
+		srcs/env.c \
 
 OBJS = ${SRCS:.c=.o}
 
