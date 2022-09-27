@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 10:44:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/27 10:45:49 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/27 11:45:23 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,9 @@ t_cmd	*init_simple_struct(t_data *data, int index_pipe)
 	if (!res->cmd)
 		return (NULL);
 	res->path = check_path(data->parsing[0], data->envp);
-	if (!cmd_pipe[i]->path && check_command(cmd_pipe[i]->cmd[0]) != 1)
+	if (!res->path && check_command(res->cmd[0]) != 1)
 	{
-		ft_printf("%s : command not found\n", cmd_pipe[i]->cmd[0]);
+		ft_printf("%s : command not found\n", res->cmd[0]);
 		return (NULL);
 	}
 	return (res);

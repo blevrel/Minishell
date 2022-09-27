@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 08:58:04 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/25 16:41:20 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/27 11:41:13 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,24 @@ void	ft_export(t_cmd *cmd, t_data *data)
 	data->export = new_export(cmd, data);
 	if (search_new_env(cmd->cmd, data->envp) > 0)
 		data->envp = new_env_export(cmd->cmd, data->envp);
+}
+
+void	unset(t_cmd *cmd, t_data *data)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	if (cmd->cmd[1] == NULL)
+		return ;
+	while (cmd->cmd[i] != NULL)
+	{
+		j = check_unset(cmd->cmd[i], data->envp);
+		if (j != -1)
+			data->envp = new_tab(j, data->envp);
+		j = check_unset(cmd->cmd[i], data->envp);
+		if (j != -1)
+			data->export = new_tab(j, data->export);
+		i++;
+	}
 }

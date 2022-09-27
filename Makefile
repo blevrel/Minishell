@@ -6,7 +6,7 @@
 #    By: blevrel <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 09:35:57 by blevrel           #+#    #+#              #
-#    Updated: 2022/09/27 10:42:05 by pirabaud         ###   ########.fr        #
+#    Updated: 2022/09/27 11:37:56 by pirabaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRCS =	srcs/command.c \
 		srcs/new_export_env.c \
 		srcs/export_utils.c \
 		srcs/fill_arg.c \
+		srcs/unset.c
 
 OBJS = ${SRCS:.c=.o}
 

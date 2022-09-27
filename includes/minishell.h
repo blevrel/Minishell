@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/09/26 09:22:23 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/27 11:49:13 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -130,6 +130,7 @@ void	pwd(void);
 void	env(char **env);
 void	directory(t_cmd *cmd,t_data *data); 
 void	ft_export(t_cmd *cmd, t_data *data);
+void	unset(t_cmd *cmd, t_data *data);
 
 //PIPE
 int		check_pipe(t_data *data);
@@ -150,5 +151,9 @@ void	replace_value(char *str, int line, t_data *data);
 char	**replace_value_export(char *str, int line, char **export);
 int	search_new_env(char **cmd, char **env);
 int	check_value(char *str);
+
+//UNSET
+int	check_unset(char *str, char **env);
+char **new_tab(int i, char **src);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:54 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/08 17:42:56 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/09/27 14:13:03 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ char	*check_path(char *cmd, char **env)
 	char	**path;
 
 	i = 0;
-	while (ft_memcmp(env[i], "PATH", 4) != 0)
+	while (env[i] != NULL && ft_memcmp(env[i], "PATH", 4) != 0)
 		i++;
+	if (env[i] == NULL)
+		return (NULL);
 	path = ft_split(env[i], ':');
 	i = 0;
 	res = init_res(path[i++], cmd);

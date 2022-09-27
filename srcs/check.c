@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 17:20:55 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/27 09:51:03 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/27 11:48:17 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	check_command(char *str)
 	else if (ft_strcmp(str, "export") == 0)
 		return (1);
 	else if (ft_strcmp(str, "env") == 0)
+		return (1);
+	else if (ft_strcmp(str, "unset") == 0)
 		return (1);
 	return (0);
 }
