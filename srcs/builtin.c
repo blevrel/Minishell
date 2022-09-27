@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 08:58:04 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/19 11:19:16 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/25 16:41:20 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,16 @@ void	directory(t_cmd *cmd, t_data *data)
 		data->envp[i] = ft_strjoin("PWD=", getcwd(new_pwd, 10000));
 		free(old_pwd);
 	}
+}
+
+void	ft_export(t_cmd *cmd, t_data *data)
+{
+	if (cmd->cmd[1] == NULL)
+	{
+		print_export(data->export);
+		return ;
+	}
+	data->export = new_export(cmd, data);
+	if (search_new_env(cmd->cmd, data->envp) > 0)
+		data->envp = new_env_export(cmd->cmd, data->envp);
 }

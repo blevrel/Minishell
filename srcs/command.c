@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/19 08:44:48 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/26 15:59:15 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int	simple_cmd(t_data *data)
 
 	if (ft_strcmp(data->cmd[0]->cmd[0], "cd") == 0)
 		directory(data->cmd[0], data);
+	if (ft_strcmp(data->cmd[0]->cmd[0], "export") == 0)
+		ft_export(data->cmd[0], data);
 		
 	if (ft_strcmp(data->cmd[0]->type, "<<") == 0)
 	{

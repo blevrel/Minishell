@@ -6,7 +6,7 @@
 #    By: blevrel <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 09:35:57 by blevrel           #+#    #+#              #
-#    Updated: 2022/09/16 13:09:21 by pirabaud         ###   ########.fr        #
+#    Updated: 2022/09/27 10:42:05 by pirabaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,6 @@ SRCS =	srcs/command.c \
 		srcs/fill_tokenized_cmd.c \
 		srcs/pipe.c	\
 		srcs/check_parsing.c \
-		srcs/fill_cmd.c \
 		srcs/parsing_arg.c \
 		srcs/check_path.c \
 		srcs/init_struct_pipe.c \
@@ -35,7 +34,11 @@ SRCS =	srcs/command.c \
 		srcs/parsing_with_redirection.c \
 		srcs/main.c \
 		srcs/init_struct_pipe_utils.c \
-		srcs/check_builtin.c
+		srcs/check_builtin.c \
+		srcs/new_export.c \
+		srcs/new_export_env.c \
+		srcs/export_utils.c \
+		srcs/fill_arg.c \
 
 OBJS = ${SRCS:.c=.o}
 

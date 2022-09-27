@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:55:38 by blevrel           #+#    #+#             */
-/*   Updated: 2022/09/13 15:33:27 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/27 10:03:30 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -21,7 +21,8 @@ void	get_env_variable(t_data *data, int *i, int *j, int cmd_i)
 	envp_i = 0;
 	envp_char_i = 0;
 	to_find = isolate_env_var(&data->parsing[cmd_i][*i]);
-	while (data->parsing[cmd_i][*i] && check_char(data->parsing[cmd_i][*i]) == 0)
+	while (data->parsing[cmd_i][*i]
+			&& check_char(data->parsing[cmd_i][*i]) == 0)
 		(*i)++;
 	while (data->envp[envp_i])
 	{

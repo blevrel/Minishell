@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/09/16 13:34:54 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/26 09:22:23 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -35,6 +35,7 @@ typedef struct s_cmd
 typedef struct s_data
 {
 	char	**envp;
+	char	**export;
 	char	**parsing;
 	char	*tokenized_str;
 	char	*arg;
@@ -53,6 +54,8 @@ int		check_nbpipe(char **argv);
 int		check_index_pipe(char **argv, int index_pipe);
 t_cmd	*init_simple_struct(t_data *data, int index_pipe);
 t_cmd	**init_struct_cmd(t_data *data);
+int		check_command(char *str);
+char	**sort_env(char **env);
 
 //REDIRECTION
 int		check_redirection(t_data *data);
@@ -67,6 +70,9 @@ void	signal_handler(void);
 int		ft_strchr_int(const char *s, int c);
 void	free_double_tab(char **tab);
 int		check_char(char c);
+void	swap_str(char **s1, char **s2);
+int		size_tab(char **tab);
+char	**cpy_tab(char **dest, char **src);
 
 //CHECK_PATH
 void	*cmd_not_found(char *cmd);
@@ -123,6 +129,7 @@ void	echo(t_cmd *data);
 void	pwd(void);
 void	env(char **env);
 void	directory(t_cmd *cmd,t_data *data); 
+void	ft_export(t_cmd *cmd, t_data *data);
 
 //PIPE
 int		check_pipe(t_data *data);
@@ -131,5 +138,17 @@ int		check_nbpipe(char **argv);
 void	check_dup_pipe_first(t_cmd *cmd, int **pipexfd, int i);
 void	check_dup_pipe_n(t_cmd *cmd, int **pipexfd, int i);
 void	check_dup_pipe_last(t_cmd *cmd, int **pipexfd, int i);
+
+//EXPORT
+char	**new_env_export(char **cmd, char **env);
+char	**new_export(t_cmd *cmd, t_data *data);
+char	**sort_env(char **env);
+void	print_export(char **print);
+int		search_env(char *str, char **env);
+char	**fill_new_export(char **new_export, t_cmd *cmd, t_data *data, int i);
+void	replace_value(char *str, int line, t_data *data);
+char	**replace_value_export(char *str, int line, char **export);
+int	search_new_env(char **cmd, char **env);
+int	check_value(char *str);
 
 #endif

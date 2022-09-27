@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 10:44:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/20 09:55:55 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/27 10:45:49 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	init_null_cmd(t_cmd *res)
 {
 	res->type = NULL;
 	res->file = NULL;
+	res->path = NULL;
+	res->limiter = NULL;
 }
 
 void	init_file(t_cmd *res, t_data *data, int i)
@@ -31,14 +33,14 @@ void	init_file(t_cmd *res, t_data *data, int i)
 		if (!res->cmd[0])
 			ft_printf("minishell: %s: no such file or directory\n");
 		else
-			ft_printf("%s: %s: no such file or directory\n", res->cmd[0], res->file);
+			ft_printf("%s: %s: no such file or directory\n",
+				res->cmd[0], res->file);
 	}
-		
 }
 
-char 	**check_limiter(char **cmd)
+char	**check_limiter(char **cmd)
 {
-	int	i;
+	int		i;
 	char	**res;
 	int		j;
 
@@ -65,16 +67,18 @@ char 	**check_limiter(char **cmd)
 	return (res);
 }
 
-void	init_simple_cmd(t_data *data, t_cmd *res, int i)
+t_cmd	*init_simple_cmd(t_data *data, int i)
 {
-	int	j;
+	int		j;
+	t_cmd	*res;
 
 	j = 0;
+	res = malloc(sizeof(t_cmd));
 	res->cmd = malloc((nb_cmd(data->parsing, i) + 1) * sizeof(char *));
 	if (!res->cmd)
 	{
 		ft_putstr_fd("error malloc", 2);
-		return ;
+		return (NULL);
 	}
 	init_null_cmd(res);
 	res->limiter = check_limiter(data->parsing);
@@ -89,6 +93,7 @@ void	init_simple_cmd(t_data *data, t_cmd *res, int i)
 			res->cmd[j++] = ft_strdup(data->parsing[i++]);
 	}
 	res->cmd[j] = NULL;
+	return (res);
 }
 
 t_cmd	*init_simple_struct(t_data *data, int index_pipe)
@@ -97,10 +102,15 @@ t_cmd	*init_simple_struct(t_data *data, int index_pipe)
 	int		i;
 
 	i = check_index_pipe(data->parsing, index_pipe);
-	res = malloc(sizeof(t_cmd));
-	init_simple_cmd(data, res, i);
+	res = init_simple_cmd(data, i);
 	if (!res->cmd)
 		return (NULL);
+	res->path = check_path(data->parsing[0], data->envp);
+	if (!cmd_pipe[i]->path && check_command(cmd_pipe[i]->cmd[0]) != 1)
+	{
+		ft_printf("%s : command not found\n", cmd_pipe[i]->cmd[0]);
+		return (NULL);
+	}
 	return (res);
 }
 
@@ -124,12 +134,7 @@ t_cmd	**init_struct_cmd(t_data *data)
 		cmd_pipe[i] = init_simple_struct(data, i);
 		if (cmd_pipe[i] == NULL)
 			return (NULL);
-		cmd_pipe[i]->path = check_path(cmd_pipe[i]->cmd[0], data->envp);
-		if(!cmd_pipe[i]->path && check_redirection_pipe(cmd_pipe[i]->cmd[0]) != 1)
-		{
-			ft_printf("%s : command not found\n", cmd_pipe[i]->cmd[0]);
-			return (NULL);
-		}
+		
 		i++;
 		--nb_pipe;
 	}
