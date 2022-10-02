@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/09/27 14:44:41 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/30 19:03:23 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -29,7 +29,7 @@ typedef struct s_cmd
 	char	*path;
 	char	*type;
 	char	*file;
-	char 	**limiter;
+	char	**limiter;
 }			t_cmd;
 
 typedef struct s_data
@@ -70,11 +70,14 @@ void	signal_handler(void);
 
 //UTILS
 int		ft_strchr_int(const char *s, int c);
+int		ft_strnchr_int(const char *s, int c, int size);
 void	free_double_tab(char **tab);
 int		check_char(char c);
 void	swap_str(char **s1, char **s2);
 int		size_tab(char **tab);
 char	**cpy_tab(char **dest, char **src);
+int		check_only_space_before_index(int limit, char *str);
+int		check_space_before_index(int limit, char *str);
 
 //CHECK_PATH
 void	*cmd_not_found(char *cmd);
@@ -85,7 +88,8 @@ int		check_closing_quotes(char *str);
 void	fill_cmd_quotes(char *arg, int *i, char *cmd, int c);
 char	**check_arg(char **cmd, char c);
 void	fill_cmd_tab(char *arg, int *i, char *cmd, int *trigger);
-void	fill_cmd_space(char *arg, int *i, int *trigger);
+void	fill_cmd_space_and_env_var(char *arg, int *i, int *trigger, char *cmd);
+void	fill_cmd_env_var(char *arg, int *i, char *cmd, int not_first_arg);
 void	fill_cmd_redirection(char *arg, int *i, char *cmd, int *j);
 char	last_non_spc_char(int i, char *str);
 char	next_non_spc_char(int i, char *str);
@@ -97,6 +101,9 @@ int		allocate_cmd_with_quotes(int *i, char *arg, int *trigger, int c);
 int		alloc_multitab(char *arg, int *i, int *size);
 void	allocate_cmd(char *arg, char **cmd, int tab_size);
 int		get_cmd_tab_size(char *arg);
+void	get_size_with_sep_and_env_var(char *arg, int *i, int *count);
+void	get_size_with_env_var(char *arg, int *i, int *count);
+int		env_var_as_first_arg(char *arg, int *i, int size);
 int		parsing_with_quotes(char *arg, int *i, int *not_first_arg,
 			int c);
 int		parsing_with_redirection(char *arg, int *i, int *not_first_arg,
@@ -105,7 +112,7 @@ int		parsing_with_space(char *arg, int *i, int *not_first_arg,
 			int *trigger);
 int		parsing_with_quotes_first_arg(char *arg, int *i, int size,
 			int *not_first_arg);
-int		reset_statics(int *i, int *trigger, int size);
+int		reset_statics(int *i, int *j, int size, int trigger);
 
 //TOKENIZING
 void	tokenize(t_data *data);
@@ -119,6 +126,14 @@ void	fill_tokenized_cmd_with_quotes(t_data *data, int *i, int *j,
 void	fill_single_quotes(t_data *data, int *i, int *j, int cmd_index);
 void	fill_double_quotes(t_data *data, int *i, int *j, int cmd_index);
 void	fill_env_variable(t_data *data, int *j, char *env_var_line);
+void	add_space_to_parsing(char *cmd, char *arg, int i);
+char	*ft_strdup_add_space(const char *s);
+int		ft_strstr_index(char *big, char *little);
+int		index_forward(char *big, int *i, int trigger);
+int		index_after_env_var(char *big, int *i, int *temp, int *original_index);
+void	index_after_quote_with_env_var(char *big, int *i);
+int		check_env_var(char *str, char **env);
+int		env_var_not_found(int *original_index, int *i, char *big);
 
 //QUOTES
 int		get_quote_modif_size(char *cmd, char **envp, int *i);
@@ -130,7 +145,9 @@ int		check_builtin(t_cmd *cmd, t_data *data);
 void	echo(t_cmd *data);
 void	pwd(void);
 void	env(char **env);
-void	directory(t_cmd *cmd,t_data *data); 
+void	ft_exit(t_data *data);
+void	check_exit_arg(char **args, int *exit_arg);
+void	directory(t_cmd *cmd, t_data *data);
 void	ft_export(t_cmd *cmd, t_data *data);
 void	unset(t_cmd *cmd, t_data *data);
 
@@ -155,8 +172,8 @@ int		search_new_env(char **cmd, char **env);
 int		check_value(char *str);
 
 //UNSET
-int	check_unset(char *str, char **env);
-char **new_tab(int i, char **src);
+int		check_unset(char *str, char **env);
+char	**new_tab(int i, char **src);
 
 //FREE
 void	free_parsing(t_data *data);

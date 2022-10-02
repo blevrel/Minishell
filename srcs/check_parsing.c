@@ -61,12 +61,14 @@ char	next_non_spc_char(int i, char *str)
 int	check_char(char c)
 {
 	if (c == 34)
-		return (-1);
-	if (c == 39)
 		return (-2);
+	if (c == 39)
+		return (-3);
 	if (c == '<' || c == '>' || c == '|')
 		return (2);
 	if ((c >= 9 && c <= 13) || c == ' ')
 		return (1);
+	if (c == '$')
+		return (-1);
 	return (0);
 }

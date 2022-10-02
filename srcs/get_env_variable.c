@@ -6,34 +6,33 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:55:38 by blevrel           #+#    #+#             */
-/*   Updated: 2022/09/27 10:03:30 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/29 14:55:44 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-void	get_env_variable(t_data *data, int *i, int *j, int cmd_i)
+void	get_env_variable(t_data *data, int *i, int *j, int cm_i)
 {
 	char	*to_find;
 	int		envp_i;
 	int		envp_char_i;
 
 	(*i)++;
-	envp_i = 0;
 	envp_char_i = 0;
-	to_find = isolate_env_var(&data->parsing[cmd_i][*i]);
-	while (data->parsing[cmd_i][*i]
-			&& check_char(data->parsing[cmd_i][*i]) == 0)
+	to_find = isolate_env_var(&data->parsing[cm_i][*i]);
+	if (!to_find)
+		return ;
+	while (data->parsing[cm_i][*i] && check_char(data->parsing[cm_i][*i]) == 0)
 		(*i)++;
-	while (data->envp[envp_i])
+	envp_i = check_env_var(to_find, data->envp);
+	if (envp_i > 0)
 	{
-		if (ft_strncmp(data->envp[envp_i], to_find, ft_strlen(to_find)) == 0)
-		{
-			while (data->envp[envp_i][envp_char_i] != '=')
-				envp_char_i++;
-			fill_env_variable(data, j, &data->envp[envp_i][envp_char_i + 1]);
-			return ;
-		}
-		envp_i++;
+		while (data->envp[envp_i][envp_char_i] != '=')
+			envp_char_i++;
+		fill_env_variable(data, j, &data->envp[envp_i][envp_char_i + 1]);
+		if (data->parsing[cm_i][*i] == '$')
+			get_env_variable(data, i, j, cm_i);
+		return ;
 	}
 }
 
@@ -53,18 +52,28 @@ void	fill_env_variable(t_data *data, int *j, char *env_var_line)
 char	*isolate_env_var(char *cmd)
 {
 	int		i;
+	int		j;
 	char	*to_find;
 
 	i = 0;
+	j = 0;
+	if (!cmd[i] || check_char(cmd[i] != 0))
+		return (NULL);
 	while (cmd[i] && check_char(cmd[i]) == 0)
 		i++;
-	to_find = ft_calloc(sizeof(char), (i + 1));
+	to_find = ft_calloc(sizeof(char), (i + 2));
+	if (!to_find)
+		return (NULL);
 	i = 0;
+	if (cmd[i] == '$')
+		i++;
 	while (cmd[i] && check_char(cmd[i]) == 0)
 	{
-		to_find[i] = cmd[i];
+		to_find[j] = cmd[i];
 		i++;
+		j++;
 	}
+	to_find[j] = '=';
 	return (to_find);
 }
 

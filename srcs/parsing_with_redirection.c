@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 10:59:29 by blevrel           #+#    #+#             */
-/*   Updated: 2022/09/02 16:28:15 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/09/30 18:27:52 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -21,7 +21,7 @@ int	parsing_with_redirection(char *arg, int *i, int *not_first_arg,
 	{
 		while (check_char(arg[*i]) == 2)
 		{
-			*i += 1;
+			(*i)++;
 			size_loc++;
 		}
 		*not_first_arg = 1;
@@ -36,8 +36,8 @@ void	fill_cmd_redirection(char *arg, int *i, char *cmd, int *j)
 		while (check_char(arg[*i]) == 2)
 		{
 			cmd[*j] = arg[*i];
-			*i += 1;
-			*j += 1;
+			(*i)++;
+			(*j)++;
 			if (!arg[*i])
 			{
 				*i = 0;

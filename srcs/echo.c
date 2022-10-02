@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:48:53 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/27 16:33:28 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/09/29 11:11:25 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	echo(t_cmd *data)
 	else
 	{
 		i = 1;
-		while (data->cmd != NULL && check_print_end(data->cmd[i]) != 1)
+		while (data->cmd[i] != NULL && check_print_end(data->cmd[i]) != 1)
 			ft_printf("%s", data->cmd[i++]);
 		ft_printf("\n");
 	}

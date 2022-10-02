@@ -6,10 +6,30 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/09/27 15:17:17 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/02 14:04:57 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
+
+char	**remove_first_arg(t_data *data)
+{
+	int		i;
+	char	**new_parsing_tab;
+
+	i = 0;
+	if (data->parsing[0][0])
+		return (data->parsing);
+	new_parsing_tab = ft_calloc(sizeof(char *), size_tab(data->parsing));
+	if (!new_parsing_tab)
+		return (NULL);
+	while (data->parsing[i + 1])
+	{
+		new_parsing_tab[i] = ft_strdup(data->parsing[i + 1]);
+		i++;
+	}
+	free_double_tab(data->parsing);
+	return (new_parsing_tab);
+}
 
 void	init_cmd(t_data *data)
 {
@@ -22,6 +42,14 @@ void	init_cmd(t_data *data)
 	if (!data)
 		return ;
 	tokenize(data);
+	if (next_non_spc_char(0, data->arg) != 34
+		&& next_non_spc_char(0, data->arg) != 39)
+		data->parsing = remove_first_arg(data);
+	if (ft_strcmp(data->parsing[0], "exit") == 0)
+	{
+		ft_exit(data);
+		return ;
+	}
 	data->cmd = init_struct_cmd(data);
 	if (data->cmd == NULL)
 		return ;
@@ -38,7 +66,15 @@ void	routine(t_data *data)
 		if (data->arg && data->arg[0])
 			add_history(data->arg);
 		if (data->arg == NULL)
-			exit(printf("\n"));
+		{
+			ft_printf("exit\n");
+			exit(0);
+		}
+		if (check_only_space_before_index(ft_strlen(data->arg), data->arg) == 1)
+		{
+			free(data->arg);
+			continue ;
+		}
 		if (data->arg[0])
 			init_cmd(data);
 		free_data(data);

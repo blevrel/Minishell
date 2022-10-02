@@ -1,41 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_quotes.c                                     :+:      :+:    :+:   */
+/*   check_space_before_index.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/23 12:57:51 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/02 14:06:22 by blevrel          ###   ########.fr       */
+/*   Created: 2022/09/30 16:35:34 by blevrel           #+#    #+#             */
+/*   Updated: 2022/09/30 19:02:59 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-int	check_closing_quotes(char *str)
+int	check_only_space_before_index(int limit, char *str)
 {
-	int		i;
-	char	quote;
+	int	i;
 
 	i = 0;
-	while (str[i])
+	while (check_char(str[i]) == 1 && i < limit)
+		i++;
+	if (i == limit)
+		return (1);
+	return (0);
+}
+
+int	check_space_before_index(int limit, char *str)
+{
+	int	i;
+
+	i = 0;
+	while (i < limit)
 	{
-		if (ft_strchr_int(&str[i], '"') == 0
-			&& ft_strchr_int(&str[i], '\'') == 0)
-			return (0);
-		if (str[i] == '"' || str[i] == '\'')
-		{
-			quote = str[i++];
-			while (str[i] && str[i] != quote)
-				i++;
-			if (str[i] == quote)
-			{
-				i++;
-				if (!str[i])
-					return (0);
-			}
-		}
-		else if (str[i])
-			i++;
+		if (check_char(str[i]) == 1)
+			return (1);
+		i++;
 	}
-	return (1);
+	return (0);
 }

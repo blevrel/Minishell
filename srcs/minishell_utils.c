@@ -12,25 +12,6 @@
 
 #include "minishell.h"
 
-char	**check_arg(char **cmd, char c)
-{
-	int		i;
-	char	**res;
-
-	i = 0;
-	while (cmd[i] != NULL && cmd[i][0] != c)
-		++i;
-	res = malloc((i + 1) * sizeof(char *));
-	i = 0;
-	while (cmd[i] != NULL && cmd[i][0] != c)
-	{
-		res[i] = ft_strdup(cmd[i]);
-		++i;
-	}
-	res[i] = NULL;
-	return (res);
-}
-
 int	ft_strchr_int(const char *s, int c)
 {
 	int		index;
@@ -39,6 +20,22 @@ int	ft_strchr_int(const char *s, int c)
 	index = 0;
 	count = 0;
 	while (s[index])
+	{
+		if (s[index] == (unsigned char)c)
+			count++;
+		index++;
+	}
+	return (count);
+}
+
+int	ft_strnchr_int(const char *s, int c, int size)
+{
+	int		index;
+	int		count;
+
+	index = 0;
+	count = 0;
+	while (s[index] && index < size)
 	{
 		if (s[index] == (unsigned char)c)
 			count++;
