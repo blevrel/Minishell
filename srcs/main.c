@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/02 14:04:57 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/11 10:24:41 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -38,13 +38,13 @@ void	init_cmd(t_data *data)
 		printf("Missing_quote\n");
 		return ;
 	}
-	parsing_arg(data);
-	if (!data)
+	data->parsing = alloc_final_tab(data);
+	if (!data->parsing)
 		return ;
-	tokenize(data);
-	if (next_non_spc_char(0, data->arg) != 34
+	data->parsing = tokenizing(data);
+	/*if (next_non_spc_char(0, data->arg) != 34
 		&& next_non_spc_char(0, data->arg) != 39)
-		data->parsing = remove_first_arg(data);
+		data->parsing = remove_first_arg(data);*/
 	if (ft_strcmp(data->parsing[0], "exit") == 0)
 	{
 		ft_exit(data);
@@ -69,11 +69,6 @@ void	routine(t_data *data)
 		{
 			ft_printf("exit\n");
 			exit(0);
-		}
-		if (check_only_space_before_index(ft_strlen(data->arg), data->arg) == 1)
-		{
-			free(data->arg);
-			continue ;
 		}
 		if (data->arg[0])
 			init_cmd(data);

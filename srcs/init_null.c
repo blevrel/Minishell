@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 14:29:35 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/27 16:28:51 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/11 10:01:01 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	init_data(t_data *data, char **env)
 	data->export = dup_dp(env);
 	data->export = sort_env(data->export);
 	data->parsing = NULL;
-	data->tokenized_str = NULL;
 	data->arg = NULL;
 	data->son = NULL;
 	data->cmd = NULL;

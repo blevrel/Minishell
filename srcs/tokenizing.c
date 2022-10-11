@@ -3,97 +3,108 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/20 15:51:21 by blevrel           #+#    #+#             */
-/*   Updated: 2022/09/20 11:15:53 by blevrel          ###   ########.fr       */
+/*   Created: 2022/10/07 11:42:21 by pirabaud          #+#    #+#             */
+/*   Updated: 2022/10/11 10:04:33 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
-/*
-trouver un moyen de laisser un repere pour que les redirections entre
-quotes ne soient pas interpretées.
-*/
 
-void	tokenize(t_data *data)
+void	move_indextoenv(char *str, int *i)
 {
-	int			size;
-	int			i;
-
-	size = 0;
-	i = 0;
-	while (data->parsing[i])
+	if (!str)
+		return ;
+	if (str[*i] == '$')
+		(*i)++;
+	while (str[*i])
 	{
-		if (!(ft_strchr_int(data->parsing[i], 39) == 0
-				&& ft_strchr_int(data->parsing[i], 34) == 0
-				&& ft_strchr_int(data->parsing[i], '$') == 0))
-		{
-			size += get_tokenizing_size(data->parsing[i], data->envp);
-			fill_new_cmd(data, size, i);
-			if (data->parsing[i])
-			{
-				free(data->parsing[i]);
-				data->parsing[i] = NULL;
-			}
-			data->parsing[i] = ft_strdup_add_space(data->tokenized_str);
-		}
-		add_space_to_parsing(data->parsing[i], data->arg, i);
-		i++;
+		if (str[*i] == '$' || check_char(&str[*i]) != 0)
+			return ;
+		(*i)++;
 	}
 }
 
-int	get_tokenizing_size(char *cmd, char **envp)
+void	move_index_after_quote(char *str, int *i, int quote)
 {
+	if (!str)
+		return ;
+	while (str[*i] != quote)
+		(*i)++;
+	if (str[*i])
+		(*i)++;
+}
+
+void	fill_tokenized_with_quote(char **envp, char *res, char *src, int quote)
+{
+	int	j;
 	int	i;
-	int	size;
-
-	i = 0;
-	size = 0;
-	while (cmd[i])
-	{
-		if (cmd[i] == 34 || cmd[i] == 39)
-			size += get_quote_modif_size(cmd, envp, &i);
-		else if (cmd[i] == '$')
-		{
-			size += get_env_variable_size(&cmd[i + 1], envp);
-			i++;
-			while (cmd[i] && check_char(cmd[i]) >= 0)
-				i++;
-		}
-		else
-		{
-			size++;
-			i++;
-		}
-	}
-	return (size);
-}
-
-void	fill_new_cmd(t_data *data, int size, int cmd_index)
-{
-	int		i;
-	int		j;
 
 	i = 0;
 	j = 0;
-	data->tokenized_str = ft_calloc(size + 1, sizeof(char));
-	while (data->parsing[cmd_index][i])
+	while (src[i] != quote)
 	{
-		if (data->parsing[cmd_index][i] == 34
-			|| data->parsing[cmd_index][i] == 39)
-			fill_tokenized_cmd_with_quotes(data, &i, &j, cmd_index);
-		else if (data->parsing[cmd_index][i] == '$')
+		if (quote == 34 && src[i] == '$' && src[i + 1] != '$')
 		{
-			get_env_variable(data, &i, &j, cmd_index);
-			while (data->parsing[cmd_index][i]
-				&& check_char(data->parsing[cmd_index][i]) >= -1)
-				i++;
+			fill_env(res, src, envp, &j);
+			move_indextoenv(src, &i);
 		}
 		else
 		{
-			data->tokenized_str[j] = data->parsing[cmd_index][i];
+			res[j] = src[i];
 			j++;
 			i++;
 		}
 	}
+	res[j] = '\0';
+}
+
+void	tokenize_arg(char *res, char *src, t_data *data)
+{
+	int		i;
+	int		quote;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (src[i])
+	{
+		if (check_char(&src[i]) < 0)
+		{
+			quote = src[i++];
+			fill_tokenized_with_quote(data->envp, &res[j], &src[i], quote);
+			j = ft_strlen(res);
+			move_index_after_quote(src, &i, quote);
+		}
+		else if (src[i] == '$' && src[i + 1] != '$')
+		{
+			fill_env(res, src, data->envp, &j);
+			move_indextoenv(src, &i);
+		}
+		else
+			res[j++] = src[i++];
+	}
+	res[j] = '\0';
+}
+
+char	**tokenizing(t_data *data)
+{
+	char	**res;
+	int		i;
+
+	i = 0;
+	res = malloc((size_tab(data->parsing) + 1) * sizeof (char *));
+	if (!res)
+		return (NULL);
+	while (data->parsing[i] != NULL)
+	{
+		res[i] = malloc((size_tokenize(data->parsing[i], data->envp) + 1)
+				* sizeof(char));
+		if (verif_malloc_arr(res, i) == 1)
+			return (NULL);
+		tokenize_arg(res[i], data->parsing[i], data);
+		i++;
+	}
+	res[i] = NULL;
+	return (res);
 }

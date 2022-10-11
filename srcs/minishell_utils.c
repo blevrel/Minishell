@@ -6,10 +6,9 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:42:14 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/27 16:35:04 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/10 10:52:10 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 
 int	ft_strchr_int(const char *s, int c)
@@ -20,22 +19,6 @@ int	ft_strchr_int(const char *s, int c)
 	index = 0;
 	count = 0;
 	while (s[index])
-	{
-		if (s[index] == (unsigned char)c)
-			count++;
-		index++;
-	}
-	return (count);
-}
-
-int	ft_strnchr_int(const char *s, int c, int size)
-{
-	int		index;
-	int		count;
-
-	index = 0;
-	count = 0;
-	while (s[index] && index < size)
 	{
 		if (s[index] == (unsigned char)c)
 			count++;

@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/09/30 19:03:23 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/11 10:41:02 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -37,7 +37,6 @@ typedef struct s_data
 	char	**envp;
 	char	**export;
 	char	**parsing;
-	char	*tokenized_str;
 	char	*arg;
 	pid_t	*son;
 	t_cmd	**cmd;
@@ -60,7 +59,7 @@ void	init_null_cmd(t_cmd *res);
 void	init_data(t_data *data, char **env);
 
 //REDIRECTION
-int		check_redirection(t_data *data);
+int		check_redirection(char *str);
 void	here_doc(t_cmd *cmd, char **env);
 void	here_doc_pipe(t_cmd *cmd, int **pippexfd, char **env, int i);
 
@@ -69,10 +68,11 @@ void	catch_signal(int signal);
 void	signal_handler(void);
 
 //UTILS
+int		verif_malloc_arr(char **arr, int line);
 int		ft_strchr_int(const char *s, int c);
 int		ft_strnchr_int(const char *s, int c, int size);
 void	free_double_tab(char **tab);
-int		check_char(char c);
+int		check_char(char *str);
 void	swap_str(char **s1, char **s2);
 int		size_tab(char **tab);
 char	**cpy_tab(char **dest, char **src);
@@ -83,62 +83,35 @@ int		check_space_before_index(int limit, char *str);
 void	*cmd_not_found(char *cmd);
 char	*check_path(char *cmd, char **env);
 
-//PARSING
-int		check_closing_quotes(char *str);
-void	fill_cmd_quotes(char *arg, int *i, char *cmd, int c);
-char	**check_arg(char **cmd, char c);
-void	fill_cmd_tab(char *arg, int *i, char *cmd, int *trigger);
-void	fill_cmd_space_and_env_var(char *arg, int *i, int *trigger, char *cmd);
-void	fill_cmd_env_var(char *arg, int *i, char *cmd, int not_first_arg);
-void	fill_cmd_redirection(char *arg, int *i, char *cmd, int *j);
-char	last_non_spc_char(int i, char *str);
-char	next_non_spc_char(int i, char *str);
-char	last_diff_and_non_spc_char(int i, char *str);
-void	parsing_arg(t_data *data);
-void	cmd_tab_size_quotes(int *i, char *arg, int c);
-void	fill_cmd_tab_with_quotes(int *i, char *arg, char *cmd, int c);
-int		allocate_cmd_with_quotes(int *i, char *arg, int *trigger, int c);
-int		alloc_multitab(char *arg, int *i, int *size);
-void	allocate_cmd(char *arg, char **cmd, int tab_size);
-int		get_cmd_tab_size(char *arg);
-void	get_size_with_sep_and_env_var(char *arg, int *i, int *count);
-void	get_size_with_env_var(char *arg, int *i, int *count);
-int		env_var_as_first_arg(char *arg, int *i, int size);
-int		parsing_with_quotes(char *arg, int *i, int *not_first_arg,
-			int c);
-int		parsing_with_redirection(char *arg, int *i, int *not_first_arg,
-			int size);
-int		parsing_with_space(char *arg, int *i, int *not_first_arg,
-			int *trigger);
-int		parsing_with_quotes_first_arg(char *arg, int *i, int size,
-			int *not_first_arg);
-int		reset_statics(int *i, int *j, int size, int trigger);
-
-//TOKENIZING
-void	tokenize(t_data *data);
-int		get_tokenizing_size(char *cmd, char **envp);
+//PARSING / TOKENIZING
+char	**alloc_final_tab(t_data *data);
+char	**fill_final_tab(char **final_tab, t_data *data, int *i, int *j);
+int		check_size_first_arg(char *arg, int i);
+int		alloc_with_quotes(char **final_tab, char *arg, int *i, int *j);
+int		alloc_until_pipe(char **final_tab, char *arg, int i, int j);
+int		go_to_first_arg(char *arg, int *i);
+int		count_arg(char *arg, int *i);
+int		nb_arg(char *arg);
+int		count_size_first_arg(char *arg);
+int		count_size_arg(char *arg, int value);
+void	fill_arg(char *final_tab, char *arg, int *i, int value);
+int		fill_until_pipe(char **final_tab, char *arg, int *i, int *j);
+char	*alloc_first_arg(char *arg, int *i);
+char	*fill_first_arg(char *arg, char *res, int *i, int *j);
+int		size_tokenize(char *src, char **env);
+char	**tokenizing(t_data *data);
+int		check_quote(char *arg, int *i);
+int		check_closing_quotes(char *arg);
+int		size_in_quote(char *str, int *i, int quote, char **env);
+int		size_tokenize(char *src, char **env);
+void	fill_tokenized_with_quote(char **envp, char *res, char *src, int quote);
+void	tokenize_arg(char *res, char *src, t_data *data);
+int		size_env(char *str);
 char	*isolate_env_var(char *cmd);
-int		get_env_variable_size(char *to_find, char **envp);
-void	get_env_variable(t_data *data, int *i, int *j, int cmd_index);
-void	fill_new_cmd(t_data *data, int size, int cmd_index);
-void	fill_tokenized_cmd_with_quotes(t_data *data, int *i, int *j,
-			int cmd_index);
-void	fill_single_quotes(t_data *data, int *i, int *j, int cmd_index);
-void	fill_double_quotes(t_data *data, int *i, int *j, int cmd_index);
-void	fill_env_variable(t_data *data, int *j, char *env_var_line);
-void	add_space_to_parsing(char *cmd, char *arg, int i);
-char	*ft_strdup_add_space(const char *s);
-int		ft_strstr_index(char *big, char *little);
-int		index_forward(char *big, int *i, int trigger);
-int		index_after_env_var(char *big, int *i, int *temp, int *original_index);
-void	index_after_quote_with_env_var(char *big, int *i);
-int		check_env_var(char *str, char **env);
-int		env_var_not_found(int *original_index, int *i, char *big);
-
-//QUOTES
-int		get_quote_modif_size(char *cmd, char **envp, int *i);
-int		get_single_quote_size(char *cmd, int *i);
-int		get_double_quote_size(char *cmd, int *i, char **emvp);
+int		get_env_variable_size(char *cmd, char **envp);
+void	fill_env(char *res, char *str, char **env, int *j);
+void	move_indextoenv(char *str, int *i);
+void	move_index_after_quote(char *str, int *i, int quote);
 
 //BUILTIN
 int		check_builtin(t_cmd *cmd, t_data *data);

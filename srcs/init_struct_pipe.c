@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 10:44:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/29 15:44:55 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/10 10:40:28 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_cmd	*init_simple_cmd(t_data *data, int i)
 	res->limiter = check_limiter(data->parsing);
 	while (data->parsing[i] != NULL && ft_strcmp(data->parsing[i], "|"))
 	{
-		if (check_redirection_pipe(data->parsing[i]) == 1)
+		if (check_redirection(data->parsing[i]) == 1)
 		{
 			init_file(res, data, i);
 			i = i + 2;
@@ -100,7 +100,7 @@ t_cmd	*init_simple_struct(t_data *data, int index_pipe)
 	res->path = check_path(data->parsing[i], data->envp);
 	if (!res->path && check_command(data->parsing[i]) != 1)
 	{
-		ft_printf("%s : command not found\n", res->cmd[0]);
+		ft_printf("%s: command not found\n", res->cmd[0]);
 		return (NULL);
 	}
 	return (res);

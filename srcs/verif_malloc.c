@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_parsing_utils.c                                :+:      :+:    :+:   */
+/*   verif_malloc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/29 14:52:40 by blevrel           #+#    #+#             */
-/*   Updated: 2022/09/29 14:54:13 by blevrel          ###   ########.fr       */
+/*   Created: 2022/10/10 10:52:18 by blevrel           #+#    #+#             */
+/*   Updated: 2022/10/10 11:06:31 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-int	check_env_var(char *str, char **env)
+int	verif_malloc_arr(char **arr, int line)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (str[i] && str[i] != '=')
-		++i;
-	if (str[i] != '=')
-		return (-1);
-	while (env[j] != NULL)
+	if (!arr)
 	{
-		if (ft_strncmp(str, env[j], i + 1) == 0)
-			return (j);
-		++j;
+		ft_putstr_fd("Malloc failed\n", 2);
+		return (1);
 	}
-	return (-1);
+	if (!arr[line])
+	{
+		ft_putstr_fd("Malloc failed\n", 2);
+		free_double_tab(arr);
+		return (1);
+	}
+	return (0);
 }

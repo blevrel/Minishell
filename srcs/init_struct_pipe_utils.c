@@ -6,24 +6,24 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 09:47:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/27 16:37:15 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/10 09:40:23 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_redirection_pipe(char *str)
+int	check_redirection(char *str)
 {
-	if (ft_strcmp(str, "<") == 0)
+	if (ft_strncmp(str, "<", 1) == 0)
 		return (1);
-	else if (ft_strcmp(str, ">") == 0)
-	{
+	else if (ft_strncmp(str, ">", 1) == 0)
 		return (1);
-	}
-	else if (ft_strcmp(str, ">>") == 0)
+	else if (ft_strncmp(str, ">>", 2) == 0)
 		return (1);
-	if (ft_strcmp(str, "<<") == 0)
+	else if (ft_strncmp(str, "<<", 2) == 0)
 		return (1);
+	else if (ft_strncmp(str, "|", 1) == 0)
+		return (2);
 	else
 		return (0);
 }
@@ -69,7 +69,7 @@ int	nb_cmd(char **argv, int i)
 	res = 0;
 	while (argv[i] != NULL && ft_strcmp(argv[i], "|"))
 	{
-		if (check_redirection_pipe(argv[i]) == 1
+		if (check_redirection(argv[i]) == 1
 			&& ft_strcmp(argv[i], "<<") == 0)
 				i = i + 2;
 		else
