@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 14:41:36 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/11 10:24:59 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/11 14:00:40 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -37,7 +37,7 @@ int	fill_pipe(t_data *data, char **final_tab, int *i, int *j)
 {		
 	final_tab[*j] = malloc((count_size_arg(&data->arg[*i], 3) + 1)
 			* sizeof(char));
-	if (verif_malloc_arr(final_tab, *j) == 1)
+	if (verif_malloc_str(final_tab, *j) == 1)
 		return (1);
 	fill_arg(final_tab[(*j)++], data->arg, i, 3);
 	return (0);
@@ -52,7 +52,7 @@ char	**alloc_final_tab(t_data *data)
 	i = 0;
 	j = 0;
 	final_tab = malloc((nb_arg(data->arg) + 1) * sizeof (char *));
-	if (verif_malloc_arr(final_tab, 0) == 1)
+	if (verif_malloc_arr(final_tab) == 1)
 		return (NULL);
 	final_tab = fill_final_tab(final_tab, data, &i, &j);
 	return (final_tab);

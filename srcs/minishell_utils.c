@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:42:14 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/10 10:52:10 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/11 13:35:06 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -32,6 +32,8 @@ void	free_double_tab(char **tab)
 	int	i;
 
 	i = 0;
+	if (!tab)
+		return ;
 	while (tab[i])
 	{
 		free(tab[i]);

@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:34:33 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/11 10:40:08 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/11 13:44:51 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -54,7 +54,7 @@ int	alloc_with_quotes(char **final_tab, char *arg, int *i, int *j)
 	if (count != 1)
 	{
 		final_tab[*j] = malloc((count + 2) * sizeof(char));
-		if (verif_malloc_arr(final_tab, *j) == 1)
+		if (verif_malloc_str(final_tab, *j) == 1)
 			return (1);
 		(*j)++;
 	}
@@ -73,7 +73,7 @@ int	alloc_until_pipe(char **final_tab, char *arg, int i, int j)
 		{
 			final_tab[j] = malloc((count_size_arg(&arg[i], 2) + 1)
 					* sizeof(char));
-			if (verif_malloc_arr(final_tab, j++) == 1)
+			if (verif_malloc_str(final_tab, j++) == 1)
 				return (1);
 			while (check_char(&arg[i]) == 2)
 				i++;
@@ -82,7 +82,7 @@ int	alloc_until_pipe(char **final_tab, char *arg, int i, int j)
 		{
 			final_tab[j] = malloc((count_size_arg(&arg[i], 0) + 1)
 					* sizeof(char));
-			if (verif_malloc_arr(final_tab, j++) == 1)
+			if (verif_malloc_str(final_tab, j++) == 1)
 				return (1);
 			while (arg[i] && check_char(&arg[i]) == 0)
 				i++;

@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 16:34:01 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/11 11:40:29 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/11 15:40:13 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	here_doc(t_cmd *cmd, char **env)
 	son = fork();
 	if (son == 0)
 	{
-		signal_handler();
 		fd = open ("here_doc", O_RDONLY);
 		dup2(fd, 0);
 		close(fd);

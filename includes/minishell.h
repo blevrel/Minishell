@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/11 10:41:02 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/11 14:05:24 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -68,7 +68,8 @@ void	catch_signal(int signal);
 void	signal_handler(void);
 
 //UTILS
-int		verif_malloc_arr(char **arr, int line);
+int		verif_malloc_arr(char **arr);
+int		verif_malloc_str(char **arr, int line);
 int		ft_strchr_int(const char *s, int c);
 int		ft_strnchr_int(const char *s, int c, int size);
 void	free_double_tab(char **tab);

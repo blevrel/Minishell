@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:42:21 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/11 10:04:33 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/11 13:59:23 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -94,13 +94,13 @@ char	**tokenizing(t_data *data)
 
 	i = 0;
 	res = malloc((size_tab(data->parsing) + 1) * sizeof (char *));
-	if (!res)
+	if (verif_malloc_arr(res))
 		return (NULL);
 	while (data->parsing[i] != NULL)
 	{
 		res[i] = malloc((size_tokenize(data->parsing[i], data->envp) + 1)
 				* sizeof(char));
-		if (verif_malloc_arr(res, i) == 1)
+		if (verif_malloc_str(res, i) == 1)
 			return (NULL);
 		tokenize_arg(res[i], data->parsing[i], data);
 		i++;

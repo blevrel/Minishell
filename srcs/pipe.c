@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 10:22:53 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/19 10:50:47 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/12 13:23:24 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	fi_pipe(t_data *data)
 		if (execve(data->cmd[0]->path, data->cmd[0]->cmd, data->envp) == -1)
 			exit(2);
 	}
-	waitpid(data->son[0], NULL, 0);
 }
 
 void	n_pipe(t_data *data, int i)
@@ -45,7 +44,6 @@ void	n_pipe(t_data *data, int i)
 			here_doc_pipe(data->cmd[0], data->pipexfd, data->envp, i);
 			exit(1);
 		}
-		waitpid(data->son[i - 1], NULL, 0);
 		close(data->pipexfd[i][0]);
 		close(data->pipexfd[i - 1][1]);
 		check_dup_pipe_n(data->cmd[i], data->pipexfd, i);
@@ -80,7 +78,6 @@ void	l_pipe(t_data *data, int i)
 	}
 	close(data->pipexfd[i - 1][1]);
 	close(data->pipexfd[i - 1][0]);
-	waitpid(data->son[i], NULL, 0);
 }
 
 int	**malloc_pipe(int argc)
@@ -99,8 +96,10 @@ int	ft_pipe(t_data *data)
 {
 	int		nb_pipe;
 	int		i;
+	int		j;
 
 	i = 1;
+	j = 0;
 	nb_pipe = check_nbpipe(data->parsing);
 	if (!data->cmd)
 		return (1);
@@ -114,5 +113,8 @@ int	ft_pipe(t_data *data)
 		--nb_pipe;
 	}
 	l_pipe(data, i);
+	while (data->son[j] != 0)
+		waitpid(data->son[j++], NULL, 0);
 	return (0);
+	//return_value(data->son, data);
 }

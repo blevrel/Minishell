@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/11 10:24:41 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/11 14:04:21 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -20,7 +20,7 @@ char	**remove_first_arg(t_data *data)
 	if (data->parsing[0][0])
 		return (data->parsing);
 	new_parsing_tab = ft_calloc(sizeof(char *), size_tab(data->parsing));
-	if (!new_parsing_tab)
+	if (verif_malloc_arr(new_parsing_tab) == 1)
 		return (NULL);
 	while (data->parsing[i + 1])
 	{
@@ -79,13 +79,18 @@ void	routine(t_data *data)
 int	main(int argc, char **argv, char **env)
 {
 	t_data	*data;
-
+	char	*test;
 	if (argc != 1)
 	{
 		printf("Program takes no arguments\n");
 		return (0);
 	}
 	signal_handler();
+	test = malloc(10 * sizeof(char));
+	if (verif_malloc_str(&test, 0) == 1)
+		return (0);
+	else
+		printf("sa marche\n");
 	(void)argv;
 	data = malloc(sizeof(t_data));
 	if (!data)

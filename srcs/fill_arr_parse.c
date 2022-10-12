@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:40:20 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/11 11:39:40 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/11 14:06:08 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -84,7 +84,7 @@ char	*alloc_first_arg(char *arg, int *i)
 
 	j = 0;
 	res = malloc((count_size_first_arg(&arg[*i]) + 1) * sizeof(char));
-	if (verif_malloc_arr(&res, 0) == 1)
+	if (verif_malloc_str(&res, 0) == 1)
 		return (NULL);
 	while (arg[*i] && check_char(&arg[*i]) == 1)
 		(*i)++;
