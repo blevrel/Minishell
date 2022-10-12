@@ -37,13 +37,13 @@ char	*isolate_env_var(char *cmd)
 		return (NULL);
 	if (cmd[i] == '$' || cmd[i] == '\"')
 		i++;
-	while (cmd[i + j] && check_char(&cmd[i + j]) == 0)
+	while (cmd[i + j] && check_char(&cmd[i + j]) == 0 && cmd[i + j] != '$')
 		j++;
 	to_find = malloc(sizeof(char) * (j + 2));
 	if (!to_find)
 		return (NULL);
 	j = 0;
-	while (cmd[i] && check_char(&cmd[i]) == 0)
+	while (cmd[i] && check_char(&cmd[i]) == 0 && cmd[i] != '$')
 	{
 		to_find[j] = cmd[i];
 		i++;

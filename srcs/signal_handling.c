@@ -19,19 +19,28 @@ void	signal_handler(void)
 
 void	catch_signal(int signal)
 {
+
 	if (signal == SIGINT)
 	{
-		rl_on_new_line();
-		printf("\n");
-		rl_replace_line("", 0);
-		rl_redisplay();
-		return ;
-	}
-	if (signal == SIGQUIT)
-	{
-		printf("\b\b");
-		printf("  ");
-		printf("\b\b");
-		return ;
+		if (g_signal_trigger == IN_HERE_DOC)
+		{
+			ft_printf("\33[2K\r");
+			exit(25);
+		}
+		else if (g_signal_trigger == IN_PARENT)
+		{
+			rl_on_new_line();
+			ft_printf("\n");
+			rl_replace_line("", 0);
+			rl_redisplay();
+			return ;
+		}
+		else if (g_signal_trigger == IN_COMMAND)
+		{
+			ft_printf("\b\b");
+			ft_printf("  ");
+			ft_printf("\n");
+			return ;
+		}
 	}
 }

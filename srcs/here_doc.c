@@ -22,15 +22,17 @@ void	create_file(char **limiter)
 	fd = open ("here_doc", O_WRONLY | O_CREAT, 0644);
 	while (limiter[i] != NULL)
 	{
-		line = get_next_line(0, 1);
-		line[ft_strlen(line) - 1] = 0;
+		line = readline("");
+		if (line == NULL)
+			exit(50);
 		while (ft_strcmp(line, limiter[i]) != 0)
 		{
 			ft_putstr_fd(line, fd);
 			ft_putchar_fd('\n', fd);
 			free(line);
-			line = get_next_line(0, 1);
-			line[ft_strlen(line) - 1] = 0;
+			line = readline("");
+			if (line == NULL)
+				exit(50);
 		}
 		free(line);
 		++i;
@@ -43,10 +45,12 @@ void	here_doc(t_cmd *cmd, char **env)
 	pid_t	son;
 	int		fd;
 
-	create_file(cmd->limiter);
 	son = fork();
 	if (son == 0)
 	{
+		g_signal_trigger = IN_HERE_DOC;
+		signal_handler();
+		create_file(cmd->limiter);
 		fd = open ("here_doc", O_RDONLY);
 		dup2(fd, 0);
 		close(fd);
@@ -62,11 +66,12 @@ void	here_doc_pipe(t_cmd *cmd, int **pipexfd, char **env, int i)
 	pid_t	son;
 	int		fd;
 
-	create_file(cmd->limiter);
-	(void)env;
 	son = fork();
 	if (son == 0)
 	{
+		g_signal_trigger = IN_HERE_DOC;
+		signal_handler();
+		create_file(cmd->limiter);
 		fd = open ("here_doc", O_RDONLY);
 		dup2(fd, 0);
 		dup2(pipexfd[i][1], 1);

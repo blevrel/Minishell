@@ -46,7 +46,7 @@ void	fill_tokenized_with_quote(char **envp, char *res, char *src, int quote)
 	{
 		if (quote == 34 && src[i] == '$' && src[i + 1] != '$')
 		{
-			fill_env(res, src, envp, &j);
+			fill_env(res, &src[i], envp, &j);
 			move_indextoenv(src, &i);
 		}
 		else
@@ -78,7 +78,7 @@ void	tokenize_arg(char *res, char *src, t_data *data)
 		}
 		else if (src[i] == '$' && src[i + 1] != '$')
 		{
-			fill_env(res, src, data->envp, &j);
+			fill_env(res, &src[i], data->envp, &j);
 			move_indextoenv(src, &i);
 		}
 		else

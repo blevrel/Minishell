@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/11 14:04:21 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/12 13:42:17 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -79,18 +79,13 @@ void	routine(t_data *data)
 int	main(int argc, char **argv, char **env)
 {
 	t_data	*data;
-	char	*test;
+
 	if (argc != 1)
 	{
 		printf("Program takes no arguments\n");
 		return (0);
 	}
 	signal_handler();
-	test = malloc(10 * sizeof(char));
-	if (verif_malloc_str(&test, 0) == 1)
-		return (0);
-	else
-		printf("sa marche\n");
 	(void)argv;
 	data = malloc(sizeof(t_data));
 	if (!data)

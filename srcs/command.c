@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/27 18:25:03 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/11 11:42:35 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,11 @@ int	simple_cmd(t_data *data)
 	if (builtin(data->cmd[0]->cmd[0], data) == 0)
 		return (0);
 	son = fork();
+	g_signal_trigger = IN_COMMAND;
 	if (son == 0)
 	{
+		g_signal_trigger = IN_COMMAND;
+		signal_handler();
 		dup_simple_call(data->cmd[0]->type, data->cmd[0]->file);
 		if (check_builtin(data->cmd[0], data))
 			exit (1);
@@ -79,5 +82,6 @@ int	simple_cmd(t_data *data)
 			exit (2);
 	}
 	waitpid(son, NULL, 0);
+	g_signal_trigger = IN_PARENT;
 	return (0);
 }

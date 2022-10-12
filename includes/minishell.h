@@ -22,6 +22,11 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# define IN_PARENT 0
+# define IN_HERE_DOC 1
+# define IN_COMMAND 2
+
+int	g_signal_trigger;
 
 typedef struct s_cmd
 {
