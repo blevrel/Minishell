@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/12 13:42:17 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/12 17:49:47 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -33,18 +33,19 @@ char	**remove_first_arg(t_data *data)
 
 void	init_cmd(t_data *data)
 {
-	if (check_closing_quotes(data->arg) == 1)
+	data->arg = check_syntax_error(data->arg);
+	if (data->arg == NULL)
 	{
-		printf("Missing_quote\n");
+		ft_printf("Syntax error\n");
 		return ;
 	}
 	data->parsing = alloc_final_tab(data);
 	if (!data->parsing)
 		return ;
 	data->parsing = tokenizing(data);
-	/*if (next_non_spc_char(0, data->arg) != 34
+	if (next_non_spc_char(0, data->arg) != 34
 		&& next_non_spc_char(0, data->arg) != 39)
-		data->parsing = remove_first_arg(data);*/
+		data->parsing = remove_first_arg(data);
 	if (ft_strcmp(data->parsing[0], "exit") == 0)
 	{
 		ft_exit(data);

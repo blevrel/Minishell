@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 10:22:53 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/12 13:23:24 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/13 22:12:55 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ void	fi_pipe(t_data *data)
 {
 	pipe(data->pipexfd[0]);
 	data->son[0] = fork();
+	g_signal_trigger = IN_COMMAND;
 	if (data->son[0] == 0)
 	{
+		g_signal_trigger = IN_COMMAND;
 		if (ft_strcmp(data->cmd[0]->type, "<<") == 0)
 		{
 			here_doc_pipe(data->cmd[0], data->pipexfd, data->envp, 0);
@@ -37,8 +39,10 @@ void	n_pipe(t_data *data, int i)
 {
 	pipe(data->pipexfd[i]);
 	data->son[i] = fork();
+	g_signal_trigger = IN_COMMAND;
 	if (data->son[i] == 0)
 	{
+		g_signal_trigger = IN_COMMAND;
 		if (ft_strcmp(data->cmd[0]->type, "<<") == 0)
 		{
 			here_doc_pipe(data->cmd[0], data->pipexfd, data->envp, i);
@@ -61,8 +65,10 @@ void	n_pipe(t_data *data, int i)
 void	l_pipe(t_data *data, int i)
 {
 	data->son[i] = fork();
+	g_signal_trigger = IN_COMMAND;
 	if (data->son[i] == 0)
 	{
+		g_signal_trigger = IN_COMMAND;
 		if (ft_strcmp(data->cmd[i]->type, "<<") == 0)
 		{
 			here_doc_pipe(data->cmd[i], data->pipexfd, data->envp, i);
@@ -114,7 +120,9 @@ int	ft_pipe(t_data *data)
 	}
 	l_pipe(data, i);
 	while (data->son[j] != 0)
+	{
 		waitpid(data->son[j++], NULL, 0);
+		g_signal_trigger = IN_COMMAND;
+	}
 	return (0);
-	//return_value(data->son, data);
 }

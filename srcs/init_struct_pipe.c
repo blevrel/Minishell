@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 10:44:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/11 15:34:44 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/13 20:33:06 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,10 @@ t_cmd	*init_simple_cmd(t_data *data, int i)
 		if (check_redirection(data->parsing[i]) == 1)
 		{
 			init_file(res, data, i);
-			i = i + 2;
+			if (data->parsing[i + 1])
+				i = i + 2;
+			else
+				i++;
 		}
 		else
 			res->cmd[j++] = ft_strdup(data->parsing[i++]);

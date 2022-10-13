@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/11 14:05:24 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/13 20:12:22 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -67,6 +67,8 @@ void	init_data(t_data *data, char **env);
 int		check_redirection(char *str);
 void	here_doc(t_cmd *cmd, char **env);
 void	here_doc_pipe(t_cmd *cmd, int **pippexfd, char **env, int i);
+char	*tokenize_here_doc_limiter(char *str);
+char	*fill_limiter(char *str, char *res);
 
 //SIGNALS
 void	catch_signal(int signal);
@@ -82,12 +84,15 @@ int		check_char(char *str);
 void	swap_str(char **s1, char **s2);
 int		size_tab(char **tab);
 char	**cpy_tab(char **dest, char **src);
-int		check_only_space_before_index(int limit, char *str);
-int		check_space_before_index(int limit, char *str);
+char	next_non_spc_char(int i, char *str);
 
 //CHECK_PATH
 void	*cmd_not_found(char *cmd);
 char	*check_path(char *cmd, char **env);
+
+//CHECK_SYNTAX_ERROR
+char	*check_syntax_error(char *str);
+char	*check_here_doc(char *str, int *i);
 
 //PARSING / TOKENIZING
 char	**alloc_final_tab(t_data *data);
@@ -117,7 +122,7 @@ char	*isolate_env_var(char *cmd);
 int		get_env_variable_size(char *cmd, char **envp);
 void	fill_env(char *res, char *str, char **env, int *j);
 void	move_indextoenv(char *str, int *i);
-void	move_index_after_quote(char *str, int *i, int quote);
+int		move_index_after_quote(char *str, int i, int quote);
 
 //BUILTIN
 int		check_builtin(t_cmd *cmd, t_data *data);

@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:42:21 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/11 13:59:23 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/13 20:12:54 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -25,14 +25,15 @@ void	move_indextoenv(char *str, int *i)
 	}
 }
 
-void	move_index_after_quote(char *str, int *i, int quote)
+int	move_index_after_quote(char *str, int i, int quote)
 {
 	if (!str)
-		return ;
-	while (str[*i] != quote)
-		(*i)++;
-	if (str[*i])
-		(*i)++;
+		return (0);
+	while (str[i] && str[i] != quote)
+		i++;
+	if (str[i])
+		i++;
+	return (i);
 }
 
 void	fill_tokenized_with_quote(char **envp, char *res, char *src, int quote)
@@ -74,7 +75,7 @@ void	tokenize_arg(char *res, char *src, t_data *data)
 			quote = src[i++];
 			fill_tokenized_with_quote(data->envp, &res[j], &src[i], quote);
 			j = ft_strlen(res);
-			move_index_after_quote(src, &i, quote);
+			i = move_index_after_quote(src, i, quote);
 		}
 		else if (src[i] == '$' && src[i + 1] != '$')
 		{
@@ -98,6 +99,12 @@ char	**tokenizing(t_data *data)
 		return (NULL);
 	while (data->parsing[i] != NULL)
 	{
+		if (i > 0 && ft_strncmp(data->parsing[i - 1], "<<", 2) == 0)
+		{
+			res[i] = tokenize_here_doc_limiter(data->parsing[i]);
+			i++;
+			continue ;
+		}
 		res[i] = malloc((size_tokenize(data->parsing[i], data->envp) + 1)
 				* sizeof(char));
 		if (verif_malloc_str(res, i) == 1)

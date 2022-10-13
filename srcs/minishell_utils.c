@@ -6,10 +6,17 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:42:14 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/11 13:35:06 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/12 14:04:56 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
+
+char	next_non_spc_char(int i, char *str)
+{
+	while (check_char(&str[i]) == 1)
+		i++;
+	return (str[i]);
+}
 
 int	ft_strchr_int(const char *s, int c)
 {
