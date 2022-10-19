@@ -6,7 +6,7 @@
 #    By: blevrel <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 09:35:57 by blevrel           #+#    #+#              #
-#    Updated: 2022/10/18 15:38:10 by blevrel          ###   ########.fr        #
+#    Updated: 2022/10/19 20:49:55 by blevrel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,8 @@ SRCS  =	srcs/alloc_parsing.c \
 		srcs/new_export.c \
 		srcs/new_export_env.c \
 		srcs/parsing.c \
-		srcs/pipe.c	\
+		srcs/ft_pipe.c	\
+		srcs/pipe_utils.c \
 		srcs/pwd.c \
 		srcs/replace_env.c \
 		srcs/signal_handling.c \

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_fill_char_and_increment.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pirabaud <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/28 16:10:00 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/19 14:31:03 by blevrel          ###   ########.fr       */
+/*   Created: 2022/10/19 21:08:10 by blevrel           #+#    #+#             */
+/*   Updated: 2022/10/19 21:09:20 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isalpha(int c)
+void	ft_fill_char_and_increment(char *res, char *src, int *i, int *j)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-		return (1024);
-	return (0);
+	res[*j] = src[*i];
+	(*i)++;
+	(*j)++;
 }

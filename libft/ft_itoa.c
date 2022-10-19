@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 17:30:00 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/07/27 10:31:43 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/19 13:04:54 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,8 @@ static char	*swaploc(char *str)
 	return (str);
 }
 
-static char	*init_str(char *str, int n)
+static char	*fill_str(char *str, int n, int i)
 {
-	int	i;
-
-	i = 0;
-	if (n == 0)
-		str[i++] = '0';
 	while (n > 0 || n < 0)
 	{
 		if (n < 0)
@@ -83,6 +78,21 @@ static char	*init_str(char *str, int n)
 		n = n / 10;
 	}
 	str[i] = '\0';
+	return (str);
+}
+
+static char	*init_str(char *str, int n)
+{
+	int	i;
+
+	i = 0;
+	if (n == 0)
+	{
+		str[i] = '0';
+		i++;
+		str[i] = '\0';
+	}
+	str = fill_str(str, n, i);
 	str = swaploc(str);
 	return (str);
 }

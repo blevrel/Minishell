@@ -6,18 +6,26 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 14:29:35 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/11 10:01:01 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/19 12:01:10 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_null_cmd(t_cmd *res)
+void	init_null_cmd(t_cmd *res, int nb_cmd)
 {
+	int	i;
+
+	i = 0;
 	res->type = NULL;
 	res->file = NULL;
 	res->path = NULL;
 	res->limiter = NULL;
+	while (i < nb_cmd)
+	{
+		res->cmd[i] = NULL;
+		i++;
+	}
 }
 
 void	init_data(t_data *data, char **env)

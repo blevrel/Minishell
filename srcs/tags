@@ -1,0 +1,137 @@
+Mmain	main.c	/^int	main(int argc, char **argv, char **env)$/
+alloc_final_tab	parsing.c	/^char	**alloc_final_tab(t_data *data)$/
+alloc_first_arg	fill_arr_parse.c	/^char	*alloc_first_arg(char *arg, int *i)$/
+alloc_until_pipe	alloc_parsing.c	/^int	alloc_until_pipe(char **final_tab, char *arg, /
+alloc_with_quotes	alloc_parsing.c	/^int	alloc_with_quotes(char **final_tab, char *arg,/
+builtin	command.c	/^int	builtin(char *cmd, t_data *data)$/
+catch_signal	signal_handling.c	/^void	catch_signal(int signal)$/
+check_builtin	check_builtin.c	/^int	check_builtin(t_cmd *cmd, t_data *data)$/
+check_char	check_parsing.c	/^int	check_char(char *str)$/
+check_closing_quotes	check_quotes.c	/^int	check_closing_quotes(char *str)$/
+check_command	check.c	/^int	check_command(char *str)$/
+check_dup_pipe_first	dup_pipe.c	/^void	check_dup_pipe_first(t_cmd *cmd, int **pipexf/
+check_dup_pipe_last	dup_pipe.c	/^void	check_dup_pipe_last(t_cmd *cmd, int **pipexfd/
+check_dup_pipe_n	dup_pipe.c	/^void	check_dup_pipe_n(t_cmd *cmd, int **pipexfd, i/
+check_echo_option	check_echo_options.c	/^int	check_echo_option(char *full_arg, char **cmd)$/
+check_exit_arg	exit.c	/^void	check_exit_arg(char **args, int *exit_arg)$/
+check_if_redirection_is_in_quotes	check_redirection.c	/^int	check_if_redirection_is_in_quotes(char *str, c/
+check_if_space_is_needed	echo.c	/^int	check_if_space_is_needed(char *cmd, char *firs/
+check_index_pipe	init_struct_pipe_utils.c	/^int	check_index_pipe(char *full_arg, int index_pip/
+check_limiter	init_struct_pipe.c	/^char	**check_limiter(char **cmd)$/
+check_multiple_options	check_echo_options.c	/^int	check_multiple_options(char *res)$/
+check_nbpipe	init_struct_pipe_utils.c	/^int	check_nbpipe(char *full_arg)$/
+check_new_export	new_export.c	/^int	check_new_export(char **cmd, char **env)$/
+check_only_redirection	check_redirection.c	/^int	check_only_redirection(char *str, char *full_a/
+check_open	init_struct_pipe_utils.c	/^int	check_open(char **cmd)$/
+check_option_format	check_echo_options_utils.c	/^int	check_option_format(char *full_arg, char *opti/
+check_option_format_in_quotes	check_echo_options_utils.c	/^int	check_option_format_in_quotes(char *full_arg, /
+check_option_syntax	cmd_arr_with_echo_n.c	/^int	check_option_syntax(char **cmd, int cmd_i, int/
+check_path	check_path.c	/^char	*check_path(char *cmd, char **env)$/
+check_pipe	check.c	/^int	check_pipe(t_data *data)$/
+check_quote	parsing.c	/^int	check_quote(char *arg, int *i)$/
+check_redirection	check_redirection.c	/^int	check_redirection(char *str)$/
+check_size_first_arg	alloc_parsing.c	/^int	check_size_first_arg(char *arg, int i)$/
+check_syntax_error	check_syntax_error.c	/^char	*check_syntax_error(char *str)$/
+check_unset	unset.c	/^int	check_unset(char *str, char **env)$/
+check_value	new_export.c	/^int	check_value(char *str)$/
+count_arg	count_arg.c	/^int	count_arg(char *arg, int *i)$/
+count_size_arg	count_arg.c	/^int	count_size_arg(char *arg, int value)$/
+count_size_first_arg	count_arg.c	/^int	count_size_first_arg(char *arg)$/
+cpy_tab	minishell_utils.c	/^char	**cpy_tab(char **dest, char **src)$/
+create_file	here_doc.c	/^void	create_file(char **limiter)$/
+directory	ch_directory.c	/^void	directory(t_cmd *cmd, t_data *data)$/
+dup_entry	dup_pipe.c	/^void	dup_entry(t_cmd *cmd, int **pipexfd, int i)$/
+dup_simple_call	command.c	/^void	dup_simple_call(char *type, char *file)$/
+echo	echo.c	/^void	echo(char **cmd, t_data *data, int cmd_i, int/
+echo_n	echo.c	/^void	echo_n(char **cmd, char *full_arg, int arg_i,/
+env	env.c	/^void	env(char **env)$/
+fi_pipe	pipe.c	/^void	fi_pipe(t_data *data)$/
+fill_arg	fill_arr_parse.c	/^void	fill_arg(char *final_tab, char *arg, int *i, /
+fill_env	replace_env.c	/^void	fill_env(char *res, char *str, char **env, in/
+fill_final_tab	parsing.c	/^char	**fill_final_tab(char **final_tab, t_data *da/
+fill_first_arg	fill_arr_parse.c	/^char	*fill_first_arg(char *arg, char *res, int *i,/
+fill_limiter	here_doc_limiter.c	/^char	*fill_limiter(char *str, char *res)$/
+fill_new_export	export_utils.c	/^char	**fill_new_export(char **new_exp, t_cmd *cmd,/
+fill_pipe	parsing.c	/^int	fill_pipe(t_data *data, char **final_tab, int /
+fill_simple_cmd	init_struct_pipe_utils.c	/^t_cmd	*fill_simple_cmd(t_data *data, t_cmd *res, i/
+fill_tokenized_with_quote	tokenizing.c	/^void	fill_tokenized_with_quote(char **envp, char */
+fill_until_pipe	fill_arr_parse.c	/^int	fill_until_pipe(char **final_tab, char *arg, i/
+fill_with_quotes	fill_arr_parse.c	/^void	fill_with_quotes(char **final_tab, char *arg,/
+free_data	free.c	/^void	free_data(t_data *data)$/
+free_double_tab	minishell_utils.c	/^void	free_double_tab(char **tab)$/
+free_multiple_cmd	free.c	/^void	free_multiple_cmd(t_data *data)$/
+free_parsing	free.c	/^void	free_parsing(t_data *data)$/
+free_simple_cmd	free.c	/^void	free_simple_cmd(t_cmd *cmd)$/
+ft_exit	exit.c	/^void	ft_exit(t_data *data)$/
+ft_export	new_export.c	/^void	ft_export(t_cmd *cmd, t_data *data)$/
+ft_pipe	pipe.c	/^int	ft_pipe(t_data *data)$/
+ft_strchr_int	minishell_utils.c	/^int	ft_strchr_int(const char *s, int c)$/
+get_cmd_join_size	check_echo_options.c	/^int	get_cmd_join_size(char **cmd)$/
+get_env_variable_size	replace_env.c	/^int	get_env_variable_size(char *cmd, char **envp)$/
+go_to_first_arg	count_arg.c	/^int	go_to_first_arg(char *arg, int *i)$/
+here_doc	here_doc.c	/^void	here_doc(t_cmd *cmd, char **env)$/
+here_doc_pipe	here_doc.c	/^void	here_doc_pipe(t_cmd *cmd, int **pipexfd, char/
+init_cmd	main.c	/^void	init_cmd(t_data *data)$/
+init_data	init_null.c	/^void	init_data(t_data *data, char **env)$/
+init_file	init_struct_pipe.c	/^void	init_file(t_cmd *res, t_data *data, int i)$/
+init_null_cmd	init_null.c	/^void	init_null_cmd(t_cmd *res, int nb_cmd)$/
+init_res	check_path.c	/^char	*init_res(char *path, char *cmd)$/
+init_simple_cmd	init_struct_pipe.c	/^t_cmd	*init_simple_cmd(t_data *data, int i, t_cmd /
+init_simple_struct	init_struct_pipe.c	/^t_cmd	*init_simple_struct(t_data *data, int index_/
+init_struct_cmd	init_struct_pipe.c	/^t_cmd	**init_struct_cmd(t_data *data)$/
+is_valid_option	cmd_arr_with_echo_n.c	/^int	is_valid_option(char **cmd, int cmd_i)$/
+isolate_env_var	replace_env.c	/^char	*isolate_env_var(char *cmd)$/
+join_echo_options	check_echo_options.c	/^char	*join_echo_options(char **cmd, char *full_arg/
+join_option_is_doable	check_echo_options.c	/^int	join_option_is_doable(char c, char *full_arg, /
+l_pipe	pipe.c	/^void	l_pipe(t_data *data, int i)$/
+list_syntax_errors	check_syntax_error.c	/^int	list_syntax_errors(char *str)$/
+malloc_pipe	pipe.c	/^int	**malloc_pipe(int argc)$/
+move_arg_i	echo_utils.c	/^int	move_arg_i(char *full_arg, int arg_i)$/
+move_arg_i_in_quote	echo_utils.c	/^int	move_arg_i_in_quote(char *full_arg, int arg_i)/
+move_cmd_arr_index	cmd_arr_with_echo_n.c	/^int	move_cmd_arr_index(char **cmd, char *options)$/
+move_index_after_limiter	here_doc_limiter.c	/^int	move_index_after_limiter(char *str, int i)$/
+move_index_after_quote	tokenizing.c	/^int	move_index_after_quote(char *str, int i, int q/
+move_index_after_space	check_syntax_error.c	/^int	move_index_after_space(char *str, int i, char /
+move_indextoenv	tokenizing.c	/^void	move_indextoenv(char *str, int *i)$/
+n_pipe	pipe.c	/^void	n_pipe(t_data *data, int i)$/
+nb_arg	count_arg.c	/^int	nb_arg(char *arg)$/
+nb_cmd	init_struct_pipe_utils.c	/^int	nb_cmd(char *full_arg)$/
+new_env_export	new_export_env.c	/^char	**new_env_export(char **cmd, char **env)$/
+new_export	new_export.c	/^char	**new_export(t_cmd *cmd, t_data *data)$/
+new_tab	unset.c	/^char	**new_tab(int i, char **src)$/
+next_non_spc_char	minishell_utils.c	/^char	next_non_spc_char(int i, char *str)$/
+only_n	cmd_arr_with_echo_n.c	/^int	only_n(char *str)$/
+parse_arg_for_syntax_error	check_syntax_error.c	/^char	*parse_arg_for_syntax_error(char *str)$/
+pick_correct_echo	echo.c	/^void	pick_correct_echo(t_cmd *cmd, t_data *data)$/
+print_exit_error	exit.c	/^int	print_exit_error(int trigger, char *arg)$/
+print_export	export_utils.c	/^void	print_export(char	**print)$/
+pwd	pwd.c	/^void	pwd(void)$/
+remove_first_arg	main.c	/^char	**remove_first_arg(t_data *data)$/
+replace_env_in_full_arg	echo_utils.c	/^char	*replace_env_in_full_arg(char *full_arg, char/
+replace_env_in_quotes	echo_utils.c	/^char	*replace_env_in_quotes(char *full_arg, char */
+replace_value	new_export_env.c	/^void	replace_value(char *str, int line, t_data *da/
+replace_value_export	new_export.c	/^char	**replace_value_export(char *str, int line, c/
+reset_index_if_needed	check_redirection.c	/^int	reset_index_if_needed(char *full_arg, int i, i/
+reset_pipe_index_if_needed	check_redirection.c	/^int	reset_pipe_index_if_needed(char *full_arg)$/
+routine	main.c	/^void	routine(t_data *data)$/
+search_env	export_utils.c	/^int	search_env(char *str, char **env)$/
+search_new_env	new_export_env.c	/^int	search_new_env(char **cmd, char **env)$/
+signal_handler	signal_handling.c	/^void	signal_handler(void)$/
+simple_cmd	command.c	/^int	simple_cmd(t_data *data)$/
+size_env	replace_env.c	/^int	size_env(char *str)$/
+size_in_quote	tokenizing_size.c	/^int	size_in_quote(char *str, int *i, int quote, ch/
+size_tab	minishell_utils.c	/^int	size_tab(char **tab)$/
+size_tokenize	tokenizing_size.c	/^int	size_tokenize(char *src, char **env)$/
+sort_env	export_utils.c	/^char	**sort_env(char **env)$/
+space_before_first_arg	echo.c	/^void	space_before_first_arg(char *full_arg, int ar/
+swap_str	export_utils.c	/^void	swap_str(char **s1, char **s2)$/
+tokenize_arg	tokenizing.c	/^void	tokenize_arg(char *res, char *src, t_data *da/
+tokenize_env_var	echo_utils.c	/^char	*tokenize_env_var(char *full_arg, char *res, /
+tokenize_here_doc_limiter	here_doc_limiter.c	/^char	*tokenize_here_doc_limiter(char *str)$/
+tokenizing	tokenizing.c	/^char	**tokenizing(t_data *data)$/
+unset	unset.c	/^void	unset(t_cmd *cmd, t_data *data)$/
+verif_malloc_arr	verif_malloc.c	/^int	verif_malloc_arr(char **arr)$/
+verif_malloc_int	verif_malloc.c	/^int	verif_malloc_int(int **arr, int line)$/
+verif_malloc_int_arr	verif_malloc.c	/^int	verif_malloc_int_arr(int **arr)$/
+verif_malloc_str	verif_malloc.c	/^int	verif_malloc_str(char **arr, int line)$/
+verif_malloc_t_cmd	verif_malloc.c	/^int	verif_malloc_t_cmd(t_cmd *arr, int line, t_cmd/

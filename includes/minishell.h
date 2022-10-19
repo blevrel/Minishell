@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/19 03:39:07 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/19 21:48:33 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -55,18 +55,19 @@ int		check_open(char **cmd);
 int		nb_cmd(char *full_arg);
 int		check_redirection_pipe(char *str);
 int		check_nbpipe(char *full_arg);
-int		check_index_pipe(char **argv, int index_pipe);
+int		check_index_pipe(char *full_arg, int index_pipe);
 t_cmd	*init_simple_struct(t_data *data, int index_pipe, t_cmd **cmd_pipe);
 t_cmd	**init_struct_cmd(t_data *data);
 t_cmd	*fill_simple_cmd(t_data *data, t_cmd *cmd, int i, int j);
 void	init_file(t_cmd *res, t_data *data, int i);
 int		check_command(char *str);
 char	**sort_env(char **env);
-void	init_null_cmd(t_cmd *res);
+void	init_null_cmd(t_cmd *res, int nb_cmd);
 void	init_data(t_data *data, char **env);
 
 //REDIRECTION
 int		check_redirection(char *str);
+int		reset_pipe_index_if_needed(char *full_arg);
 int		check_only_redirection(char *str, char *full_arg);
 void	here_doc(t_cmd *cmd, char **env);
 void	here_doc_pipe(t_cmd *cmd, int **pippexfd, char **env, int i);
@@ -118,7 +119,7 @@ char	*fill_first_arg(char *arg, char *res, int *i, int *j);
 int		size_tokenize(char *src, char **env);
 char	**tokenizing(t_data *data);
 int		check_quote(char *arg, int *i);
-int		check_closing_quotes(char *arg);
+int		check_closing_quotes(char *s);
 int		size_in_quote(char *str, int *i, int quote, char **env);
 int		size_tokenize(char *src, char **env);
 void	fill_tokenized_with_quote(char **envp, char *res, char *src, int quote);
@@ -157,6 +158,11 @@ void	unset(t_cmd *cmd, t_data *data);
 //PIPE
 int		check_pipe(t_data *data);
 int		ft_pipe(t_data *data);
+void	fi_pipe(t_data *data);
+void	n_pipe(t_data *data, int i);
+void	l_pipe(t_data *data, int i);
+int		**malloc_pipe(int argc);
+int		count_nb_here_doc(char **cmd);
 void	check_dup_pipe_first(t_cmd *cmd, int **pipexfd, int i);
 void	check_dup_pipe_n(t_cmd *cmd, int **pipexfd, int i);
 void	check_dup_pipe_last(t_cmd *cmd, int **pipexfd, int i);

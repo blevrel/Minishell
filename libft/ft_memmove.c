@@ -6,19 +6,30 @@
 /*   By: pirabaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 11:28:29 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/07/27 10:40:53 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/19 13:18:18 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+static char	*fill_rdest(char *rdest, const char *rsrc, size_t n)
+{
+	size_t		index;
+
+	index = 0;
+	while (index < n)
+	{
+		rdest[index] = rsrc[index];
+		index++;
+	}
+	return (rdest);
+}
+
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
 	const char	*rsrc;
 	char		*rdest;
-	size_t		index;
 
-	index = -1;
 	rdest = dest;
 	rsrc = src;
 	if (dest == NULL && src == NULL)
@@ -35,7 +46,6 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 		rdest[n] = rsrc[n];
 		return (dest);
 	}
-	while (++index < n)
-		rdest[index] = rsrc[index];
+	rdest = fill_rdest(rdest, rsrc, n);
 	return (dest);
 }

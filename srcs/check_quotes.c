@@ -6,35 +6,35 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 12:57:51 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/10 13:52:41 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/19 21:49:33 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-int	check_closing_quotes(char *str)
+int	check_closing_quotes(char *s)
 {
 	int		i;
 	char	quote;
 
 	i = 0;
-	while (str[i])
+	while (s[i])
 	{
-		if (ft_strchr_int(&str[i], '"') == 0
-			&& ft_strchr_int(&str[i], '\'') == 0)
+		if (ft_strchr_int(&s[i], '"') == 0 && ft_strchr_int(&s[i], '\'') == 0)
 			return (0);
-		if (str[i] == '"' || str[i] == '\'')
+		if (s[i] == '"' || s[i] == '\'')
 		{
-			quote = str[i++];
-			while (str[i] && str[i] != quote)
+			quote = s[i];
+			i++;
+			while (s[i] && s[i] != quote)
 				i++;
-			if (str[i] == quote)
+			if (s[i] == quote)
 			{
 				i++;
-				if (!str[i])
+				if (!s[i])
 					return (0);
 			}
 		}
-		else if (str[i])
+		else if (s[i])
 			i++;
 	}
 	return (1);

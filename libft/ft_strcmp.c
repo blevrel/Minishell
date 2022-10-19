@@ -6,10 +6,9 @@
 /*   By: pirabaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 17:02:10 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/10 10:33:53 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/19 14:41:24 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
 
 int	ft_strcmp(const char *s1, const char *s2)

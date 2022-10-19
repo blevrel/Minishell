@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 14:54:28 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/29 14:47:13 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/19 21:24:54 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	**sort_env(char **env)
 			if (ft_strcmp(print[i], print[i + 1]) > 0)
 				swap_str(&print[i], &print[i + 1]);
 			else
-				--sort_tab;
+				sort_tab--;
 			i++;
 		}
 	}

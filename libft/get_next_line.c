@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 09:04:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/07/27 10:27:41 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/19 14:46:46 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_cpy_save(char *save)
 	if (save[i] == '\n')
 		++i;
 	++i;
-	dst = malloc(i * sizeof(char));
+	dst = ft_calloc(i, sizeof(char));
 	i = 0;
 	while (save[i] != '\n' && save[i])
 	{
@@ -31,8 +31,7 @@ char	*ft_cpy_save(char *save)
 		++i;
 	}
 	if (save[i] == '\n')
-		dst[i++] = '\n';
-	dst[i] = '\0';
+		dst[i] = '\n';
 	return (dst);
 }
 
@@ -48,10 +47,13 @@ char	*free_save(char *save)
 		++i;
 	if (save[i] == '\n')
 		++i;
-	str = malloc((ft_strlen(&save[i]) + 1) * sizeof(char));
+	str = ft_calloc((ft_strlen(&save[i]) + 1), sizeof(char));
 	while (save[i])
-		str[j++] = save[i++];
-	str[j] = '\0';
+	{
+		str[j] = save[i];
+		j++;
+		i++;
+	}
 	free(save);
 	save = NULL;
 	if (str[0] == '\0')

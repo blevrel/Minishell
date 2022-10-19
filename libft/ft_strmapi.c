@@ -6,28 +6,18 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 11:36:46 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/07/27 10:28:47 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/19 14:16:27 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-static int	strlenloc(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-		++i;
-	return (i);
-}
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
 	unsigned int	i;
 	char			*str;
 
-	str = malloc((strlenloc((char *)s) + 1) * sizeof(char));
+	str = malloc((ft_strlen((char *)s) + 1) * sizeof(char));
 	if (str == NULL)
 		return (NULL);
 	i = 0;

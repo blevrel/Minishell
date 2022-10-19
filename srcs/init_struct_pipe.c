@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 10:44:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/19 03:40:34 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/19 21:50:55 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -17,14 +17,19 @@ void	init_file(t_cmd *res, t_data *data, int i)
 		free(res->type);
 	res->type = ft_strdup(data->parsing[i]);
 	if (!res->file)
+	{
 		free(res->file);
+		res->file = NULL;
+	}
 	res->file = ft_strdup(data->parsing[i + 1]);
 	if (check_open(&data->parsing[i]) == 1)
 	{
-		if (!res->cmd[0])
-			ft_printf("minishell: %s: no such file or directory\n");
+		if (res->file == NULL)
+			printf("minishell: : no such file or directory\n");
+		else if (!res->cmd[0])
+			printf("minishell: %s: no such file or ddirectory\n", res->file);
 		else
-			ft_printf("%s: %s: no such file or directory\n",
+			printf("%s: %s: no such file or directory\n",
 				res->cmd[0], res->file);
 	}
 }
@@ -37,13 +42,10 @@ char	**check_limiter(char **cmd)
 
 	i = 0;
 	j = 0;
-	while (cmd[i] != NULL)
-	{
-		if (ft_strcmp(cmd[i], "<<") == 0)
-			++j;
-		++i;
-	}
-	res = malloc((j + 1) * sizeof(char *));
+	j = count_nb_here_doc(cmd);
+	if (j == 0)
+		return (NULL);
+	res = ft_calloc((j + 1), sizeof(char *));
 	if (verif_malloc_arr(res) == 1)
 		return (NULL);
 	i = 0;
@@ -51,10 +53,9 @@ char	**check_limiter(char **cmd)
 	while (cmd[i] != NULL)
 	{
 		if (ft_strcmp(cmd[i], "<<") == 0)
-			res[j++] = ft_strdup(cmd[i + 1]);
+			res[j] = ft_strdup(cmd[i + 1]);
 		++i;
 	}
-	res[j] = NULL;
 	return (res);
 }
 
@@ -66,7 +67,7 @@ t_cmd	*init_simple_cmd(t_data *data, int i, t_cmd *res)
 	res->cmd = malloc((nb_cmd(data->arg) + 1) * sizeof(char *));
 	if (verif_malloc_arr(res->cmd) == 1)
 		return (NULL);
-	init_null_cmd(res);
+	init_null_cmd(res, nb_cmd(data->arg));
 	res->limiter = check_limiter(data->parsing);
 	res = fill_simple_cmd(data, res, i, j);
 	return (res);
@@ -80,7 +81,7 @@ t_cmd	*init_simple_struct(t_data *data, int index_pipe, t_cmd **cmd_pipe)
 	res = malloc(sizeof(t_cmd));
 	if (verif_malloc_t_cmd(res, index_pipe, cmd_pipe) == 1)
 		return (NULL);
-	i = check_index_pipe(data->parsing, index_pipe);
+	i = check_index_pipe(data->arg, index_pipe);
 	res = init_simple_cmd(data, i, res);
 	if (!res->cmd)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:42:21 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/18 23:22:33 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/19 21:13:47 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -51,11 +51,7 @@ void	fill_tokenized_with_quote(char **envp, char *res, char *src, int quote)
 			move_indextoenv(src, &i);
 		}
 		else
-		{
-			res[j] = src[i];
-			j++;
-			i++;
-		}
+			ft_fill_char_and_increment(res, src, &i, &j);
 	}
 	res[j] = '\0';
 }
@@ -84,11 +80,7 @@ void	tokenize_arg(char *res, char *src, t_data *data)
 			move_indextoenv(src, &i);
 		}
 		else
-		{
-			res[j] = src[i];
-			i++;
-			j++;
-		}
+			ft_fill_char_and_increment(res, src, &i, &j);
 	}
 	res[j] = '\0';
 }
@@ -118,5 +110,6 @@ char	**tokenizing(t_data *data)
 		i++;
 	}
 	res[i] = NULL;
+	free_double_tab(data->parsing);
 	return (res);
 }

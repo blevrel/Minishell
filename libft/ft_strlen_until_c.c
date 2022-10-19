@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_strlen_until_c.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pirabaud <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/28 16:10:00 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/19 14:31:03 by blevrel          ###   ########.fr       */
+/*   Created: 2022/10/19 13:43:02 by blevrel           #+#    #+#             */
+/*   Updated: 2022/10/19 14:03:22 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isalpha(int c)
+int	ft_strlen_until_c(char *str, char c)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-		return (1024);
-	return (0);
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (i);
+	while (str[i] && str[i] != c)
+		i++;
+	return (i);
 }

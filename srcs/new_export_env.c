@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 14:09:36 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/18 22:08:54 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/19 21:17:02 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,11 @@ char	**new_env_export(char **cmd, char **env)
 	{
 		if (ft_strchr_int(cmd[j], '=') > 0 && search_env(cmd[j], env) == -1
 			&& check_value(cmd[j]) == 0)
-			new_env[i++] = ft_strdup(cmd[j]);
-		++j;
+		{
+			new_env[i] = ft_strdup(cmd[j]);
+			j++;
+			i++;
+		}
 	}
 	new_env[i] = NULL;
 	return (new_env);

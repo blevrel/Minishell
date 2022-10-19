@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 17:20:55 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/14 09:52:02 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/19 16:12:31 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,10 @@
 
 int	check_pipe(t_data *data)
 {
-	int	i;
-
-	i = 0;
-	while (data->parsing[i])
+	if (check_nbpipe(data->arg) > 1)
 	{
-		if (ft_strcmp(data->parsing[i], "|") == 0)
-		{
-			ft_pipe(data);
-			return (1);
-		}
-		++i;
+		ft_pipe(data);
+		return (1);
 	}
 	return (0);
 }

@@ -6,23 +6,10 @@
 /*   By: pirabaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 17:28:32 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/08/16 14:13:19 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/19 14:15:08 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
-
-static size_t	ft_strlenloc(char const *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-	{
-		++i;
-	}
-	return (i);
-}
 
 static size_t	diffls(char const *s, unsigned int start)
 {
@@ -37,31 +24,43 @@ static size_t	diffls(char const *s, unsigned int start)
 	return (i);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+static char	*fill_str(char *res, char const *s, unsigned int start, size_t len)
 {
-	char	*str;
 	size_t	i;
 
 	i = 0;
-	if (ft_strlenloc(s) <= start)
+	while (s[start] && i < len)
 	{
-		str = malloc(sizeof(char));
-		str[i] = '\0';
-		return (str);
+		res[i] = s[start];
+		i++;
+		start++;
+	}
+	res[i] = '\0';
+	return (res);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*res;
+
+	if (ft_strlen(s) <= start)
+	{
+		res = malloc(sizeof(char));
+		if (!res)
+			return (NULL);
+		res[0] = '\0';
+		return (res);
 	}
 	else if (diffls(s, start) >= len)
-		str = malloc((len + 1) * sizeof(char));
+		res = malloc((len + 1) * sizeof(char));
 	else
-		str = malloc((diffls(s, start) + 1) * sizeof(char));
-	if (str == NULL)
+		res = malloc((diffls(s, start) + 1) * sizeof(char));
+	if (res == NULL)
 		return (NULL);
-	if (ft_strlenloc(s) <= start)
+	if (ft_strlen(s) <= start)
 	{
-		str[i] = '\0';
-		return (str);
+		res[0] = '\0';
+		return (res);
 	}
-	while (s[start] && i < len)
-		str[i++] = s[start++];
-	str[i] = '\0';
-	return (str);
+	return (fill_str(res, s, start, len));
 }

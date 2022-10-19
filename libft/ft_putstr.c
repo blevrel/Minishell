@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:12:02 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/08/16 16:56:00 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/19 13:26:51 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	ft_putstr(char *str)
 		return (ft_putstr("(null)"));
 	while (str[i])
 	{
-		ft_putchar(str[i++]);
+		ft_putchar(str[i]);
+		++i;
 		++count;
 	}
 	return (count);

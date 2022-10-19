@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 14:40:05 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/27 16:39:02 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/19 21:51:17 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,33 @@ void	free_parsing(t_data *data)
 	data->parsing = NULL;
 }
 
-void	free_simple_cmd(t_cmd *cmd)
+void	free_rest_of_simple_cmd(t_cmd *cmd)
 {
 	int	j;
 
 	j = 0;
+	if (cmd->limiter)
+	{
+		while (cmd->limiter[j])
+		{
+			free(cmd->limiter[j]);
+			j++;
+		}
+		free(cmd->limiter);
+		cmd->limiter = NULL;
+	}
+	j = 0;
+	while (cmd->cmd[j])
+	{
+		free(cmd->cmd[j]);
+		j++;
+	}
+	free(cmd->cmd);
+	cmd->cmd = NULL;
+}
+
+void	free_simple_cmd(t_cmd *cmd)
+{
 	if (cmd->path)
 		free(cmd->path);
 	cmd->path = NULL;
@@ -41,15 +63,7 @@ void	free_simple_cmd(t_cmd *cmd)
 	if (cmd->file)
 		free(cmd->file);
 	cmd->file = NULL;
-	while (cmd->limiter[j])
-		free(cmd->limiter[j++]);
-	free(cmd->limiter);
-	cmd->limiter = NULL;
-	j = 0;
-	while (cmd->cmd[j])
-		free(cmd->cmd[j++]);
-	free(cmd->cmd);
-	cmd->cmd = NULL;
+	free_rest_of_simple_cmd(cmd);
 }
 
 void	free_multiple_cmd(t_data *data)

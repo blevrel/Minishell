@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:54 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/27 14:13:03 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/19 21:55:28 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,34 @@ char	*init_res(char *path, char *cmd)
 	return (res);
 }
 
+int	find_path_line(char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i] != NULL && ft_memcmp(env[i], "PATH", 4) != 0)
+		i++;
+	return (i);
+}
+
 char	*check_path(char *cmd, char **env)
 {
 	int		i;
 	char	*res;
 	char	**path;
 
-	i = 0;
-	while (env[i] != NULL && ft_memcmp(env[i], "PATH", 4) != 0)
-		i++;
+	i = find_path_line(env);
 	if (env[i] == NULL)
 		return (NULL);
 	path = ft_split(env[i], ':');
 	i = 0;
-	res = init_res(path[i++], cmd);
+	res = init_res(path[i], cmd);
+	i++;
 	while (access(res, F_OK) != 0 && path[i] != NULL)
 	{
 		free(res);
-		res = init_res(path[i++], cmd);
+		res = init_res(path[i], cmd);
+		i++;
 	}
 	free_double_tab(path);
 	if (access(res, F_OK) == 0)

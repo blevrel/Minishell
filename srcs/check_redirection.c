@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 15:35:25 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/19 03:06:53 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/19 19:36:04 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -25,6 +25,23 @@ int	check_redirection(char *str)
 		return (2);
 	else
 		return (0);
+}
+
+int	reset_pipe_index_if_needed(char *full_arg)
+{
+	int	i;
+
+	i = 0;
+	while (full_arg[i])
+	{
+		if (full_arg[i] == '|')
+			return (1);
+		if (check_char(&full_arg[i]) < 0)
+			i = move_index_after_quote(full_arg, i + 1, full_arg[i]);
+		else
+			i++;
+	}
+	return (0);
 }
 
 int	reset_index_if_needed(char *full_arg, int i, int j)
@@ -46,6 +63,8 @@ int	check_if_redirection_is_in_quotes(char *str, char *full_arg)
 	j = ft_strlen(str);
 	while (ft_strncmp(&full_arg[i], str, ft_strlen(str)) != 0)
 		i++;
+	if (i == 0)
+		return (0);
 	if (check_char(&full_arg[i - 1]) < 0
 		&& check_closing_quotes(&full_arg[i - 1]) == 0)
 	{

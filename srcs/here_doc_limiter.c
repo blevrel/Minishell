@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 09:15:53 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/13 20:46:57 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/19 21:24:28 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -40,11 +40,11 @@ char	*fill_limiter(char *str, char *res)
 			quote = str[i];
 			i++;
 			while (str[i] != quote)
-				res[j++] = str[i++];
+				ft_fill_char_and_increment(res, str, &i, &j);
 			i++;
 		}
 		else
-			res[j++] = str[i++];
+			ft_fill_char_and_increment(res, str, &i, &j);
 	}
 	res[j] = '\0';
 	return (res);

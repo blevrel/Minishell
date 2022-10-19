@@ -6,10 +6,9 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 18:11:23 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/08/16 16:51:40 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/19 14:38:47 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
 
 int	ft_putchar(char c)

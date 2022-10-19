@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe.c                                             :+:      :+:    :+:   */
+/*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 10:22:53 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/19 04:17:00 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/19 20:49:23 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,39 +103,4 @@ int	**malloc_pipe(int argc)
 		i++;
 	}
 	return (pipexfd);
-}
-
-int	ft_pipe(t_data *data)
-{
-	int		nb_pipe;
-	int		i;
-	int		j;
-
-	i = 1;
-	j = 0;
-	nb_pipe = check_nbpipe(data->arg);
-	if (!data->cmd)
-		return (1);
-	data->pipexfd = malloc_pipe(nb_pipe);
-	data->son = malloc(nb_pipe * sizeof(int));
-	if (!data->son)
-	{
-		ft_putstr_fd("Malloc failed\n", 2);
-		return (1);
-	}
-	fi_pipe(data);
-	while (nb_pipe > 2)
-	{
-		n_pipe(data, i);
-		i++;
-		nb_pipe++;
-	}
-	l_pipe(data, i);
-	while (data->son[j] != 0)
-	{
-		waitpid(data->son[j], NULL, 0);
-		j++;
-		g_signal_trigger = IN_COMMAND;
-	}
-	return (0);
 }

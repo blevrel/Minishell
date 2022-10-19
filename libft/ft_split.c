@@ -6,22 +6,10 @@
 /*   By: pirabaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 14:29:55 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/07/27 10:43:10 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/19 13:47:14 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
-#include <stdio.h>
-
-static	int	strlenloc(char *s, char c)
-{
-	int	i;
-
-	i = 0;
-	while (s[i] != c && s[i])
-		++i;
-	return (i);
-}
 
 static int	nb_str(char *s, char c)
 {
@@ -40,7 +28,7 @@ static int	nb_str(char *s, char c)
 	}
 	while (s[i])
 	{
-		nb_lett = strlenloc(&s[i], c);
+		nb_lett = ft_strlen_until_c(&s[i], c);
 		if (nb_lett > 0)
 		{
 			++count;
@@ -58,7 +46,7 @@ static char	*strduploc(char *s, char c)
 	char	*str;
 
 	i = 0;
-	str = malloc((strlenloc(s, c) + 1) * sizeof(char));
+	str = malloc((ft_strlen_until_c(s, c) + 1) * sizeof(char));
 	if (str == NULL)
 		return (NULL);
 	while (s[i] != c && s[i])
@@ -86,14 +74,29 @@ static char	**check_s(char const *s)
 	return (str);
 }
 
+char	**fill_split(char **split, char *s, char c, int i)
+{
+	int	j;
+
+	j = 0;
+	while (nb_str(s, c) > j)
+	{
+		while (s[i] == c)
+			++i;
+		split[j] = strduploc(&s[i], c);
+		j++;
+		i = ft_strlen_until_c(&s[i], c) + i;
+	}
+	split[j] = NULL;
+	return (split);
+}
+
 char	**ft_split(char const *s, char c)
 {
 	char	**split;
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
 	if (!s)
 		return (NULL);
 	if (s[0] == '\0')
@@ -104,13 +107,6 @@ char	**ft_split(char const *s, char c)
 	split = malloc((nb_str((char *)s, c) + 1) * sizeof(char *));
 	if (split == NULL)
 		return (NULL);
-	while (nb_str((char *)s, c) > j)
-	{
-		while (s[i] == c)
-			++i;
-		split[j++] = strduploc((char *)&s[i], c);
-		i = strlenloc((char *)&s[i], c) + i;
-	}
-	split[j] = NULL;
+	split = fill_split(split, (char *)s, c, i);
 	return (split);
 }

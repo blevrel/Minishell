@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 17:30:15 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/05/10 11:36:51 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/19 14:51:23 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,17 @@ char	*ft_copy(char *dest, char *src)
 	return (dest);
 }
 
+static char	*fill_dest(char *dest, char *buff, int i, int j)
+{
+	while (buff[j])
+	{
+		dest[i] = buff[j];
+		i++;
+		j++;
+	}
+	return (dest);
+}
+
 char	*ft_strjoin_free(char *str, char *buff)
 {
 	int		i;
@@ -39,8 +50,8 @@ char	*ft_strjoin_free(char *str, char *buff)
 	if (buff[i] == 0)
 		return (str);
 	while (buff[i])
-		++i;
-	dest = malloc((i + ft_strlen(str) + 1) * sizeof(char));
+		i++;
+	dest = ft_calloc((i + ft_strlen(str) + 1), sizeof(char));
 	i = 0;
 	if (str != NULL)
 	{
@@ -48,9 +59,7 @@ char	*ft_strjoin_free(char *str, char *buff)
 		while (dest[i])
 			++i;
 	}
-	while (buff[j])
-		dest[i++] = buff[j++];
-	dest[i] = '\0';
+	dest = fill_dest(dest, buff, i, j);
 	free(str);
 	return (dest);
 }

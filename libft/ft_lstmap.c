@@ -6,9 +6,10 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 16:53:53 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/08/16 14:25:14 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/19 14:21:47 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
