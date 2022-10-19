@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/13 20:12:22 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/19 03:39:07 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -52,12 +52,14 @@ int		simple_cmd(t_data *data);
 
 //INIT_STRUCT_COMMAND
 int		check_open(char **cmd);
-int		nb_cmd(char **argv, int i);
+int		nb_cmd(char *full_arg);
 int		check_redirection_pipe(char *str);
-int		check_nbpipe(char **argv);
+int		check_nbpipe(char *full_arg);
 int		check_index_pipe(char **argv, int index_pipe);
-t_cmd	*init_simple_struct(t_data *data, int index_pipe);
+t_cmd	*init_simple_struct(t_data *data, int index_pipe, t_cmd **cmd_pipe);
 t_cmd	**init_struct_cmd(t_data *data);
+t_cmd	*fill_simple_cmd(t_data *data, t_cmd *cmd, int i, int j);
+void	init_file(t_cmd *res, t_data *data, int i);
 int		check_command(char *str);
 char	**sort_env(char **env);
 void	init_null_cmd(t_cmd *res);
@@ -65,6 +67,7 @@ void	init_data(t_data *data, char **env);
 
 //REDIRECTION
 int		check_redirection(char *str);
+int		check_only_redirection(char *str, char *full_arg);
 void	here_doc(t_cmd *cmd, char **env);
 void	here_doc_pipe(t_cmd *cmd, int **pippexfd, char **env, int i);
 char	*tokenize_here_doc_limiter(char *str);
@@ -77,6 +80,9 @@ void	signal_handler(void);
 //UTILS
 int		verif_malloc_arr(char **arr);
 int		verif_malloc_str(char **arr, int line);
+int		verif_malloc_int_arr(int **arr);
+int		verif_malloc_int(int **arr, int line);
+int		verif_malloc_t_cmd(t_cmd *arr, int line, t_cmd **cmd_pipe);
 int		ft_strchr_int(const char *s, int c);
 int		ft_strnchr_int(const char *s, int c, int size);
 void	free_double_tab(char **tab);
@@ -126,7 +132,20 @@ int		move_index_after_quote(char *str, int i, int quote);
 
 //BUILTIN
 int		check_builtin(t_cmd *cmd, t_data *data);
-void	echo(t_cmd *data);
+int		check_echo_option(char *full_arg, char **cmd);
+int		check_multiple_options(char *res);
+int		check_option_format(char *full_arg, char *option);
+int		is_valid_option(char **cmd, int cmd_i);
+void	echo(char **cmd, t_data *data, int i, int arg_i);
+void	pick_correct_echo(t_cmd *cmd, t_data *data);
+void	echo_n(char **cmd, char *full_arg, int arg_i, int cmd_i);
+int		move_cmd_arr_index(char **cmd, char *options);
+char	*join_echo_options(char **cmd, char *full_arg);
+char	*replace_env_in_full_arg(char *full_arg, char **env);
+int		move_arg_i_in_quote(char *full_arg, int arg_i);
+int		check_if_space_is_needed(char *cmd, char *first_occ);
+int		move_arg_i(char *full_arg, int arg_i);
+void	add_space_if_needed(char *cmd, char *first_occ);
 void	pwd(void);
 void	env(char **env);
 void	ft_exit(t_data *data);
@@ -138,7 +157,6 @@ void	unset(t_cmd *cmd, t_data *data);
 //PIPE
 int		check_pipe(t_data *data);
 int		ft_pipe(t_data *data);
-int		check_nbpipe(char **argv);
 void	check_dup_pipe_first(t_cmd *cmd, int **pipexfd, int i);
 void	check_dup_pipe_n(t_cmd *cmd, int **pipexfd, int i);
 void	check_dup_pipe_last(t_cmd *cmd, int **pipexfd, int i);

@@ -6,10 +6,9 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 10:44:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/13 20:33:06 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/19 03:40:34 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 
 void	init_file(t_cmd *res, t_data *data, int i)
@@ -45,7 +44,7 @@ char	**check_limiter(char **cmd)
 		++i;
 	}
 	res = malloc((j + 1) * sizeof(char *));
-	if (!res)
+	if (verif_malloc_arr(res) == 1)
 		return (NULL);
 	i = 0;
 	j = 0;
@@ -59,45 +58,30 @@ char	**check_limiter(char **cmd)
 	return (res);
 }
 
-t_cmd	*init_simple_cmd(t_data *data, int i)
+t_cmd	*init_simple_cmd(t_data *data, int i, t_cmd *res)
 {
 	int		j;
-	t_cmd	*res;
 
 	j = 0;
-	res = malloc(sizeof(t_cmd));
-	res->cmd = malloc((nb_cmd(data->parsing, i) + 1) * sizeof(char *));
-	if (!res->cmd)
-	{
-		ft_putstr_fd("error malloc", 2);
+	res->cmd = malloc((nb_cmd(data->arg) + 1) * sizeof(char *));
+	if (verif_malloc_arr(res->cmd) == 1)
 		return (NULL);
-	}
 	init_null_cmd(res);
 	res->limiter = check_limiter(data->parsing);
-	while (data->parsing[i] != NULL && ft_strcmp(data->parsing[i], "|"))
-	{
-		if (check_redirection(data->parsing[i]) == 1)
-		{
-			init_file(res, data, i);
-			if (data->parsing[i + 1])
-				i = i + 2;
-			else
-				i++;
-		}
-		else
-			res->cmd[j++] = ft_strdup(data->parsing[i++]);
-	}
-	res->cmd[j] = NULL;
+	res = fill_simple_cmd(data, res, i, j);
 	return (res);
 }
 
-t_cmd	*init_simple_struct(t_data *data, int index_pipe)
+t_cmd	*init_simple_struct(t_data *data, int index_pipe, t_cmd **cmd_pipe)
 {
 	t_cmd	*res;
 	int		i;
 
+	res = malloc(sizeof(t_cmd));
+	if (verif_malloc_t_cmd(res, index_pipe, cmd_pipe) == 1)
+		return (NULL);
 	i = check_index_pipe(data->parsing, index_pipe);
-	res = init_simple_cmd(data, i);
+	res = init_simple_cmd(data, i, res);
 	if (!res->cmd)
 		return (NULL);
 	res->path = check_path(res->cmd[0], data->envp);
@@ -116,20 +100,20 @@ t_cmd	**init_struct_cmd(t_data *data)
 	t_cmd	**cmd_pipe;
 
 	i = 0;
-	nb_pipe = check_nbpipe(data->parsing);
+	nb_pipe = check_nbpipe(data->arg);
 	cmd_pipe = malloc((nb_pipe + 1) * sizeof(t_cmd *));
 	if (!cmd_pipe)
 	{
-		ft_putstr_fd("error malloc\n", 2);
+		ft_putstr_fd("Malloc failed\n", 2);
 		return (NULL);
 	}
 	while (nb_pipe > 0)
 	{
-		cmd_pipe[i] = init_simple_struct(data, i);
-		if (cmd_pipe[i] == NULL)
+		cmd_pipe[i] = init_simple_struct(data, i, cmd_pipe);
+		if (!cmd_pipe[i])
 			return (NULL);
 		i++;
-		--nb_pipe;
+		nb_pipe--;
 	}
 	cmd_pipe[i] = NULL;
 	return (cmd_pipe);

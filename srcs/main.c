@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/12 17:49:47 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/18 22:07:19 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -35,10 +35,7 @@ void	init_cmd(t_data *data)
 {
 	data->arg = check_syntax_error(data->arg);
 	if (data->arg == NULL)
-	{
-		ft_printf("Syntax error\n");
 		return ;
-	}
 	data->parsing = alloc_final_tab(data);
 	if (!data->parsing)
 		return ;
@@ -91,7 +88,7 @@ int	main(int argc, char **argv, char **env)
 	data = malloc(sizeof(t_data));
 	if (!data)
 	{
-		ft_putstr_fd("error malloc", 2);
+		ft_putstr_fd("Malloc failed", 2);
 		return (0);
 	}
 	init_data(data, env);

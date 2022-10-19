@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:40:20 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/11 14:06:08 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/17 14:24:20 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -97,7 +97,7 @@ char	*fill_first_arg(char *arg, char *res, int *i, int *j)
 	int	quote;
 
 	quote = 0;
-	while (arg[*i] && (check_char(&arg[*i]) <= 0 || check_char(&arg[*i]) == 2))
+	while (arg[*i] && check_char(&arg[*i]) <= 0)
 	{
 		res[(*j)++] = arg[*i];
 		if (check_char(&arg[*i]) < 0)

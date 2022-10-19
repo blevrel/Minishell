@@ -6,40 +6,32 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 09:47:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/13 20:28:17 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/19 03:38:03 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 
-int	check_redirection(char *str)
-{
-	if (ft_strncmp(str, "<", 1) == 0)
-		return (1);
-	else if (ft_strncmp(str, ">", 1) == 0)
-		return (1);
-	else if (ft_strncmp(str, ">>", 2) == 0)
-		return (1);
-	else if (ft_strncmp(str, "<<", 2) == 0)
-		return (1);
-	else if (ft_strncmp(str, "|", 1) == 0)
-		return (2);
-	else
-		return (0);
-}
-
-int	check_nbpipe(char **argv)
+int	check_nbpipe(char *full_arg)
 {
 	int	res;
 	int	i;
+	int	quote;
 
 	i = 0;
 	res = 1;
-	while (argv[i] != NULL)
+	while (full_arg[i])
 	{
-		if (ft_strcmp(argv[i], "|") == 0)
-			++res;
-		++i;
+		if (check_char(&full_arg[i]) < 0)
+		{
+			quote = full_arg[i];
+			i++;
+			while (full_arg[i] != quote)
+				i++;
+			i++;
+		}
+		if (full_arg[i] == '|')
+			res++;
+		i++;
 	}
 	return (res);
 }
@@ -62,25 +54,28 @@ int	check_index_pipe(char **argv, int index_pipe)
 	return (i);
 }
 
-int	nb_cmd(char **argv, int i)
+int	nb_cmd(char *full_arg)
 {
+	int	i;
 	int	res;
 
+	i = 0;
 	res = 0;
-	while (argv[i] != NULL && ft_strcmp(argv[i], "|"))
+	while (full_arg[i] && full_arg[i] != '|')
 	{
-		if (check_redirection(argv[i]) == 1 && ft_strcmp(argv[i], "<<") == 0)
-		{
-			if (argv[i + 1])
-				i = i + 2;
-			else
+		while (full_arg[i] && check_char(&full_arg[i]) == 1)
+			i++;
+		if (full_arg[i] && check_char(&full_arg[i]) == 2)
+			res++;
+		while (check_char(&full_arg[i]) == 2)
 				i++;
-		}
-		else
+		if (full_arg[i] && check_char(&full_arg[i]) == 0 && full_arg[i] != '|')
 		{
-			++i;
-			++res;
+			while (full_arg[i] && check_char(&full_arg[i]) == 0)
+				i++;
+			res++;
 		}
+		res += check_quote(full_arg, &i);
 	}
 	return (res);
 }
@@ -111,4 +106,32 @@ int	check_open(char **cmd)
 		close (fd);
 	}
 	return (0);
+}
+
+t_cmd	*fill_simple_cmd(t_data *data, t_cmd *res, int i, int j)
+{
+	int	value;
+
+	while (data->parsing[i] != NULL)
+	{
+		value = check_only_redirection(data->parsing[i], data->arg);
+		if (value == 1)
+		{
+			init_file(res, data, i);
+			if (data->parsing[i + 1])
+				i = i + 2;
+			else
+				i++;
+		}
+		else if (value == 2)
+			break ;
+		else
+		{
+			res->cmd[j] = ft_strdup(data->parsing[i]);
+			j++;
+			i++;
+		}
+	}
+	res->cmd[j] = NULL;
+	return (res);
 }

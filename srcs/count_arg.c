@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:32:51 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/10 10:35:12 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/18 14:08:43 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -19,7 +19,8 @@ int	go_to_first_arg(char *arg, int *i)
 	count = 0;
 	while (arg[*i] && check_char(&arg[*i]) == 1)
 		(*i)++;
-	while (arg[*i] && (check_char(&arg[*i]) <= 0 || check_char(&arg[*i]) == 2))
+	while (arg[*i]
+		&& (check_char(&arg[*i]) <= 0))
 	{	
 		if (check_char(&arg[*i]) < 0)
 		{
@@ -78,7 +79,7 @@ int	nb_arg(char *arg)
 				i++;
 			res++;
 		}
-		if (res != 0 && arg[i])
+		if (arg[i])
 			res += count_arg(arg, &i);
 	}
 	return (res);
@@ -95,7 +96,7 @@ int	count_size_first_arg(char *arg)
 	quote = 0;
 	while (arg[i] && check_char(&arg[i]) == 1)
 		i++;
-	while (arg[i] && (check_char(&arg[i]) <= 0 || check_char(&arg[i]) == 2))
+	while (arg[i] && check_char(&arg[i]) <= 0)
 	{
 		if (check_char(&arg[i]) < 0)
 		{

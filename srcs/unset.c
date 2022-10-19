@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:19:43 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/09/29 15:23:01 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/18 22:14:45 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ char	**new_tab(int i, char **src)
 	j = 0;
 	k = 0;
 	new_tab = malloc(size_tab(src) * sizeof(char *));
+	if (verif_malloc_arr(new_tab) == 1)
+		return (NULL);
 	while (src[k] != NULL)
 	{
 		if (j != i)
