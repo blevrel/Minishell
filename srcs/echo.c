@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:48:53 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/19 04:14:21 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/20 11:42:33 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -112,6 +112,7 @@ void	pick_correct_echo(t_cmd *cmd, t_data *data)
 
 	cmd_i = 1;
 	arg_i = 0;
+	free(data->arg);
 	data->arg = replace_env_in_full_arg(data->arg, data->envp);
 	if (check_echo_option(data->arg, cmd->cmd) == 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 20:48:40 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/19 21:47:49 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/20 11:28:21 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -27,9 +27,9 @@ int	count_nb_here_doc(char **cmd)
 	return (count);
 }
 
-void	wait_for_son(t_data *data, int j)
+void	wait_for_son(t_data *data, int j, int size)
 {
-	while (data->son[j] != 0)
+	while (j < size)
 	{
 		waitpid(data->son[j], NULL, 0);
 		j++;
@@ -49,7 +49,7 @@ int	ft_pipe(t_data *data)
 	if (!data->cmd)
 		return (1);
 	data->pipexfd = malloc_pipe(nb_pipe);
-	data->son = malloc(nb_pipe * sizeof(int));
+	data->son = malloc(nb_pipe * sizeof(pid_t));
 	if (!data->son)
 		return (1);
 	fi_pipe(data);
@@ -60,6 +60,6 @@ int	ft_pipe(t_data *data)
 		nb_pipe++;
 	}
 	l_pipe(data, i);
-	wait_for_son(data, j);
+	wait_for_son(data, j, nb_pipe);
 	return (0);
 }

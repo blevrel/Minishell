@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 12:09:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/18 23:03:44 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/20 11:39:05 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -69,10 +69,12 @@ int	get_env_variable_size(char *cmd, char **envp)
 		if (ft_strncmp(envp[i], value, len_env + 1) == 0 && len_env != -1)
 		{
 			res = ft_strlen(&envp[i][len_env + 1]);
+			free(value);
 			return (res);
 		}
 		i++;
 	}
+	free(value);
 	return (0);
 }
 

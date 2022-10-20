@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 14:25:34 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/17 13:32:53 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/20 11:48:43 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -69,6 +69,8 @@ char	*replace_env_in_full_arg(char *full_arg, char **env)
 
 	i = 0;
 	j = 0;
+	//le calcul de la taille de malloc est flingué, faut compter la taille de la string brut en transformant les $var en variables d'environnement
+	//mais il faut laisser les quotes, juste changer les $
 	res = ft_calloc((ft_strlen(full_arg) + 1), sizeof(char));
 	if (verif_malloc_str(&res, 0) == 1)
 		return (NULL);
@@ -86,6 +88,7 @@ char	*replace_env_in_full_arg(char *full_arg, char **env)
 			i++;
 		}
 	}
+	free(full_arg);
 	return (res);
 }
 
