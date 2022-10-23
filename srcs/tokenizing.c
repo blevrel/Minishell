@@ -36,7 +36,7 @@ int	move_index_after_quote(char *str, int i, int quote)
 	return (i);
 }
 
-void	fill_tokenized_with_quote(char **envp, char *res, char *src, int quote)
+void	fill_tokenized_with_quote(t_data *data, char *res, char *src, int quote)
 {
 	int	j;
 	int	i;
@@ -47,7 +47,7 @@ void	fill_tokenized_with_quote(char **envp, char *res, char *src, int quote)
 	{
 		if (quote == 34 && src[i] == '$' && src[i + 1] != '$')
 		{
-			fill_env(res, &src[i], envp, &j);
+			fill_env(res, &src[i], data, &j);
 			move_indextoenv(src, &i);
 		}
 		else
@@ -70,13 +70,13 @@ void	tokenize_arg(char *res, char *src, t_data *data)
 		{
 			quote = src[i];
 			i++;
-			fill_tokenized_with_quote(data->envp, &res[j], &src[i], quote);
+			fill_tokenized_with_quote(data, &res[j], &src[i], quote);
 			j = ft_strlen(res);
 			i = move_index_after_quote(src, i, quote);
 		}
 		else if (src[i] == '$' && src[i + 1] != '$')
 		{
-			fill_env(res, &src[i], data->envp, &j);
+			fill_env(res, &src[i], data, &j);
 			move_indextoenv(src, &i);
 		}
 		else
@@ -102,7 +102,7 @@ char	**tokenizing(t_data *data)
 			i++;
 			continue ;
 		}
-		res[i] = malloc((size_tokenize(data->parsing[i], data->envp) + 1)
+		res[i] = malloc((size_tokenize(data->parsing[i], data->envp, data) + 1)
 				* sizeof(char));
 		if (verif_malloc_str(res, i) == 1)
 			return (NULL);

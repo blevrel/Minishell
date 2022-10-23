@@ -112,8 +112,7 @@ void	pick_correct_echo(t_cmd *cmd, t_data *data)
 
 	cmd_i = 1;
 	arg_i = 0;
-	free(data->arg);
-	data->arg = replace_env_in_full_arg(data->arg, data->envp);
+	data->arg = replace_env_in_full_arg(data->arg, data);
 	if (check_echo_option(data->arg, cmd->cmd) == 0)
 	{
 		options = join_echo_options(cmd->cmd, data->arg);

@@ -53,6 +53,8 @@ SRCS  =	srcs/alloc_parsing.c \
 		srcs/tokenizing_size.c \
 		srcs/unset.c \
 		srcs/verif_malloc.c \
+		srcs/print_export.c \
+		srcs/return_value.c \
 
 OBJS = ${SRCS:.c=.o}
 

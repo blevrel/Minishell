@@ -12,8 +12,43 @@
 
 #include "minishell.h"
 
+int	check_join_value(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '+')
+			return (1);
+		++i;
+	}
+	return (0);
+}
+
+char	*join_value_env(char *str, int line, char **env)
+{
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	while(str[i] && str[i] != '=')
+		++i;
+	if (str[i] == '=')
+		++i;
+	tmp = ft_strjoin(env[line], &str[i]);
+	free(env[line]);
+	env[line] = NULL;
+	return (tmp);
+}
+
 void	replace_value(char *str, int line, t_data *data)
 {
+	if (check_join_value(str) == 1)
+	{
+		data->envp[line] = join_value_env(str, line, data->envp);
+		return ;
+	}
 	free(data->envp[line]);
 	data->envp[line] = ft_strdup(str);
 }
@@ -42,7 +77,7 @@ char	**new_env_export(char **cmd, char **env)
 
 	new_env = malloc((search_new_env(cmd, env)
 				+ size_tab(env) + 1) * sizeof(char *));
-	if (verif_malloc_arr(new_env) == 1)
+	if (!new_env)
 		return (NULL);
 	i = size_tab(env);
 	j = 1;
@@ -50,13 +85,10 @@ char	**new_env_export(char **cmd, char **env)
 	free_double_tab(env);
 	while (cmd[j] != NULL)
 	{
-		if (ft_strchr_int(cmd[j], '=') > 0 && search_env(cmd[j], env) == -1
+		if (ft_strchr_int(cmd[j], '=') > 0 && search_env(cmd[j], new_env) == -1
 			&& check_value(cmd[j]) == 0)
-		{
-			new_env[i] = ft_strdup(cmd[j]);
-			j++;
-			i++;
-		}
+			new_env[i++] = ft_strdup(cmd[j]);
+		++j;
 	}
 	new_env[i] = NULL;
 	return (new_env);

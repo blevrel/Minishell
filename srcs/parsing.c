@@ -64,9 +64,13 @@ char	**fill_final_tab(char **final_tab, t_data *data, int *i, int *j)
 	{
 		if (check_size_first_arg(data->arg, *i) != 0)
 		{
-			final_tab[(*j)++] = alloc_first_arg(data->arg, i);
-			if (final_tab[*j - 1] == NULL)
+			final_tab[*j] = alloc_first_arg(data->arg, i);
+			if (final_tab[*j] == NULL)
 				return (NULL);
+			(*j)++;
+			if (ft_strcmp(final_tab[*j - 1], "export") == 0)
+				if (fill_after_export(final_tab, data->arg, i, j) == 1)
+					return (NULL);
 		}
 		if (fill_until_pipe(final_tab, data->arg, i, j) == 1)
 			return (NULL);

@@ -37,7 +37,7 @@ void	init_cmd(t_data *data)
 	if (data->arg == NULL)
 		return ;
 	data->parsing = alloc_final_tab(data);
-	if (!data->parsing)
+	if (!data->parsing || data->parsing[0]== NULL)
 		return ;
 	data->parsing = tokenizing(data);
 	if (next_non_spc_char(0, data->arg) != 34

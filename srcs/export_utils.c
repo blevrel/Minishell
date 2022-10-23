@@ -47,33 +47,24 @@ char	**sort_env(char **env)
 	return (print);
 }
 
-void	print_export(char	**print)
-{
-	int	i;
-
-	i = 0;
-	while (print[i] != NULL)
-	{
-		printf("declare -x \"%s\"\n", print[i]);
-		i++;
-	}
-}
-
 int	search_env(char *str, char **env)
 {
 	int	i;
 	int	j;
 
-	i = 0;
 	j = 0;
-	while (str[i] && str[i] != '=')
-		++i;
-	if (str[i] != '=')
-		return (-1);
 	while (env[j] != NULL)
 	{
+		i = 0;
+		while (env[j][i] && env[j][i] != '=')
+				++i;
 		if (ft_strncmp(str, env[j], i) == 0)
-			return (j);
+		{
+			while (str[i] && str[i] != '=' && str[i] != '+')
+					++i;
+			if (ft_strncmp(str, env[j], i) == 0)
+				return (j);
+		}
 		++j;
 	}
 	return (-1);

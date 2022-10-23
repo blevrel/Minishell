@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-int	size_in_quote(char *str, int *i, int quote, char **env)
+int	size_in_quote(char *str, int *i, int quote, t_data *data)
 {
 	int	count;
 
@@ -20,7 +20,7 @@ int	size_in_quote(char *str, int *i, int quote, char **env)
 	{
 		if (quote == 34 && str[*i] == '$' && str[*i + 1] != '$')
 		{
-			count += get_env_variable_size(&str[*i], env);
+			count += get_env_variable_size(&str[*i], data->envp, data);
 			move_indextoenv(str, i);
 		}
 		else
@@ -33,7 +33,7 @@ int	size_in_quote(char *str, int *i, int quote, char **env)
 	return (count);
 }
 
-int	size_tokenize(char *src, char **env)
+int	size_tokenize(char *src, char **env, t_data *data)
 {
 	int	i;
 	int	res;
@@ -47,12 +47,12 @@ int	size_tokenize(char *src, char **env)
 		{
 			quote = src[i];
 			i++;
-			res += size_in_quote(src, &i, quote, env);
+			res += size_in_quote(src, &i, quote, data);
 			continue ;
 		}
 		else if (src[i] == '$' && src[i + 1] != '$')
 		{
-			res += get_env_variable_size(&src[i], env);
+			res += get_env_variable_size(&src[i], env, data);
 			move_indextoenv(src, &i);
 			continue ;
 		}

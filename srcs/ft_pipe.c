@@ -27,31 +27,25 @@ int	count_nb_here_doc(char **cmd)
 	return (count);
 }
 
-void	wait_for_son(t_data *data, int j, int size)
-{
-	while (j < size)
-	{
-		waitpid(data->son[j], NULL, 0);
-		j++;
-		g_signal_trigger = IN_COMMAND;
-	}
-}
 
 int	ft_pipe(t_data *data)
 {
 	int		nb_pipe;
 	int		i;
-	int		j;
 
 	i = 1;
-	j = 0;
 	nb_pipe = check_nbpipe(data->arg);
 	if (!data->cmd)
 		return (1);
 	data->pipexfd = malloc_pipe(nb_pipe);
+	if (data->pipexfd == 0)
+		return (0);
 	data->son = malloc(nb_pipe * sizeof(pid_t));
 	if (!data->son)
+	{
+		ft_putstr_fd("Malloc failed\n", 2);
 		return (1);
+	}
 	fi_pipe(data);
 	while (nb_pipe > 2)
 	{
@@ -60,6 +54,6 @@ int	ft_pipe(t_data *data)
 		nb_pipe++;
 	}
 	l_pipe(data, i);
-	wait_for_son(data, j, nb_pipe);
+	return_value(data->son, data, check_nbpipe(data->arg));
 	return (0);
 }

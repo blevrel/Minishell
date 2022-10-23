@@ -40,6 +40,31 @@ int	check_size_first_arg(char *arg, int i)
 	return (count);
 }
 
+int	check_size_export_arg(char *arg, int i)
+{
+	int	count;
+	int	quote;
+
+	count = 0;
+	quote = 0;
+	while (arg[i] && check_char(&arg[i]) == 1)
+		i++;
+	while (arg[i] && check_char(&arg[i]) <= 0)
+	{
+		if (check_char(&arg[i]) < 0)
+		{
+			quote = arg[i];
+			while (arg[++i] != quote)
+				count++;
+		}
+		i++;
+		count++;
+	}
+	if (count == 0)
+		return (0);
+	return (count);
+}
+
 int	alloc_with_quotes(char **final_tab, char *arg, int *i, int *j)
 {
 	int	quote;

@@ -28,10 +28,32 @@ void	init_null_cmd(t_cmd *res, int nb_cmd)
 	}
 }
 
+char	**cpy_export(char **env)
+{
+	int		i;
+	int		j;
+	char	**res;
+
+	res = malloc(size_tab(env) * sizeof(char *));
+	//check_malloc
+	i = 0;
+	j = 0;
+	while (env[i] != NULL)
+	{
+		res[j] = ft_strdup(env[i]);
+		++j;
+		++i;
+		if (env[i] && env[i][0] == '_')
+			++i;
+	}
+	res[j] = NULL;
+	return (res);
+}
+
 void	init_data(t_data *data, char **env)
 {
 	data->envp = dup_dp(env);
-	data->export = dup_dp(env);
+	data->export = cpy_export(env);
 	data->export = sort_env(data->export);
 	data->parsing = NULL;
 	data->arg = NULL;

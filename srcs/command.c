@@ -68,7 +68,10 @@ int	simple_cmd(t_data *data)
 	pid_t	son;
 
 	if (builtin(data->cmd[0]->cmd[0], data) == 0)
+	{
+		data->return_value = 0;
 		return (0);
+	}
 	son = fork();
 	g_signal_trigger = IN_COMMAND;
 	if (son == 0)
@@ -77,11 +80,11 @@ int	simple_cmd(t_data *data)
 		signal_handler();
 		dup_simple_call(data->cmd[0]->type, data->cmd[0]->file);
 		if (check_builtin(data->cmd[0], data))
-			exit (1);
+			exit (0);
 		if (execve(data->cmd[0]->path, data->cmd[0]->cmd, data->envp) == -1)
 			exit (2);
 	}
 	waitpid(son, NULL, 0);
-	g_signal_trigger = IN_PARENT;
+	return_value(&son, data, 0);
 	return (0);
 }

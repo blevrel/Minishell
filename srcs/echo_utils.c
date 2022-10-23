@@ -11,13 +11,19 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-char	*tokenize_env_var(char *full_arg, char *res, char **env, int *i)
+char	*tokenize_env_var(char *full_arg, char *res, t_data *data, int *i)
 {
 	char	*value;
 	int		line;
 	int		len_env;
 
 	(*i)++;
+	if (full_arg[*i] == '?')
+	{
+		value = ft_itoa(data->return_value);
+		res = join_gnl(res, value);
+		return (res);
+	}
 	value = isolate_env_var(&full_arg[*i]);
 	line = 0;
 	len_env = size_env(value);
@@ -26,15 +32,15 @@ char	*tokenize_env_var(char *full_arg, char *res, char **env, int *i)
 		(*i)++;
 	if (len_env == -1)
 		return (NULL);
-	while (env[line] && ft_strncmp(env[line], value, len_env + 1) != 0)
+	while (data->envp[line] && ft_strncmp(data->envp[line], value, len_env + 1) != 0)
 		line++;
-	if (!env[line])
+	if (!data->envp[line])
 		return (res);
-	res = join_gnl(res, &env[line][len_env + 1]);
+	res = join_gnl(res, &data->envp[line][len_env + 1]);
 	return (res);
 }
 
-char	*replace_env_in_quotes(char *full_arg, char *res, char **env, int *i)
+char	*replace_env_in_quotes(char *full_arg, char *res, t_data *data, int *i)
 {
 	int	quote;
 	int	j;
@@ -48,7 +54,7 @@ char	*replace_env_in_quotes(char *full_arg, char *res, char **env, int *i)
 	{
 		if (full_arg[*i] == '$' && quote == 34)
 		{
-			res = tokenize_env_var(full_arg, res, env, i);
+			res = tokenize_env_var(full_arg, res, data, i);
 			j = ft_strlen(res);
 		}
 		else
@@ -61,7 +67,7 @@ char	*replace_env_in_quotes(char *full_arg, char *res, char **env, int *i)
 	return (res);
 }
 
-char	*replace_env_in_full_arg(char *full_arg, char **env)
+char	*replace_env_in_full_arg(char *full_arg, t_data *data)
 {
 	int		i;
 	int		j;
@@ -78,9 +84,9 @@ char	*replace_env_in_full_arg(char *full_arg, char **env)
 	{
 		if (check_char(&full_arg[i]) < 0
 			&& check_closing_quotes(&full_arg[i]) == 0)
-			res = replace_env_in_quotes(full_arg, res, env, &i);
+			res = replace_env_in_quotes(full_arg, res, data, &i);
 		else if (full_arg[i] == '$')
-			res = tokenize_env_var(full_arg, res, env, &i);
+			res = tokenize_env_var(full_arg, res, data, &i);
 		else
 		{
 			j = ft_strlen(res);

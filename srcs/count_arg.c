@@ -17,15 +17,16 @@ int	go_to_first_arg(char *arg, int *i)
 	int	quote;
 
 	count = 0;
-	while (arg[*i] && check_char(&arg[*i]) == 1)
+	while(check_char(&arg[*i]) == 2)
+	{
 		(*i)++;
-	while (arg[*i]
-		&& (check_char(&arg[*i]) <= 0))
+		++count;
+	}
+	while (arg[*i] && (check_char(&arg[*i]) <= 0))
 	{	
 		if (check_char(&arg[*i]) < 0)
 		{
-			quote = arg[*i];
-			(*i)++;
+			quote = arg[(*i)++];
 			while (arg[*i] && arg[*i] != quote)
 					(*i)++;
 		}
@@ -62,15 +63,55 @@ int	count_arg(char *arg, int *i)
 	return (res);
 }
 
+int	check_export(char *str)
+{
+	int		i;
+	int		j;
+	char	*check;
+
+	i = 0;
+	j = 0;
+	check = malloc(6 * sizeof(char));
+	while (str[i] && j < 6)
+	{
+		if (check_char(&str[i]) >= 0)
+			check[j++] = str[i];
+		++i;
+	}
+	check[j] = 0;
+	if (ft_strncmp(check, "export", 6) == 0)
+	{
+		free(check);
+		return (1);
+	}
+	free(check);
+	return (0); 
+}
+
+int	count_exp(char *arg, int *i)
+{
+	int	res;
+	
+	res = 0;
+	while (arg[*i] && (check_char(&arg[*i]) <= 0))
+		res += go_to_first_arg(arg, i);
+	return (res);
+}
+
 int	nb_arg(char *arg)
 {
 	int	i;
 	int	res;
+	int	check_exp;
 
 	res = 0;
 	i = 0;
+	check_exp = 0;
 	while (arg[i])
 	{
+		while (arg[i] && check_char(&arg[i]) == 1)
+			i++;
+		check_exp = check_export(&arg[i]);
 		res += go_to_first_arg(arg, &i);
 		while (arg[i] && check_char(&arg[i]) == 1)
 			i++;
@@ -80,7 +121,9 @@ int	nb_arg(char *arg)
 				i++;
 			res++;
 		}
-		if (arg[i])
+		if (check_exp == 1)
+			res += count_exp(arg, &i);
+		if (res != 0 && arg[i])
 			res += count_arg(arg, &i);
 	}
 	return (res);
@@ -97,17 +140,48 @@ int	count_size_first_arg(char *arg)
 	quote = 0;
 	while (arg[i] && check_char(&arg[i]) == 1)
 		i++;
+	while (arg[i] && (check_char(&arg[i]) == 2))
+	{
+		++i;
+		++res;
+	}
 	while (arg[i] && check_char(&arg[i]) <= 0)
 	{
 		if (check_char(&arg[i]) < 0)
 		{
 			quote = arg[i];
 			i++;
+			res++;
 			while (arg[i] != quote)
 			{
 				res++;
 				i++;
 			}
+		}
+		i++;
+		res++;
+	}
+	return (res);
+}
+
+int	count_size_exp(char *arg)
+{
+	int	i;
+	int	res;
+	int	quote;
+
+	i = 0;
+	res = 0;
+	quote = 0;
+	while (arg[i] && check_char(&arg[i]) == 1)
+		i++;
+	while (arg[i] && (check_char(&arg[i]) <= 0))
+	{
+		if (check_char(&arg[i]) < 0)
+		{
+			quote = arg[i];
+			while (arg[++i] != quote)
+				res++;
 		}
 		i++;
 		res++;

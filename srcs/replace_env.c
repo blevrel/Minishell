@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 12:09:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/20 11:39:05 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/19 13:56:09 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -40,7 +40,7 @@ char	*isolate_env_var(char *cmd)
 	while (cmd[i + j] && check_char(&cmd[i + j]) == 0 && cmd[i + j] != '$')
 		j++;
 	to_find = malloc(sizeof(char) * (j + 2));
-	if (verif_malloc_str(&to_find, 0) == 1)
+	if (!to_find)
 		return (NULL);
 	j = 0;
 	while (cmd[i] && check_char(&cmd[i]) == 0 && cmd[i] != '$')
@@ -54,7 +54,22 @@ char	*isolate_env_var(char *cmd)
 	return (to_find);
 }
 
-int	get_env_variable_size(char *cmd, char **envp)
+int	size_return_value(t_data *data)
+{
+	int	res;
+	int	tmp;
+	
+	res = 1;
+	tmp = data->return_value;
+	while (tmp >= 10)
+	{
+		tmp = tmp/10;
+		++res;
+	}
+	return (res);
+}
+
+int	get_env_variable_size(char *cmd, char **envp, t_data *data)
 {
 	int		i;
 	int		res;
@@ -64,21 +79,62 @@ int	get_env_variable_size(char *cmd, char **envp)
 	i = 0;
 	value = isolate_env_var(cmd);
 	len_env = size_env(value);
+	if (ft_strcmp(value, "?=") == 0)
+	{
+		res = size_return_value(data);
+		return (res);
+	}
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], value, len_env + 1) == 0 && len_env != -1)
 		{
 			res = ft_strlen(&envp[i][len_env + 1]);
-			free(value);
 			return (res);
 		}
 		i++;
+	}
+	return (0);
+}
+
+char	*ft_cpy_env(char *dest, int *i, char *src)
+{	
+	int	j;
+
+	j = 0;
+	while (src[j])
+	{
+		dest[*i] = src[j];
+		(*i)++;
+		j++;
+	}
+	dest[*i] = '\0';
+	return (dest);
+}
+
+int	replace_valuereturn(char *dest, int *j, t_data *data)
+{	
+	char *value;
+	int	i;
+
+	i = 0;
+	value = NULL;
+	value = ft_itoa(data->return_value);
+	if (value == NULL)
+	{
+		ft_putstr_fd("Malloc failed", 2);
+		return (1);
+	}
+	while (value[i])
+	{
+		dest[*j] = value[i];
+		(*j)++;
+		++i;
 	}
 	free(value);
 	return (0);
 }
 
-void	fill_env(char *res, char *str, char **env, int *j)
+int	fill_env(char *res, char *str, t_data *data, int *j)
 {
 	int		i;
 	int		line;
@@ -90,16 +146,17 @@ void	fill_env(char *res, char *str, char **env, int *j)
 	value = isolate_env_var(str);
 	len_env = size_env(value);
 	if (len_env == -1)
-		return ;
-	while (env[line] && ft_strncmp(env[line], value, len_env + 1) != 0)
-		++line;
-	if (!env[line])
-		return ;
-	while (env[line][len_env + i])
+		return (2);
+	if (ft_strcmp(value, "?=") == 0)
 	{
-		res[*j] = env[line][len_env + i];
-		i++;
-		(*j)++;
+		if (replace_valuereturn(res, j, data) == 1)
+			return (1);
+		return (0);
 	}
-	res[*j] = '\0';
+	while (data->envp[line] && ft_strncmp(data->envp[line], value, len_env + 1) != 0)
+		++line;
+	if (!data->envp[line])
+		return (2);
+	res = ft_cpy_env(res, j, &data->envp[line][len_env + i]);
+	return (0);
 }

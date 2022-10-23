@@ -31,7 +31,8 @@ int	check_nbpipe(char *full_arg)
 		}
 		if (full_arg[i] == '|')
 			res++;
-		i++;
+		if (full_arg[i])
+			i++;
 	}
 	return (res);
 }
@@ -90,14 +91,14 @@ int	check_open(char **cmd)
 
 	if (ft_strcmp(cmd[0], ">") == 0)
 	{
-		fd = open(cmd[1], O_WRONLY | O_TRUNC | O_CREAT, S_IRWXU);
+		fd = open(cmd[1], O_WRONLY | O_TRUNC | O_CREAT, 00644);
 		if (fd == -1)
 			return (1);
 		close (fd);
 	}
 	if (ft_strcmp(cmd[0], ">>") == 0)
 	{
-		fd = open(cmd[1], O_WRONLY | O_APPEND | O_CREAT, S_IRWXU);
+		fd = open(cmd[1], O_WRONLY | O_APPEND | O_CREAT, 00644);
 		if (fd == -1)
 			return (1);
 		close (fd);

@@ -56,6 +56,7 @@ char	**check_limiter(char **cmd)
 			res[j] = ft_strdup(cmd[i + 1]);
 		++i;
 	}
+	res[j] = NULL;
 	return (res);
 }
 
@@ -85,12 +86,15 @@ t_cmd	*init_simple_struct(t_data *data, int index_pipe, t_cmd **cmd_pipe)
 	res = init_simple_cmd(data, i, res);
 	if (!res->cmd)
 		return (NULL);
-	res->path = check_path(res->cmd[0], data->envp);
-	if (!res->path && check_command(data->parsing[i]) != 1)
+	else if (ft_strlen(data->parsing[0]) == 0)
 	{
-		ft_printf("%s: command not found\n", res->cmd[0]);
+		ft_printf("\"\": command not found\n");
+		//peut etre free le reste de la struct
 		return (NULL);
 	}
+	res->path = check_path(res->cmd[0], data->envp, data);
+	if (!res->path)
+		return (NULL);
 	return (res);
 }
 

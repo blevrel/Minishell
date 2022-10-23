@@ -52,7 +52,7 @@ int	join_option_is_doable(char c, char *full_arg, int *j)
 	int	ret;
 
 	ret = 0;
-	while (full_arg[*j] != c)
+	while (full_arg[*j] && full_arg[*j] != c)
 		(*j)++;
 	if (check_char(&full_arg[*j - 1]) == 1)
 		ret = 1;

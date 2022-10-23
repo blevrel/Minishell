@@ -60,7 +60,8 @@ char	*parse_arg_for_syntax_error(char *str)
 		}
 		if (check_char(&str[i]) < 0)
 			i = move_index_after_quote(str, i + 1, str[i]);
-		i++;
+		if (str[i])
+			i++;
 	}
 	return (str);
 }
