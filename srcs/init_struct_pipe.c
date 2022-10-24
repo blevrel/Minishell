@@ -89,12 +89,14 @@ t_cmd	*init_simple_struct(t_data *data, int index_pipe, t_cmd **cmd_pipe)
 	else if (ft_strlen(data->parsing[0]) == 0)
 	{
 		ft_printf("\"\": command not found\n");
-		//peut etre free le reste de la struct
 		return (NULL);
 	}
 	res->path = check_path(res->cmd[0], data->envp, data);
 	if (!res->path)
+	{
+		free_simple_cmd(res);
 		return (NULL);
+	}
 	return (res);
 }
 

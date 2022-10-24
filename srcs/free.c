@@ -90,6 +90,6 @@ void	free_data(t_data *data)
 	free(data->son);
 	data->arg = NULL;
 	data->son = NULL;
-	if (data->cmd)
+	if (data->cmd != NULL)
 		free_multiple_cmd(data);
 }

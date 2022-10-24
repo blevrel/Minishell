@@ -71,7 +71,12 @@ int	check_export(char *str)
 
 	i = 0;
 	j = 0;
-	check = malloc(6 * sizeof(char));
+	check = malloc(7 * sizeof(char));
+	if (!check)
+	{
+		ft_putstr_fd("malloc failed\n", 2);
+		return (0);
+	}
 	while (str[i] && j < 6)
 	{
 		if (check_char(&str[i]) >= 0)

@@ -84,7 +84,6 @@ int	simple_cmd(t_data *data)
 		if (execve(data->cmd[0]->path, data->cmd[0]->cmd, data->envp) == -1)
 			exit (2);
 	}
-	waitpid(son, NULL, 0);
 	return_value(&son, data, 0);
 	return (0);
 }
