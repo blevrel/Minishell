@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 14:25:34 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/20 11:48:43 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/25 17:30:03 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -20,8 +20,11 @@ char	*tokenize_env_var(char *full_arg, char *res, t_data *data, int *i)
 	(*i)++;
 	if (full_arg[*i] == '?')
 	{
+		(*i)++;
 		value = ft_itoa(data->return_value);
+		//securiser 
 		res = join_gnl(res, value);
+		free(value);
 		return (res);
 	}
 	value = isolate_env_var(&full_arg[*i]);
@@ -31,9 +34,13 @@ char	*tokenize_env_var(char *full_arg, char *res, t_data *data, int *i)
 		&& full_arg[*i] != '$')
 		(*i)++;
 	if (len_env == -1)
+	{
+		free(value);
 		return (NULL);
+	}
 	while (data->envp[line] && ft_strncmp(data->envp[line], value, len_env + 1) != 0)
 		line++;
+	free(value);
 	if (!data->envp[line])
 		return (res);
 	res = join_gnl(res, &data->envp[line][len_env + 1]);
@@ -64,6 +71,8 @@ char	*replace_env_in_quotes(char *full_arg, char *res, t_data *data, int *i)
 			j++;
 		}
 	}
+	if (full_arg[*i] == quote)
+		(*i)++;
 	return (res);
 }
 
@@ -75,9 +84,7 @@ char	*replace_env_in_full_arg(char *full_arg, t_data *data)
 
 	i = 0;
 	j = 0;
-	//le calcul de la taille de malloc est flingué, faut compter la taille de la string brut en transformant les $var en variables d'environnement
-	//mais il faut laisser les quotes, juste changer les $
-	res = ft_calloc((ft_strlen(full_arg) + 1), sizeof(char));
+	res = ft_calloc((ft_strlen_var(full_arg, data) + 1), sizeof(char));
 	if (verif_malloc_str(&res, 0) == 1)
 		return (NULL);
 	while (full_arg[i])
@@ -91,10 +98,12 @@ char	*replace_env_in_full_arg(char *full_arg, t_data *data)
 		{
 			j = ft_strlen(res);
 			res[j] = full_arg[i];
+			++j;
 			i++;
 		}
 	}
 	free(full_arg);
+	full_arg = NULL;
 	return (res);
 }
 

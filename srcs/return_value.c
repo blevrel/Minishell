@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 16:03:02 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/22 10:53:40 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/25 08:18:01 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -29,7 +29,6 @@ void	return_value(int *son, t_data *data, int size)
 	while (size >= 0)
 	{
 		waitpid(son[i], &status, 0);
-		printf("return_value : %d\n", status);
 		i++;
 		--size;
 	}

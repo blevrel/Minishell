@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 14:29:35 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/19 12:01:10 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/25 10:34:24 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,5 @@ void	init_data(t_data *data, char **env)
 	data->son = NULL;
 	data->cmd = NULL;
 	data->pipexfd = NULL;
+	data->return_value = 0;
 }

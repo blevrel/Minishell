@@ -6,10 +6,37 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 00:03:37 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/18 04:13:33 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/25 08:17:52 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
+
+int	ft_strlen_var(char *str, t_data *data)
+{
+	int	i;
+	int	res;
+	
+	i = 0;
+	res = 0;
+	if (!str)
+		return (res);
+	while (str[i])
+	{
+		if (str[i] == '$')
+		{
+			res += get_env_variable_size(&str[i], data->envp, data);
+			i++;
+			while (str[i] && ft_isalnum(str[i]) != 0)
+				i++;
+		}
+		else
+		{
+			i++;
+			res++;
+		}
+	}
+	return (res);
+}
 
 int	check_option_format_in_quotes(char *full_arg, int *j, char quote)
 {

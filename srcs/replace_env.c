@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 12:09:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/19 13:56:09 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/25 08:40:47 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -82,6 +82,7 @@ int	get_env_variable_size(char *cmd, char **envp, t_data *data)
 	if (ft_strcmp(value, "?=") == 0)
 	{
 		res = size_return_value(data);
+		free(value);
 		return (res);
 	}
 	while (envp[i])
@@ -89,10 +90,12 @@ int	get_env_variable_size(char *cmd, char **envp, t_data *data)
 		if (ft_strncmp(envp[i], value, len_env + 1) == 0 && len_env != -1)
 		{
 			res = ft_strlen(&envp[i][len_env + 1]);
+			free(value);
 			return (res);
 		}
 		i++;
 	}
+	free(value);
 	return (0);
 }
 
@@ -150,11 +153,16 @@ int	fill_env(char *res, char *str, t_data *data, int *j)
 	if (ft_strcmp(value, "?=") == 0)
 	{
 		if (replace_valuereturn(res, j, data) == 1)
+		{
+			free(value);
 			return (1);
+		}
+		free(value);
 		return (0);
 	}
 	while (data->envp[line] && ft_strncmp(data->envp[line], value, len_env + 1) != 0)
 		++line;
+	free(value);
 	if (!data->envp[line])
 		return (2);
 	res = ft_cpy_env(res, j, &data->envp[line][len_env + i]);

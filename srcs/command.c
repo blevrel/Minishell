@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/11 11:42:35 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/25 15:14:10 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ int	builtin(char *cmd, t_data *data)
 	if (ft_strcmp(data->cmd[0]->type, "<<") == 0)
 	{
 		here_doc(data->cmd[0], data->envp);
+		return (0);
+	}
+	if (ft_strcmp(cmd, "echo") == 0)
+	{
+		pick_correct_echo(data->cmd[0], data);
 		return (0);
 	}
 	return (1);

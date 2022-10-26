@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/19 21:48:33 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/25 08:09:21 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -163,6 +163,7 @@ void	check_exit_arg(char **args, int *exit_arg);
 void	directory(t_cmd *cmd, t_data *data);
 void	ft_export(t_cmd *cmd, t_data *data);
 void	unset(t_cmd *cmd, t_data *data);
+int		ft_strlen_var(char *str, t_data *data);
 
 //PIPE
 int		check_pipe(t_data *data);
