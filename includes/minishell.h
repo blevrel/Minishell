@@ -14,6 +14,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <limits.h>
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -50,7 +51,7 @@ typedef struct s_data
 }				t_data;
 
 int		simple_cmd(t_data *data);
-void	return_value(int *son, t_data *data, int size);
+void		return_value(int *son, t_data *data, int size);
 
 //INIT_STRUCT_COMMAND
 int		check_open(char **cmd);
@@ -65,14 +66,20 @@ void	init_file(t_cmd *res, t_data *data, int i);
 int		check_command(char *str);
 char	**sort_env(char **env);
 void	init_null_cmd(t_cmd *res, int nb_cmd);
-int		init_data(t_data *data, char **env);
+int	init_data(t_data *data, char **env);
+
+//REMOVE_FIRST_ARGS
+char	**remove_first_arg(t_data *data);
+char	*remove_first_arg_in_full_arg(t_data *data);
+void	remove_arg_if_needed(t_data *data);
 
 //REDIRECTION
 int		check_redirection(char *str);
 int		reset_pipe_index_if_needed(char *full_arg);
 int		check_only_redirection(char *str, char *full_arg);
-void	here_doc(t_cmd *cmd, char **env);
-void	here_doc_pipe(t_cmd *cmd, int **pippexfd, char **env, int i);
+int		size_here_doc_line(char *line, t_data *data);
+void	here_doc(t_cmd *cmd, t_data *data);
+void	here_doc_pipe(t_cmd *cmd, int **pipexfd, t_data *data, int i);
 char	*tokenize_here_doc_limiter(char *str);
 char	*fill_limiter(char *str, char *res);
 

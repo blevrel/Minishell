@@ -32,5 +32,6 @@ void	return_value(int *son, t_data *data, int size)
 		i++;
 		--size;
 	}
+	g_signal_trigger = IN_PARENT;
 	data->return_value = replace_vreturn(status);
 }

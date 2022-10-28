@@ -45,6 +45,10 @@ void	ft_exit(t_data *data)
 	else
 	{
 		free_parsing(data);
+		free(data->arg);
+		free_double_tab(data->export);
+		free_double_tab(data->envp);
+		free(data);
 		printf("exit\n");
 		exit(0);
 	}
@@ -52,7 +56,10 @@ void	ft_exit(t_data *data)
 	if (exit_value == 1 && data->parsing[2])
 		return ;
 	free(data->arg);
+	free_double_tab(data->export);
+	free_double_tab(data->envp);
 	free_parsing(data);
+	free(data);
 	exit(exit_value);
 }
 

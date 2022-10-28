@@ -21,17 +21,17 @@ void	print_line(const char *str)
 	count_quote = 0;
 	while (str[j])
 	{
-		if (str[j - 1] == '=' && count_quote == 0)
+		if (j != 0 && str[j - 1] == '=' && count_quote == 0)
 		{
 			count_quote = 1;
 			ft_putchar('\"');
 		}
 		ft_putchar(str[j]);
-		++j;
+		j++;
 	}
 	if (str[j - 1] == '=')
 		ft_putstr("\"\"");
-	else if (count_quote == 1)
+	else if (count_quote == 1) 
 		ft_putchar('\"');
 }
 

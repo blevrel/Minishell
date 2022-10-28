@@ -22,7 +22,7 @@ int	ft_strlen_var(char *str, t_data *data)
 		return (res);
 	while (str[i])
 	{
-		if (str[i] == '$')
+		if (str[i] == '$' && str[i + 1] != '$')
 		{
 			res += get_env_variable_size(&str[i], data->envp, data);
 			i++;

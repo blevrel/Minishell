@@ -11,38 +11,18 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-char	**remove_first_arg(t_data *data)
-{
-	int		i;
-	char	**new_parsing_tab;
-
-	i = 0;
-	if (data->parsing[0][0])
-		return (data->parsing);
-	new_parsing_tab = ft_calloc(sizeof(char *), size_tab(data->parsing));
-	if (verif_malloc_arr(new_parsing_tab) == 1)
-		return (NULL);
-	while (data->parsing[i + 1])
-	{
-		new_parsing_tab[i] = ft_strdup(data->parsing[i + 1]);
-		i++;
-	}
-	free_double_tab(data->parsing);
-	return (new_parsing_tab);
-}
-
 void	init_cmd(t_data *data)
 {
 	data->arg = check_syntax_error(data->arg);
 	if (data->arg == NULL)
 		return ;
 	data->parsing = alloc_final_tab(data);
-	if (!data->parsing || data->parsing[0] == NULL)
+	if (!data->parsing || !data->parsing[0])
 		return ;
 	data->parsing = tokenizing(data);
 	if (next_non_spc_char(0, data->arg) != 34
 		&& next_non_spc_char(0, data->arg) != 39)
-		data->parsing = remove_first_arg(data);
+		remove_arg_if_needed(data);
 	if (ft_strcmp(data->parsing[0], "exit") == 0)
 	{
 		ft_exit(data);
@@ -64,7 +44,14 @@ void	routine(t_data *data)
 		if (data->arg && data->arg[0])
 			add_history(data->arg);
 		if (data->arg == NULL)
-			break ;
+		{
+			free(data->arg);
+			free_double_tab(data->export);
+			free_double_tab(data->envp);
+			free(data);
+			ft_printf("exit\n");
+			exit(0);
+		}
 		if (data->arg[0])
 			init_cmd(data);
 		free_data(data);

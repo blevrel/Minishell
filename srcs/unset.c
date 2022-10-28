@@ -38,17 +38,17 @@ char	**new_tab(int i, char **src)
 
 	j = 0;
 	k = 0;
-	new_tab = malloc(size_tab(src) * sizeof(char *));
+	new_tab = malloc((size_tab(src) + 1) * sizeof(char *));
 	if (verif_malloc_arr(new_tab) == 1)
 		return (NULL);
 	while (src[k] != NULL)
 	{
-		if (j != i)
-		{
-			new_tab[j] = ft_strdup(src[k]);
-			++j;
-		}
-		++k;
+		if (j == i)
+			k++;
+		new_tab[j] = ft_strdup(src[k]);
+		j++;
+		if (src[k])
+			k++;
 	}
 	new_tab[j] = NULL;
 	free_double_tab(src);

@@ -29,7 +29,7 @@ char	*tokenize_env_var(char *full_arg, char *res, t_data *data, int *i)
 	if (len_env == -1)
 	{
 		free(value);
-		return (NULL);
+		return (res);
 	}
 	while (data->envp[line] && ft_strncmp(data->envp[line], value, len_env + 1) != 0)
 		line++;
@@ -85,17 +85,16 @@ char	*replace_env_in_full_arg(char *full_arg, t_data *data)
 		if (check_char(&full_arg[i]) < 0
 			&& check_closing_quotes(&full_arg[i]) == 0)
 			res = replace_env_in_quotes(full_arg, res, data, &i);
-		else if (full_arg[i] == '$')
+		else if (full_arg[i] == '$' && full_arg[i + 1] != '$')
 			res = tokenize_env_var(full_arg, res, data, &i);
 		else
 		{
 			j = ft_strlen(res);
-			res[j] = full_arg[i];
-			++j;
-			i++;
+			ft_fill_char_and_increment(res, full_arg, &i, &j); 
 		}
 	}
 	free(full_arg);
+	full_arg = NULL;
 	return (res);
 }
 

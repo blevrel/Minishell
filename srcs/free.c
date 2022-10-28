@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 14:40:05 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/19 21:51:17 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/28 16:21:47 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	free_rest_of_simple_cmd(t_cmd *cmd)
 	}
 	free(cmd->cmd);
 	cmd->cmd = NULL;
+	free(cmd);
+	cmd = NULL;
 }
 
 void	free_simple_cmd(t_cmd *cmd)
@@ -74,7 +76,6 @@ void	free_multiple_cmd(t_data *data)
 	while (data->cmd[i] != NULL)
 	{
 		free_simple_cmd(data->cmd[i]);
-		free(data->cmd[i]);
 		data->cmd[i] = NULL;
 		++i;
 	}
@@ -84,12 +85,12 @@ void	free_multiple_cmd(t_data *data)
 
 void	free_data(t_data *data)
 {
-	if (data->parsing && data->parsing[0])
+	if (data->parsing)
 		free_parsing(data);
 	free(data->arg);
 	free(data->son);
 	data->arg = NULL;
 	data->son = NULL;
-	if (data->cmd != NULL)
+	if (data->cmd)
 		free_multiple_cmd(data);
 }

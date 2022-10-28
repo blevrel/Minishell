@@ -17,10 +17,11 @@ int	go_to_first_arg(char *arg, int *i)
 	int	quote;
 
 	count = 0;
-	while(check_char(&arg[*i]) == 2)
+	while (check_char(&arg[*i]) == 2)
 	{
 		(*i)++;
-		++count;
+		if (check_char(&arg[*i]) != 2)
+			return (1);
 	}
 	while (arg[*i] && (check_char(&arg[*i]) <= 0))
 	{	

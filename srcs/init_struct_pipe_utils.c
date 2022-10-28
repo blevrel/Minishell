@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 09:47:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/28 13:51:22 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/28 15:57:44 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -31,7 +31,7 @@ int	check_nbpipe(char *full_arg)
 		}
 		if (full_arg[i] == '|')
 			res++;
-		if (full_arg[i])
+		if (full_arg[i] && check_char(&full_arg[i]) >= 0)
 			i++;
 	}
 	return (res);
@@ -85,7 +85,8 @@ int	nb_cmd(char *full_arg)
 		if (check_char(&full_arg[i]) < 0)
 		{
 			i = move_index_after_quote(full_arg, i + 1);
-			res++;
+			if (full_arg[i - 2] != full_arg[i - 1])
+				res++;
 		}
 	}
 	return (res);
@@ -130,18 +131,19 @@ t_cmd	*fill_simple_cmd(t_data *data, t_cmd *res, int i, int j)
 		{
 			init_file(res, data, i);
 			if (data->parsing[i + 1])
+			{
 				i = i + 2;
-			else
-				i++;
+				continue ;
+			}
 		}
 		else if (value == 2)
 			break ;
-		else
+		else if (value != 1 && ft_strcmp(data->parsing[i], "") != 0)
 		{
 			res->cmd[j] = ft_strdup(data->parsing[i]);
 			j++;
-			i++;
 		}
+		i++;
 	}
 	res->cmd[j] = NULL;
 	return (res);

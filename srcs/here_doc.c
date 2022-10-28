@@ -9,10 +9,38 @@
 /*   Updated: 2022/10/28 09:06:02 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 
-void	create_file(char **limiter)
+char	*tokenize_here_doc_line(t_data *data)
+{
+	int		i;
+	int		j;
+	char	*line;
+	char	*new_line;
+	
+	i = 0;
+	j = 0;
+	line = readline("");
+	if (line == NULL)
+		exit(50);
+	new_line = malloc((size_here_doc_line(line, data) + 1) * sizeof(char));
+	while (line[i])
+	{
+		if (line[i] == '$' && line[i + 1] != '$'
+			&& check_char(&line[i + 1]) >= 0)
+		{
+			fill_env(new_line, &line[i], data, &j);
+			move_indextoenv(line, &i);
+		}
+		else
+			ft_fill_char_and_increment(new_line, line, &i, &j);
+	}
+	new_line[j] = '\0';
+	free(line);
+	return (new_line);
+}
+
+void	create_file(char **limiter, t_data *data)
 {
 	int		fd;
 	char	*line;
@@ -22,17 +50,13 @@ void	create_file(char **limiter)
 	fd = open ("here_doc", O_WRONLY | O_CREAT, 0644);
 	while (limiter[i] != NULL)
 	{
-		line = readline("");
-		if (line == NULL)
-			exit(50);
+		line = tokenize_here_doc_line(data);
 		while (ft_strcmp(line, limiter[i]) != 0)
 		{
 			ft_putstr_fd(line, fd);
 			ft_putchar_fd('\n', fd);
 			free(line);
-			line = readline("");
-			if (line == NULL)
-				exit(50);
+			line = tokenize_here_doc_line(data);
 		}
 		free(line);
 		++i;
@@ -40,7 +64,7 @@ void	create_file(char **limiter)
 	close (fd);
 }
 
-void	here_doc(t_cmd *cmd, char **env)
+void	here_doc(t_cmd *cmd, t_data *data)
 {
 	pid_t	son;
 	int		fd;
@@ -50,18 +74,18 @@ void	here_doc(t_cmd *cmd, char **env)
 	{
 		g_signal_trigger = IN_HERE_DOC;
 		signal_handler();
-		create_file(cmd->limiter);
+		create_file(cmd->limiter, data);
 		fd = open ("here_doc", O_RDONLY);
 		dup2(fd, 0);
 		close(fd);
-		if (execve(cmd->path, cmd->cmd, env) == -1)
+		if (execve(cmd->path, cmd->cmd, data->envp) == -1)
 			exit (1);
 	}
 	waitpid(son, NULL, 0);
 	unlink("here_doc");
 }
 
-void	here_doc_pipe(t_cmd *cmd, int **pipexfd, char **env, int i)
+void	here_doc_pipe(t_cmd *cmd, int **pipexfd, t_data *data, int i)
 {
 	pid_t	son;
 	int		fd;
@@ -71,13 +95,13 @@ void	here_doc_pipe(t_cmd *cmd, int **pipexfd, char **env, int i)
 	{
 		g_signal_trigger = IN_HERE_DOC;
 		signal_handler();
-		create_file(cmd->limiter);
+		create_file(cmd->limiter, data);
 		fd = open ("here_doc", O_RDONLY);
 		close(pipexfd[i][0]);
 		dup2(fd, 0);
 		dup2(pipexfd[i][1], 1);
 		close(fd);
-		if (execve(cmd->path, cmd->cmd, env) == -1)
+		if (execve(cmd->path, cmd->cmd, data->envp) == -1)
 			exit (1);
 	}
 	waitpid(son, NULL, 0);

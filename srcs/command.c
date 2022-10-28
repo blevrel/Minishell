@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/27 18:07:27 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/28 15:57:20 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	builtin(char *cmd, t_data *data)
 	}
 	if (ft_strcmp(data->cmd[0]->type, "<<") == 0)
 	{
-		here_doc(data->cmd[0], data->envp);
+		here_doc(data->cmd[0], data);
 		return (0);
 	}
 	if (ft_strcmp(cmd, "echo") == 0)
@@ -77,12 +77,10 @@ int	simple_cmd(t_data *data)
 		data->return_value = 0;
 		return (0);
 	}
-	son = fork();
 	g_signal_trigger = IN_COMMAND;
+	son = fork();
 	if (son == 0)
 	{
-		g_signal_trigger = IN_COMMAND;
-		signal_handler();
 		dup_simple_call(data->cmd[0]->type, data->cmd[0]->file);
 		if (check_builtin(data->cmd[0], data))
 		{

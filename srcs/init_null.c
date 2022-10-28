@@ -35,11 +35,8 @@ char	**cpy_export(char **env)
 	char	**res;
 
 	res = malloc(size_tab(env) * sizeof(char *));
-	if (!res)
-	{
-		ft_putstr_fd("Malloc failed", 2);
+	if (verif_malloc_arr(res) == 1)
 		return (NULL);
-	}
 	i = 0;
 	j = 0;
 	while (env[i] != NULL)

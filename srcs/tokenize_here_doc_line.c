@@ -1,43 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handling.c                                  :+:      :+:    :+:   */
+/*   tokenize_here_doc_line.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/16 16:49:41 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/14 09:34:55 by blevrel          ###   ########.fr       */
+/*   Created: 2022/10/28 10:29:54 by blevrel           #+#    #+#             */
+/*   Updated: 2022/10/28 11:12:18 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-void	signal_handler(void)
+int	size_here_doc_line(char *line, t_data *data)
 {
-	signal(SIGINT, catch_signal);
-	signal(SIGQUIT, SIG_IGN);
-}
+	int	i;
+	int	res;
 
-void	catch_signal(int signal)
-{
-	if (signal == SIGINT)
+	i = 0;
+	res = 0;
+	while (line[i])
 	{
-		if (g_signal_trigger == IN_HERE_DOC)
+		if (line[i] == '$' && line[i + 1] != '$'
+			&& check_char(&line[i + 1]) >= 0)
 		{
-			ft_printf("\33[2K\r");
-			exit(25);
+			res += get_env_variable_size(&line[i], data->envp, data);
+			move_indextoenv(line, &i);
 		}
-		else if (g_signal_trigger == IN_PARENT)
+		else
 		{
-			rl_on_new_line();
-			ft_printf("\n");
-			rl_replace_line("", 0);
-			rl_redisplay();
-			return ;
-		}
-		else if (g_signal_trigger == IN_COMMAND)
-		{
-			ft_printf("\n");
-			return ;
+			res++;
+			i++;
 		}
 	}
+	return (res);
 }

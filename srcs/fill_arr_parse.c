@@ -77,7 +77,7 @@ int	fill_until_pipe(char **final_tab, char *arg, int *i, int *j)
 char	*alloc_first_arg(char *arg, int *i)
 {
 	char		*res;
-	int			j;
+	int		j;
 
 	j = 0;
 	res = malloc((count_size_first_arg(&arg[*i]) + 1) * sizeof(char));

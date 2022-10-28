@@ -69,6 +69,7 @@ t_cmd	*init_simple_cmd(t_data *data, int i, t_cmd *res)
 
 	j = 0;
 	res->cmd = malloc((nb_cmd(&data->arg[i]) + 1) * sizeof(char *));
+	//res->cmd = malloc((nb_cmd(data->arg) + 1) * sizeof(char *));
 	if (verif_malloc_arr(res->cmd) == 1)
 		return (NULL);
 	init_null_cmd(res, nb_cmd(data->arg));
@@ -91,7 +92,8 @@ t_cmd	*init_simple_struct(t_data *data, int index_pipe, t_cmd **cmd_pipe)
 		return (NULL);
 	else if (ft_strlen(data->parsing[0]) == 0)
 	{
-		ft_printf("\"\": command not found\n");
+		ft_printf("\"\" : command not found\n");
+		free_simple_cmd(res);
 		return (NULL);
 	}
 	res->path = check_path(res->cmd[0], data->envp, data);
@@ -121,7 +123,10 @@ t_cmd	**init_struct_cmd(t_data *data)
 	{
 		cmd_pipe[i] = init_simple_struct(data, i, cmd_pipe);
 		if (!cmd_pipe[i])
+		{
+			free(cmd_pipe);
 			return (NULL);
+		}
 		i++;
 		nb_pipe--;
 	}

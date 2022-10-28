@@ -16,13 +16,11 @@ void	fi_pipe(t_data *data)
 {
 	pipe(data->pipexfd[0]);
 	data->son[0] = fork();
-	g_signal_trigger = IN_COMMAND;
 	if (data->son[0] == 0)
 	{
-		g_signal_trigger = IN_COMMAND;
 		if (ft_strcmp(data->cmd[0]->type, "<<") == 0)
 		{
-			here_doc_pipe(data->cmd[0], data->pipexfd, data->envp, 0);
+			here_doc_pipe(data->cmd[0], data->pipexfd, data, 0);
 			exit(1);
 		}
 		close(data->pipexfd[0][0]);
@@ -39,13 +37,11 @@ void	n_pipe(t_data *data, int i)
 {
 	pipe(data->pipexfd[i]);
 	data->son[i] = fork();
-	g_signal_trigger = IN_COMMAND;
 	if (data->son[i] == 0)
 	{
-		g_signal_trigger = IN_COMMAND;
 		if (ft_strcmp(data->cmd[0]->type, "<<") == 0)
 		{
-			here_doc_pipe(data->cmd[0], data->pipexfd, data->envp, i);
+			here_doc_pipe(data->cmd[0], data->pipexfd, data, i);
 			exit(1);
 		}
 		close(data->pipexfd[i][0]);
@@ -59,20 +55,17 @@ void	n_pipe(t_data *data, int i)
 			exit (2);
 	}
 	close(data->pipexfd[i - 1][1]);
-	printf("pipexfd : %d\n", i);
 	close(data->pipexfd[i - 1][0]);
 }
 
 void	l_pipe(t_data *data, int i)
 {
 	data->son[i] = fork();
-	g_signal_trigger = IN_COMMAND;
 	if (data->son[i] == 0)
 	{
-		g_signal_trigger = IN_COMMAND;
 		if (ft_strcmp(data->cmd[i]->type, "<<") == 0)
 		{
-			here_doc_pipe(data->cmd[i], data->pipexfd, data->envp, i);
+			here_doc_pipe(data->cmd[i], data->pipexfd, data, i);
 			exit(1);
 		}
 		close(data->pipexfd[i - 1][1]);
@@ -103,6 +96,5 @@ int	**malloc_pipe(int argc)
 			return (NULL);
 		i++;
 	}
-	printf("malloc : %d\n", i);
 	return (pipexfd);
 }
