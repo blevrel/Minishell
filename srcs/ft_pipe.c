@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 20:48:40 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/20 11:28:21 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/27 11:56:43 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -51,7 +51,7 @@ int	ft_pipe(t_data *data)
 	{
 		n_pipe(data, i);
 		i++;
-		nb_pipe++;
+		nb_pipe--;
 	}
 	l_pipe(data, i);
 	return_value(data->son, data, check_nbpipe(data->arg));

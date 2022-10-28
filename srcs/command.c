@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/25 15:14:10 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/27 18:07:27 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,13 @@ int	simple_cmd(t_data *data)
 		signal_handler();
 		dup_simple_call(data->cmd[0]->type, data->cmd[0]->file);
 		if (check_builtin(data->cmd[0], data))
+		{
+			free_data(data);
+			free_double_tab(data->envp);
+			free_double_tab(data->export);
+			free(data);
 			exit (0);
+		}
 		if (execve(data->cmd[0]->path, data->cmd[0]->cmd, data->envp) == -1)
 			exit (2);
 	}

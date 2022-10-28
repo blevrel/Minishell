@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 16:34:01 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/13 22:14:07 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/28 09:06:02 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	here_doc_pipe(t_cmd *cmd, int **pipexfd, char **env, int i)
 		signal_handler();
 		create_file(cmd->limiter);
 		fd = open ("here_doc", O_RDONLY);
+		close(pipexfd[i][0]);
 		dup2(fd, 0);
 		dup2(pipexfd[i][1], 1);
 		close(fd);

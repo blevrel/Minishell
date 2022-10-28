@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 15:35:25 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/19 19:36:04 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/28 13:49:42 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -37,7 +37,7 @@ int	reset_pipe_index_if_needed(char *full_arg)
 		if (full_arg[i] == '|')
 			return (1);
 		if (check_char(&full_arg[i]) < 0)
-			i = move_index_after_quote(full_arg, i + 1, full_arg[i]);
+			i = move_index_after_quote(full_arg, i + 1);
 		else
 			i++;
 	}

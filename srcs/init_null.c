@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 14:29:35 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/25 10:34:24 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/28 09:46:45 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,11 @@ char	**cpy_export(char **env)
 	char	**res;
 
 	res = malloc(size_tab(env) * sizeof(char *));
-	//check_malloc
+	if (!res)
+	{
+		ft_putstr_fd("Malloc failed", 2);
+		return (NULL);
+	}
 	i = 0;
 	j = 0;
 	while (env[i] != NULL)
@@ -50,15 +54,42 @@ char	**cpy_export(char **env)
 	return (res);
 }
 
-void	init_data(t_data *data, char **env)
+int	init_env_export(t_data *data, char **env)
 {
 	data->envp = dup_dp(env);
+	if (!data->envp)
+	{
+		free(data);
+		ft_putstr_fd("copy env failed", 2);
+		return (1);
+	}
 	data->export = cpy_export(env);
+	if (!data->export)
+	{
+		free_double_tab(data->envp);
+		free_data(data);
+		return (1);
+	}
 	data->export = sort_env(data->export);
+	if (data->export == NULL)
+	{
+		ft_putstr_fd("sort env failed", 2);
+		free_double_tab(data->envp);
+		free_data(data);
+		return (1);
+	}
+	return (0);
+}
+
+int	init_data(t_data *data, char **env)
+{
+	if (init_env_export(data, env) == 1)
+		return (1);
 	data->parsing = NULL;
 	data->arg = NULL;
 	data->son = NULL;
 	data->cmd = NULL;
 	data->pipexfd = NULL;
 	data->return_value = 0;
+	return (0);
 }

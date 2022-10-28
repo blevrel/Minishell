@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 12:09:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/25 08:40:47 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/28 11:43:15 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -81,9 +81,8 @@ int	get_env_variable_size(char *cmd, char **envp, t_data *data)
 	len_env = size_env(value);
 	if (ft_strcmp(value, "?=") == 0)
 	{
-		res = size_return_value(data);
 		free(value);
-		return (res);
+		return (size_return_value(data));
 	}
 	while (envp[i])
 	{
@@ -114,29 +113,6 @@ char	*ft_cpy_env(char *dest, int *i, char *src)
 	return (dest);
 }
 
-int	replace_valuereturn(char *dest, int *j, t_data *data)
-{	
-	char *value;
-	int	i;
-
-	i = 0;
-	value = NULL;
-	value = ft_itoa(data->return_value);
-	if (value == NULL)
-	{
-		ft_putstr_fd("Malloc failed", 2);
-		return (1);
-	}
-	while (value[i])
-	{
-		dest[*j] = value[i];
-		(*j)++;
-		++i;
-	}
-	free(value);
-	return (0);
-}
-
 int	fill_env(char *res, char *str, t_data *data, int *j)
 {
 	int		i;
@@ -150,21 +126,16 @@ int	fill_env(char *res, char *str, t_data *data, int *j)
 	len_env = size_env(value);
 	if (len_env == -1)
 		return (2);
-	if (ft_strcmp(value, "?=") == 0)
+	if (ft_strcmp(value, "?=") == 0 && replace_valuereturn(res, j , data) == 1)
 	{
-		if (replace_valuereturn(res, j, data) == 1)
-		{
 			free(value);
 			return (1);
-		}
-		free(value);
-		return (0);
 	}
 	while (data->envp[line] && ft_strncmp(data->envp[line], value, len_env + 1) != 0)
 		++line;
 	free(value);
 	if (!data->envp[line])
-		return (2);
+		return (0);
 	res = ft_cpy_env(res, j, &data->envp[line][len_env + i]);
 	return (0);
 }

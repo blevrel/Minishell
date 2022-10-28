@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/25 08:09:21 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/28 13:48:49 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -50,7 +50,7 @@ typedef struct s_data
 }				t_data;
 
 int		simple_cmd(t_data *data);
-void		return_value(int *son, t_data *data, int size);
+void	return_value(int *son, t_data *data, int size);
 
 //INIT_STRUCT_COMMAND
 int		check_open(char **cmd);
@@ -65,7 +65,7 @@ void	init_file(t_cmd *res, t_data *data, int i);
 int		check_command(char *str);
 char	**sort_env(char **env);
 void	init_null_cmd(t_cmd *res, int nb_cmd);
-void	init_data(t_data *data, char **env);
+int		init_data(t_data *data, char **env);
 
 //REDIRECTION
 int		check_redirection(char *str);
@@ -127,14 +127,13 @@ int		check_quote(char *arg, int *i);
 int		check_closing_quotes(char *s);
 int		size_in_quote(char *str, int *i, int quote, t_data *data);
 int		size_tokenize(char *src, char **env, t_data *data);
-void	fill_tokenized_with_quote(t_data *data, char *res, char *src, int quote);
-void	tokenize_arg(char *res, char *src, t_data *data);
+int		fill_tokenized_with_quote(t_data *data, char *res, char *src);
+int		tokenize_arg(char *res, char *src, t_data *data);
 int		size_env(char *str);
 char	*isolate_env_var(char *cmd);
 int		get_env_variable_size(char *cmd, char **envp, t_data *data);
-int	fill_env(char *res, char *str, t_data *data, int *j);
+int		fill_env(char *res, char *str, t_data *data, int *j);
 void	move_indextoenv(char *str, int *i);
-int		move_index_after_quote(char *str, int i, int quote);
 char	*fill_exp(char *arg, char *res, int *i, int *j;);
 int		count_size_exp(char *arg);
 char	*alloc_export(char *arg, int *i);
@@ -200,5 +199,18 @@ void	free_parsing(t_data *data);
 void	free_simple_cmd(t_cmd *cmd);
 void	free_multiple_cmd(t_data *data);
 void	free_data(t_data *data);
+
+//PARSING_HEREDOC
+int	check_here_doc_null(char *str);
+int	alloc_heredoc_null(char **final_tab, char *arg, int *line);
+int	check_fill_heredoc_null(char **final_tab, char *arg, int *i, int *j);
+
+//PARSING_RETURNVALUE
+char	*fill_returnvalue(t_data *data, char *res, int *i);
+int	replace_valuereturn(char *dest, int *j, t_data *data);
+
+//MOVE_INDEX
+void	move_indextoenv(char *str, int *i);
+int		move_index_after_quote(char *str, int i);
 
 #endif

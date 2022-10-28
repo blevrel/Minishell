@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 09:47:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/19 22:05:17 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/28 13:51:22 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -42,19 +42,25 @@ int	check_index_pipe(char *full_arg, int index_pipe)
 	static int	i = 0;
 	int			count;
 
+	if (full_arg[i] == '|')
+		i++;
 	if (index_pipe == 0)
+	{
+		while (full_arg[i] && full_arg[i] != '|')
+			++i;
 		return (0);
+	}
 	count = nb_cmd(&full_arg[i]);
 	while (full_arg[i] && full_arg[i] != '|')
 	{
 		if (check_char(&full_arg[i]) < 0)
-			i = move_index_after_quote(full_arg, i + 1, full_arg[i]);
+			i = move_index_after_quote(full_arg, i + 1);
 		else
 			i++;
 	}
-	if (reset_pipe_index_if_needed(&full_arg[i + 1]) == 0)
+	if (reset_pipe_index_if_needed(&full_arg[i]) == 0)
 		i = 0;
-	return (count + 1);
+	return (count);
 }
 
 int	nb_cmd(char *full_arg)
@@ -78,7 +84,7 @@ int	nb_cmd(char *full_arg)
 			i++;
 		if (check_char(&full_arg[i]) < 0)
 		{
-			i = move_index_after_quote(full_arg, i + 1, full_arg[i]);
+			i = move_index_after_quote(full_arg, i + 1);
 			res++;
 		}
 	}

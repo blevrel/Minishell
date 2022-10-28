@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 10:44:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/19 21:50:55 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/27 18:50:43 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -53,7 +53,10 @@ char	**check_limiter(char **cmd)
 	while (cmd[i] != NULL)
 	{
 		if (ft_strcmp(cmd[i], "<<") == 0)
+		{
 			res[j] = ft_strdup(cmd[i + 1]);
+			j++;
+		}
 		++i;
 	}
 	res[j] = NULL;
@@ -65,7 +68,7 @@ t_cmd	*init_simple_cmd(t_data *data, int i, t_cmd *res)
 	int		j;
 
 	j = 0;
-	res->cmd = malloc((nb_cmd(data->arg) + 1) * sizeof(char *));
+	res->cmd = malloc((nb_cmd(&data->arg[i]) + 1) * sizeof(char *));
 	if (verif_malloc_arr(res->cmd) == 1)
 		return (NULL);
 	init_null_cmd(res, nb_cmd(data->arg));

@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 14:58:28 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/15 16:52:16 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/28 09:10:34 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	print_line(const char *str)
 	}
 	if (str[j - 1] == '=')
 		ft_putstr("\"\"");
-	else if (count_quote == 1) 
+	else if (count_quote == 1)
 		ft_putchar('\"');
 }
 

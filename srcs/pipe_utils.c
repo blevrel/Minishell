@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 10:22:53 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/19 20:49:23 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/27 11:51:23 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	n_pipe(t_data *data, int i)
 			exit (2);
 	}
 	close(data->pipexfd[i - 1][1]);
+	printf("pipexfd : %d\n", i);
 	close(data->pipexfd[i - 1][0]);
 }
 
@@ -102,5 +103,6 @@ int	**malloc_pipe(int argc)
 			return (NULL);
 		i++;
 	}
+	printf("malloc : %d\n", i);
 	return (pipexfd);
 }

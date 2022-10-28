@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:32:51 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/19 21:57:47 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/26 11:37:29 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -39,6 +39,25 @@ int	go_to_first_arg(char *arg, int *i)
 	return (1);
 }
 
+int	check_here_doc_null(char *str)
+{
+	int	i;
+	int	res;
+	
+	i = 0;
+	res = 0;
+	while(str[i] == '<')
+		i++;
+	if (str[i] == '"' && str[i + 1] == '"')
+	{
+		i = i + 2;
+		res = 1;
+	}
+	if (res == 1 && (check_char(&str[i]) != 0 || str[i] == 0))
+		return (1);
+	return (0);
+}
+
 int	count_arg(char *arg, int *i)
 {
 	int	res;
@@ -49,7 +68,11 @@ int	count_arg(char *arg, int *i)
 		while (arg[*i] && check_char(&arg[*i]) == 1)
 			(*i)++;
 		if (arg[*i] && check_char(&arg[*i]) == 2)
+		{
+			if(check_here_doc_null(&arg[*i]) == 1)
+				res++;
 			res++;
+		}
 		while (check_char(&arg[*i]) == 2)
 				(*i)++;
 		if (arg[*i] && check_char(&arg[*i]) == 0 && arg[*i] != '|')

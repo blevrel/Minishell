@@ -6,60 +6,39 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:42:21 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/19 21:13:47 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/28 13:59:09 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-void	move_indextoenv(char *str, int *i)
-{
-	if (!str)
-		return ;
-	if (str[*i] == '$')
-		(*i)++;
-	while (str[*i])
-	{
-		if (str[*i] == '$' || check_char(&str[*i]) != 0)
-			return ;
-		(*i)++;
-	}
-}
 
-int	move_index_after_quote(char *str, int i, int quote)
-{
-	if (!str)
-		return (0);
-	while (str[i] && str[i] != quote)
-		i++;
-	if (str[i])
-		i++;
-	return (i);
-}
-
-void	fill_tokenized_with_quote(t_data *data, char *res, char *src, int quote)
+int	fill_tokenized_with_quote(t_data *data, char *res, char *src)
 {
 	int	j;
 	int	i;
+	int	quote;
 
-	i = 0;
+	i = 1;
 	j = 0;
+	quote = src[0];
 	while (src[i] != quote)
 	{
 		if (quote == 34 && src[i] == '$' && src[i + 1] != '$')
 		{
-			fill_env(res, &src[i], data, &j);
+			if (fill_env(res, &src[i], data, &j) == 1)
+				return (1);
 			move_indextoenv(src, &i);
 		}
 		else
 			ft_fill_char_and_increment(res, src, &i, &j);
 	}
 	res[j] = '\0';
+	return (0);
 }
 
-void	tokenize_arg(char *res, char *src, t_data *data)
+int	fill_tokenize_arg(char *res, char *src, t_data *data)
 {
 	int		i;
-	int		quote;
 	int		j;
 
 	i = 0;
@@ -68,21 +47,39 @@ void	tokenize_arg(char *res, char *src, t_data *data)
 	{
 		if (check_char(&src[i]) < 0)
 		{
-			quote = src[i];
-			i++;
-			fill_tokenized_with_quote(data, &res[j], &src[i], quote);
+			fill_tokenized_with_quote(data, &res[j], &src[i]);
 			j = ft_strlen(res);
-			i = move_index_after_quote(src, i, quote);
+			i = move_index_after_quote(src, i);
 		}
 		else if (src[i] == '$' && src[i + 1] != '$')
 		{
-			fill_env(res, &src[i], data, &j);
+			if (fill_env(res, &src[i], data, &j) == 1)
+				return (1);
 			move_indextoenv(src, &i);
 		}
 		else
 			ft_fill_char_and_increment(res, src, &i, &j);
 	}
 	res[j] = '\0';
+	return (0);
+}
+
+char	*tokenizing_arg(t_data *data, int i)
+{
+	char *res;
+
+	if (i > 0 && ft_strncmp(data->parsing[i - 1], "<<", 2) == 0)
+	{
+		res = tokenize_here_doc_limiter(data->parsing[i]);
+		return (res);
+	}
+	res = malloc((size_tokenize(data->parsing[i], data->envp, data) + 1)
+			* sizeof(char));
+	if (!res)
+		return (NULL);
+	if (fill_tokenize_arg(res, data->parsing[i], data) == 1)
+		return (NULL);
+	return (res);
 }
 
 char	**tokenizing(t_data *data)
@@ -94,19 +91,16 @@ char	**tokenizing(t_data *data)
 	res = malloc((size_tab(data->parsing) + 1) * sizeof (char *));
 	if (verif_malloc_arr(res))
 		return (NULL);
+	
 	while (data->parsing[i] != NULL)
 	{
-		if (i > 0 && ft_strncmp(data->parsing[i - 1], "<<", 2) == 0)
+		res[i] = tokenizing_arg(data, i);
+		if (!res[i])
 		{
-			res[i] = tokenize_here_doc_limiter(data->parsing[i]);
-			i++;
-			continue ;
-		}
-		res[i] = malloc((size_tokenize(data->parsing[i], data->envp, data) + 1)
-				* sizeof(char));
-		if (verif_malloc_str(res, i) == 1)
+			free_double_tab(res);
+			free_double_tab(data->parsing);
 			return (NULL);
-		tokenize_arg(res[i], data->parsing[i], data);
+		}
 		i++;
 	}
 	res[i] = NULL;

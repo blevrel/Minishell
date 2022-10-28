@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 14:25:34 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/25 17:30:03 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/28 10:43:00 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -19,14 +19,7 @@ char	*tokenize_env_var(char *full_arg, char *res, t_data *data, int *i)
 
 	(*i)++;
 	if (full_arg[*i] == '?')
-	{
-		(*i)++;
-		value = ft_itoa(data->return_value);
-		//securiser 
-		res = join_gnl(res, value);
-		free(value);
-		return (res);
-	}
+		return (fill_returnvalue(data, res, i));
 	value = isolate_env_var(&full_arg[*i]);
 	line = 0;
 	len_env = size_env(value);
@@ -103,7 +96,6 @@ char	*replace_env_in_full_arg(char *full_arg, t_data *data)
 		}
 	}
 	free(full_arg);
-	full_arg = NULL;
 	return (res);
 }
 

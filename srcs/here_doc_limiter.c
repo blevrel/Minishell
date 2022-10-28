@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 09:15:53 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/19 21:24:28 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/28 13:50:37 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -16,7 +16,7 @@ int	move_index_after_limiter(char *str, int i)
 	while (str[i] && check_char(&str[i]) != 1)
 	{
 		if (check_char(&str[i]) < 0)
-			i = move_index_after_quote(str, i + 1, str[i]);
+			i = move_index_after_quote(str, i + 1);
 		else
 			i++;
 	}

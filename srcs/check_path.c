@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:54 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/19 21:55:28 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/28 09:51:39 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	check_cmd(char *cmd, t_data *data)
 {
 	if (check_command(cmd) == 1)
 		return (0);
-	if(!(ft_strncmp(cmd, "./", 2) == 0 || ft_strncmp(cmd, "/", 1) == 0))
+	if (!(ft_strncmp(cmd, "./", 2) == 0 || ft_strncmp(cmd, "/", 1) == 0))
 	{
 		printf("%s : command not found\n", cmd);
 		data->return_value = 127;

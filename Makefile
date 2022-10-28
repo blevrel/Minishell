@@ -6,7 +6,7 @@
 #    By: blevrel <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 09:35:57 by blevrel           #+#    #+#              #
-#    Updated: 2022/10/19 20:49:55 by blevrel          ###   ########.fr        #
+#    Updated: 2022/10/28 13:14:06 by pirabaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,10 +55,13 @@ SRCS  =	srcs/alloc_parsing.c \
 		srcs/verif_malloc.c \
 		srcs/print_export.c \
 		srcs/return_value.c \
+		srcs/parsing_heredoc.c \
+		srcs/parsing_export.c srcs/parsing_returnvalue.c \
+		srcs/move_index.c
 
 OBJS = ${SRCS:.c=.o}
 
-CC = gcc
+CC = cc
 
 LIB = -L libft -lft
 

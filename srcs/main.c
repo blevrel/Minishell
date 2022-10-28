@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/18 22:07:19 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/28 10:22:40 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -37,7 +37,7 @@ void	init_cmd(t_data *data)
 	if (data->arg == NULL)
 		return ;
 	data->parsing = alloc_final_tab(data);
-	if (!data->parsing || data->parsing[0]== NULL)
+	if (!data->parsing || data->parsing[0] == NULL)
 		return ;
 	data->parsing = tokenizing(data);
 	if (next_non_spc_char(0, data->arg) != 34
@@ -64,10 +64,7 @@ void	routine(t_data *data)
 		if (data->arg && data->arg[0])
 			add_history(data->arg);
 		if (data->arg == NULL)
-		{
-			ft_printf("exit\n");
-			exit(0);
-		}
+			break ;
 		if (data->arg[0])
 			init_cmd(data);
 		free_data(data);
@@ -91,7 +88,12 @@ int	main(int argc, char **argv, char **env)
 		ft_putstr_fd("Malloc failed", 2);
 		return (0);
 	}
-	init_data(data, env);
+	if (init_data(data, env) == 1)
+		return (0);
 	routine(data);
+	ft_printf("exit\n");
+	free_double_tab(data->envp);
+	free_double_tab(data->export);
+	free(data);
 	return (0);
 }

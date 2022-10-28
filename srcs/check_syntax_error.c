@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:08:26 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/19 04:07:38 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/28 13:50:11 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -59,7 +59,7 @@ char	*parse_arg_for_syntax_error(char *str)
 				return (NULL);
 		}
 		if (check_char(&str[i]) < 0)
-			i = move_index_after_quote(str, i + 1, str[i]);
+			i = move_index_after_quote(str, i + 1);
 		if (str[i])
 			i++;
 	}

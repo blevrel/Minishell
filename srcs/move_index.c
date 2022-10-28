@@ -1,32 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_builtin.c                                    :+:      :+:    :+:   */
+/*   move_index.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/15 16:12:18 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/27 18:03:17 by pirabaud         ###   ########.fr       */
+/*   Created: 2022/10/28 11:43:38 by pirabaud          #+#    #+#             */
+/*   Updated: 2022/10/28 13:48:03 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 
-int	check_builtin(t_cmd *cmd, t_data *data)
+void	move_indextoenv(char *str, int *i)
 {
-	if (ft_strcmp(cmd->cmd[0], "echo") == 0)
+	if (!str)
+		return ;
+	if (str[*i] == '$')
+		(*i)++;
+	while (str[*i])
 	{
-		pick_correct_echo(cmd, data);
-		return (1);
+		if (str[*i] == '$' || check_char(&str[*i]) != 0)
+			return ;
+		(*i)++;
 	}
-	if (ft_strcmp(cmd->cmd[0], "pwd") == 0)
-	{
-		pwd();
-		return (1);
-	}
-	if (ft_strcmp(cmd->cmd[0], "env") == 0)
-	{
-		env(data->envp);
-		return (1);
-	}
-	return (0);
+}
+
+int	move_index_after_quote(char *str, int i)
+{
+	int	quote;
+
+	if (!str)
+		return (0);
+	quote = str[i];
+	i++;
+	while (str[i] && str[i] != quote)
+		i++;
+	if (str[i])
+		i++;
+	return (i);
 }

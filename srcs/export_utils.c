@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 14:54:28 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/19 21:24:54 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/10/28 09:32:23 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ char	**sort_env(char **env)
 	i = 0;
 	sort_tab = size_tab(env);
 	print = dup_dp(env);
+	if (!print)
+		return (NULL);
 	while (sort_tab > 1)
 	{
 		i = 0;
