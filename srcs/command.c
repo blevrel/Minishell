@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/29 12:00:38 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/29 14:58:40 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	builtin(char *cmd, t_data *data)
 		here_doc(data->cmd[0], data);
 		return (0);
 	}
-
 	return (1);
 }
 
@@ -80,10 +79,7 @@ int	simple_cmd(t_data *data)
 		dup_simple_call(data->cmd[0]);
 		if (check_builtin(data->cmd[0], data))
 		{
-			free_data(data);
-			free_double_tab(data->envp);
-			free_double_tab(data->export);
-			free(data);
+			clean_data(data, 1);
 			exit (0);
 		}
 		if (execve(data->cmd[0]->path, data->cmd[0]->cmd, data->envp) == -1)

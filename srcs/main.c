@@ -54,7 +54,7 @@ void	routine(t_data *data)
 		}
 		if (data->arg[0])
 			init_cmd(data);
-		free_data(data);
+		clean_data(data, 0);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 14:29:35 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/29 11:45:27 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/29 14:29:52 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	init_null_cmd(t_cmd *res, int nb_cmd)
 	res->outfile = NULL;
 	res->infile_append = NULL;
 	res->path = NULL;
+	res->heredoc = 0;
 	res->limiter = NULL;
 	while (i < nb_cmd)
 	{
@@ -65,7 +66,7 @@ int	init_env_export(t_data *data, char **env)
 	if (!data->export)
 	{
 		free_double_tab(data->envp);
-		free_data(data);
+		clean_data(data, 0);
 		return (1);
 	}
 	data->export = sort_env(data->export);
@@ -73,7 +74,7 @@ int	init_env_export(t_data *data, char **env)
 	{
 		ft_putstr_fd("sort env failed", 2);
 		free_double_tab(data->envp);
-		free_data(data);
+		clean_data(data, 0);
 		return (1);
 	}
 	return (0);

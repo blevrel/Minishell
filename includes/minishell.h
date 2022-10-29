@@ -210,7 +210,7 @@ char	**new_tab(int i, char **src);
 void	free_parsing(t_data *data);
 void	free_simple_cmd(t_cmd *cmd);
 void	free_multiple_cmd(t_data *data);
-void	free_data(t_data *data);
+void	clean_data(t_data *data, int trigger);
 void	free_file(t_cmd *cmd);
 
 //PARSING_HEREDOC

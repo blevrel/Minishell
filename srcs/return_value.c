@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 16:03:02 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/29 08:39:42 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/29 14:47:24 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -26,13 +26,20 @@ void	return_value(int *son, t_data *data, int size)
 	int	status;
 
 	i = 0;
-	while (size >= 0)
+	while (i <= size)
 	{
 		waitpid(son[i], &status, 0);
-		unlink("here_doc");
 		i++;
-		--size;
 	}
-	g_signal_trigger = IN_PARENT;
+	i = 0;
+	while (i < size)
+	{
+		free(data->pipexfd[i]);
+		data->pipexfd[i] = 0;
+		i++;
+	}
+	free(data->pipexfd);
+	data->pipexfd = 0;
 	data->return_value = replace_vreturn(status);
+	g_signal_trigger = IN_PARENT;
 }

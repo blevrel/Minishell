@@ -77,7 +77,10 @@ void	here_doc(t_cmd *cmd, t_data *data)
 		dup2(fd, 0);
 		close(fd);
 		if (execve(cmd->path, cmd->cmd, data->envp) == -1)
+		{
+			clean_data(data, 1);
 			exit (1);
+		}
 	}
 	//waitpid(son, NULL, 0);
 	//unlink("here_doc");
@@ -100,7 +103,10 @@ void	here_doc_pipe(t_cmd *cmd, int **pipexfd, t_data *data, int i)
 		dup2(pipexfd[i][1], 1);
 		close(fd);
 		if (execve(cmd->path, cmd->cmd, data->envp) == -1)
+		{
+			clean_data(data, 1);
 			exit (1);
+		}
 	}
 	waitpid(son, NULL, 0);
 	close(fd);
