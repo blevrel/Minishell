@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 16:03:02 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/25 08:18:01 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/29 08:39:42 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -29,6 +29,7 @@ void	return_value(int *son, t_data *data, int size)
 	while (size >= 0)
 	{
 		waitpid(son[i], &status, 0);
+		unlink("here_doc");
 		i++;
 		--size;
 	}

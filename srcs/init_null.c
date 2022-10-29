@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 14:29:35 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/28 09:46:45 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/29 11:45:27 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ void	init_null_cmd(t_cmd *res, int nb_cmd)
 	int	i;
 
 	i = 0;
-	res->type = NULL;
-	res->file = NULL;
+	res->infile = NULL;
+	res->outfile = NULL;
+	res->infile_append = NULL;
 	res->path = NULL;
 	res->limiter = NULL;
 	while (i < nb_cmd)

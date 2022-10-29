@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 20:48:40 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/27 11:56:43 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/29 08:39:25 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -27,13 +27,27 @@ int	count_nb_here_doc(char **cmd)
 	return (count);
 }
 
+void	start_child(t_data *data, int nb_pipe)
+{
+	int	i;
+	
+	i = 1;
+	fi_pipe(data);
+	while (nb_pipe > 2)
+	{
+		n_pipe(data, i);
+		i++;
+		nb_pipe--;
+	}
+	l_pipe(data, i);
+	return_value(data->son, data, check_nbpipe(data->arg));
+
+}
 
 int	ft_pipe(t_data *data)
 {
 	int		nb_pipe;
-	int		i;
 
-	i = 1;
 	nb_pipe = check_nbpipe(data->arg);
 	if (!data->cmd)
 		return (1);
@@ -46,14 +60,6 @@ int	ft_pipe(t_data *data)
 		ft_putstr_fd("Malloc failed\n", 2);
 		return (1);
 	}
-	fi_pipe(data);
-	while (nb_pipe > 2)
-	{
-		n_pipe(data, i);
-		i++;
-		nb_pipe--;
-	}
-	l_pipe(data, i);
-	return_value(data->son, data, check_nbpipe(data->arg));
+	start_child(data, nb_pipe);
 	return (0);
 }

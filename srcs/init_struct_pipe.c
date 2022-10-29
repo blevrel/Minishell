@@ -6,33 +6,11 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 10:44:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/27 18:50:43 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/29 07:41:57 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-void	init_file(t_cmd *res, t_data *data, int i)
-{
-	if (!res->type)
-		free(res->type);
-	res->type = ft_strdup(data->parsing[i]);
-	if (!res->file)
-	{
-		free(res->file);
-		res->file = NULL;
-	}
-	res->file = ft_strdup(data->parsing[i + 1]);
-	if (check_open(&data->parsing[i]) == 1)
-	{
-		if (res->file == NULL)
-			printf("minishell: : no such file or directory\n");
-		else if (!res->cmd[0])
-			printf("minishell: %s: no such file or ddirectory\n", res->file);
-		else
-			printf("%s: %s: no such file or directory\n",
-				res->cmd[0], res->file);
-	}
-}
 
 char	**check_limiter(char **cmd)
 {

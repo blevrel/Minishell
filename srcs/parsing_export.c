@@ -6,11 +6,46 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 08:44:36 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/28 08:55:10 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/28 17:28:24 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	count_exp(char *arg, int *i)
+{
+	int	res;
+	
+	res = 0;
+	while (arg[*i] && (check_char(&arg[*i]) <= 0))
+		res += go_to_first_arg(arg, i);
+	return (res);
+}
+
+int	count_size_exp(char *arg)
+{
+	int	i;
+	int	res;
+	int	quote;
+
+	i = 0;
+	res = 0;
+	quote = 0;
+	while (arg[i] && check_char(&arg[i]) == 1)
+		i++;
+	while (arg[i] && (check_char(&arg[i]) <= 0))
+	{
+		if (check_char(&arg[i]) < 0)
+		{
+			quote = arg[i];
+			while (arg[++i] != quote)
+				res++;
+		}
+		i++;
+		res++;
+	}
+	return (res);
+}
 
 char	*alloc_export(char *arg, int *i)
 {

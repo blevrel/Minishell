@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/28 13:48:49 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/29 11:39:25 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -33,7 +33,10 @@ typedef struct s_cmd
 {
 	char	**cmd;
 	char	*path;
-	char	*type;
+	char	*infile;
+	char	*infile_append;
+	char	*outfile;
+	int		heredoc;
 	char	*file;
 	char	**limiter;
 }			t_cmd;
@@ -47,11 +50,11 @@ typedef struct s_data
 	pid_t	*son;
 	t_cmd	**cmd;
 	int		**pipexfd;
-	int	return_value;
+	int		return_value;
 }				t_data;
 
 int		simple_cmd(t_data *data);
-void		return_value(int *son, t_data *data, int size);
+void	return_value(int *son, t_data *data, int size);
 
 //INIT_STRUCT_COMMAND
 int		check_open(char **cmd);
@@ -66,7 +69,7 @@ void	init_file(t_cmd *res, t_data *data, int i);
 int		check_command(char *str);
 char	**sort_env(char **env);
 void	init_null_cmd(t_cmd *res, int nb_cmd);
-int	init_data(t_data *data, char **env);
+int		init_data(t_data *data, char **env);
 
 //REMOVE_FIRST_ARGS
 char	**remove_first_arg(t_data *data);
@@ -111,7 +114,7 @@ char	*check_syntax_error(char *str);
 char	*check_here_doc(char *str, int *i);
 
 //export_arg
-int	check_size_export_arg(char *arg, int i);
+int		check_size_export_arg(char *arg, int i);
 
 //PARSING / TOKENIZING
 char	**alloc_final_tab(t_data *data);
@@ -145,6 +148,8 @@ char	*fill_exp(char *arg, char *res, int *i, int *j;);
 int		count_size_exp(char *arg);
 char	*alloc_export(char *arg, int *i);
 int		fill_after_export(char **final_tab, char *arg, int *i, int *j);
+int		check_export(char *str);
+int		count_exp(char *str, int *i);
 
 //BUILTIN
 int		check_builtin(t_cmd *cmd, t_data *data);
@@ -179,9 +184,9 @@ void	n_pipe(t_data *data, int i);
 void	l_pipe(t_data *data, int i);
 int		**malloc_pipe(int argc);
 int		count_nb_here_doc(char **cmd);
-void	check_dup_pipe_first(t_cmd *cmd, int **pipexfd, int i);
-void	check_dup_pipe_n(t_cmd *cmd, int **pipexfd, int i);
-void	check_dup_pipe_last(t_cmd *cmd, int **pipexfd, int i);
+void	check_dup_pipe_first(t_cmd *cmd, int **pipexfd, int i,t_data *data);
+void	check_dup_pipe_n(t_cmd *cmd, int **pipexfd, int i,t_data *data);
+void	check_dup_pipe_last(t_cmd *cmd, int **pipexfd, int i,t_data *data);
 
 //EXPORT
 char	**new_env_export(char **cmd, char **env);
@@ -195,7 +200,7 @@ char	**replace_value_export(char *str, int line, char **export);
 int		search_new_env(char **cmd, char **env);
 int		check_value(char *str);
 int		check_join_value(char *str);
-char	*join_value_env(char *str, int  line,char **env);
+char	*join_value_env(char *str, int  line, char **env);
 
 //UNSET
 int		check_unset(char *str, char **env);
@@ -206,15 +211,16 @@ void	free_parsing(t_data *data);
 void	free_simple_cmd(t_cmd *cmd);
 void	free_multiple_cmd(t_data *data);
 void	free_data(t_data *data);
+void	free_file(t_cmd *cmd);
 
 //PARSING_HEREDOC
-int	check_here_doc_null(char *str);
-int	alloc_heredoc_null(char **final_tab, char *arg, int *line);
-int	check_fill_heredoc_null(char **final_tab, char *arg, int *i, int *j);
+int		check_here_doc_null(char *str);
+int		alloc_heredoc_null(char **final_tab, char *arg, int *line);
+int		check_fill_heredoc_null(char **final_tab, char *arg, int *i, int *j);
 
 //PARSING_RETURNVALUE
 char	*fill_returnvalue(t_data *data, char *res, int *i);
-int	replace_valuereturn(char *dest, int *j, t_data *data);
+int		replace_valuereturn(char *dest, int *j, t_data *data);
 
 //MOVE_INDEX
 void	move_indextoenv(char *str, int *i);

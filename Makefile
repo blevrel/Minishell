@@ -6,7 +6,7 @@
 #    By: blevrel <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 09:35:57 by blevrel           #+#    #+#              #
-#    Updated: 2022/10/28 15:56:23 by blevrel          ###   ########.fr        #
+#    Updated: 2022/10/29 11:45:57 by pirabaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,8 +58,12 @@ SRCS  =	srcs/alloc_parsing.c \
 		srcs/print_export.c \
 		srcs/return_value.c \
 		srcs/parsing_heredoc.c \
-		srcs/parsing_export.c srcs/parsing_returnvalue.c \
-		srcs/move_index.c
+		srcs/parsing_export.c \
+		srcs/parsing_returnvalue.c \
+		srcs/move_index.c \
+		srcs/parsing_export_utils.c \
+		srcs/count_size_arg.c \
+		srcs/init_file.c
 
 OBJS = ${SRCS:.c=.o}
 

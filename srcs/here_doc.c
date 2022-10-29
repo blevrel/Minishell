@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 16:34:01 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/28 09:06:02 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/29 11:43:30 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -66,23 +66,21 @@ void	create_file(char **limiter, t_data *data)
 
 void	here_doc(t_cmd *cmd, t_data *data)
 {
-	pid_t	son;
 	int		fd;
 
-	son = fork();
-	if (son == 0)
+	g_signal_trigger = IN_HERE_DOC;
+	signal_handler();
+	create_file(cmd->limiter, data);
+	if (cmd->outfile != NULL)
 	{
-		g_signal_trigger = IN_HERE_DOC;
-		signal_handler();
-		create_file(cmd->limiter, data);
 		fd = open ("here_doc", O_RDONLY);
 		dup2(fd, 0);
 		close(fd);
 		if (execve(cmd->path, cmd->cmd, data->envp) == -1)
 			exit (1);
 	}
-	waitpid(son, NULL, 0);
-	unlink("here_doc");
+	//waitpid(son, NULL, 0);
+	//unlink("here_doc");
 }
 
 void	here_doc_pipe(t_cmd *cmd, int **pipexfd, t_data *data, int i)

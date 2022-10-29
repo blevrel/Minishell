@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 12:09:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/28 11:43:15 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/10/28 17:54:40 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -58,12 +58,12 @@ int	size_return_value(t_data *data)
 {
 	int	res;
 	int	tmp;
-	
+
 	res = 1;
 	tmp = data->return_value;
 	while (tmp >= 10)
 	{
-		tmp = tmp/10;
+		tmp = tmp / 10;
 		++res;
 	}
 	return (res);
@@ -131,7 +131,8 @@ int	fill_env(char *res, char *str, t_data *data, int *j)
 			free(value);
 			return (1);
 	}
-	while (data->envp[line] && ft_strncmp(data->envp[line], value, len_env + 1) != 0)
+	while (data->envp[line] 
+			&& ft_strncmp(data->envp[line], value, len_env + 1) != 0)
 		++line;
 	free(value);
 	if (!data->envp[line])
