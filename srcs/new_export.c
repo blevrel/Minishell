@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 08:30:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/18 22:08:19 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/02 18:30:30 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,16 @@ int	check_value(char *str)
 	int	i;
 
 	i = 0;
-	if (str[i] == '_')
+	if (str[i] == '_' && ( str[i + 1] == '\0' || str[i + 1] == '='))
 		return (2);
-	if (ft_isalpha(str[i]) == 0)
+	if (ft_isalpha(str[i]) == 0 && str[i] != '_')
 		return (1);
-	while (str[i])
+	while (str[i] && str[i] == '=')
 	{
 		if (str[i] == '+' && str[i + 1] == '=')
 			i++;
-		if (ft_isalnum(str[i]) == 0 && str[i] != '=' && str[i] != ' ')
+		if (ft_isalnum(str[i]) == 0 && str[i] != ' ' 
+			&& str[i] != '_')
 			return (1);
 		++i;
 	}
@@ -46,18 +47,6 @@ int	check_new_export(char **cmd, char **env)
 		++i;
 	}
 	return (res);
-}
-
-char	**replace_value_export(char *str, int line, char **export)
-{
-	if (check_join_value(str) == 1)
-	{
-		export[line] = join_value_env(str, line, export);
-		return (export);
-	}
-	free(export[line]);
-	export[line] = ft_strdup(str);
-	return (export);
 }
 
 char	**new_export(t_cmd *cmd, t_data *data)

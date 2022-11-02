@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:42:21 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/28 13:59:09 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/02 18:49:56 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -23,7 +23,7 @@ int	fill_tokenized_with_quote(t_data *data, char *res, char *src)
 	quote = src[0];
 	while (src[i] != quote)
 	{
-		if (quote == 34 && src[i] == '$' && src[i + 1] != '$')
+		if (quote == 34 && src[i] == '$' && check_char(&src[i + 1]) == 0 && src[i + 1] != '\0')
 		{
 			if (fill_env(res, &src[i], data, &j) == 1)
 				return (1);
@@ -51,7 +51,7 @@ int	fill_tokenize_arg(char *res, char *src, t_data *data)
 			j = ft_strlen(res);
 			i = move_index_after_quote(src, i);
 		}
-		else if (src[i] == '$' && src[i + 1] != '$')
+		else if (src[i] == '$' && check_char(&src[i + 1]) == 0 && src[i + 1] != '\0')
 		{
 			if (fill_env(res, &src[i], data, &j) == 1)
 				return (1);

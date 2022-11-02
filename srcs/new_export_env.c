@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 14:09:36 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/28 09:10:13 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/02 18:32:02 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,6 @@ char	*join_value_env(char *str, int line, char **env)
 	return (tmp);
 }
 
-void	replace_value(char *str, int line, t_data *data)
-{
-	if (check_join_value(str) == 1)
-	{
-		data->envp[line] = join_value_env(str, line, data->envp);
-		return ;
-	}
-	free(data->envp[line]);
-	data->envp[line] = ft_strdup(str);
-}
 
 int	search_new_env(char **cmd, char **env)
 {

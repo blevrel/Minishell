@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 07:37:05 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/02 14:07:54 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/02 15:10:28 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,11 @@ void	init_file(t_cmd *res, t_data *data, int i)
 		res->outfile = ft_strdup(data->parsing[i + 1]);
 	}
 	else if (ft_strcmp(data->parsing[i], "<<") == 0)
+	{
+		free(res->outfile);
+		res->outfile = NULL;
 		res->heredoc = 1;
+	}
 	else
 	{
 		free(res->infile_append);
