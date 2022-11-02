@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/19 20:48:40 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/02 10:34:55 by pirabaud         ###   ########.fr       */
+/*   Created: 2022/11/02 11:17:04 by pirabaud          #+#    #+#             */
+/*   Updated: 2022/11/02 11:17:06 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 
 int	count_nb_here_doc(char **cmd)
@@ -48,9 +49,10 @@ int	ft_pipe(t_data *data)
 {
 	int		nb_pipe;
 
-	nb_pipe = check_nbpipe(data->arg);
+	
 	if (!data->cmd)
 		return (1);
+	nb_pipe = check_nbpipe(data->arg);
 	data->pipexfd = malloc_pipe(nb_pipe);
 	if (verif_malloc_int_arr(data->pipexfd) == 1)
 		return (1);

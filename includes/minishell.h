@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/29 11:39:25 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/01 11:11:35 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -89,6 +89,8 @@ char	*fill_limiter(char *str, char *res);
 //SIGNALS
 void	catch_signal(int signal);
 void	signal_handler(void);
+void	ignore_signals(void);
+void	unset_signals(void);
 
 //UTILS
 int		verif_malloc_arr(char **arr);
@@ -210,7 +212,7 @@ char	**new_tab(int i, char **src);
 void	free_parsing(t_data *data);
 void	free_simple_cmd(t_cmd *cmd);
 void	free_multiple_cmd(t_data *data);
-void	free_data(t_data *data);
+void	clean_data(t_data *data, int trigger);
 void	free_file(t_cmd *cmd);
 
 //PARSING_HEREDOC

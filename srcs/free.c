@@ -79,7 +79,7 @@ void	free_multiple_cmd(t_data *data)
 	data->cmd = NULL;
 }
 
-void	free_data(t_data *data)
+void	clean_data(t_data *data, int trigger)
 {
 	if (data->parsing)
 		free_parsing(data);
@@ -89,4 +89,10 @@ void	free_data(t_data *data)
 	data->son = NULL;
 	if (data->cmd)
 		free_multiple_cmd(data);
+	if (trigger == 1)
+	{
+		free_double_tab(data->envp);
+		free_double_tab(data->export);
+		free(data);
+	}
 }
