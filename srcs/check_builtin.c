@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 16:12:18 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/27 18:03:17 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/02 14:17:24 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -27,6 +27,11 @@ int	check_builtin(t_cmd *cmd, t_data *data)
 	{
 		env(data->envp);
 		return (1);
+	}
+	if (data->cmd[0]->heredoc == 1)
+	{
+		here_doc(data->cmd[0], data);
+		return (0);
 	}
 	return (0);
 }

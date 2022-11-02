@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 14:40:05 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/29 11:39:57 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/02 14:09:29 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	free_simple_cmd(t_cmd *cmd)
 		free(cmd->path);
 	cmd->path = NULL;
 	free_file(cmd);
-	cmd->file = NULL;
 	free_rest_of_simple_cmd(cmd);
 }
 

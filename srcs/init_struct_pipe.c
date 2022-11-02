@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 10:44:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/02 10:48:31 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/02 12:00:41 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -41,16 +41,16 @@ char	**check_limiter(char **cmd)
 	return (res);
 }
 
-t_cmd	*init_simple_cmd(t_data *data, int i, t_cmd *res)
+t_cmd	*init_simple_cmd(t_data *data, int i, t_cmd *res, int index_pipe)
 {
 	int		j;
 
 	j = 0;
-	res->cmd = malloc((nb_cmd(&data->arg[i]) + 1) * sizeof(char *));
+	res->cmd = malloc((nb_cmd(&data->arg[i], index_pipe) + 1) * sizeof(char *));
 	//res->cmd = malloc((nb_cmd(data->arg) + 1) * sizeof(char *));
 	if (verif_malloc_arr(res->cmd) == 1)
 		return (NULL);
-	init_null_cmd(res, nb_cmd(data->arg));
+	init_null_cmd(res, nb_cmd(data->arg, index_pipe));
 	res->limiter = check_limiter(data->parsing);
 	res = fill_simple_cmd(data, res, i, j);
 	return (res);
@@ -65,7 +65,7 @@ t_cmd	*init_simple_struct(t_data *data, int index_pipe, t_cmd **cmd_pipe)
 	if (verif_malloc_t_cmd(res, index_pipe, cmd_pipe) == 1)
 		return (NULL);
 	i = check_index_pipe(data->arg, index_pipe);
-	res = init_simple_cmd(data, i, res);
+	res = init_simple_cmd(data, i, res, index_pipe);
 	if (!res->cmd)
 		return (NULL);
 	else if (ft_strlen(data->parsing[0]) == 0)

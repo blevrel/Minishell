@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 16:34:01 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/01 13:46:59 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/02 15:00:53 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -71,36 +71,22 @@ void	create_file(char **limiter, t_data *data)
 	close (fd);
 }
 
-//pas sur du exit que j'ai rajouté a la fin du fork
 void	here_doc(t_cmd *cmd, t_data *data)
 {
 	int		fd;
-	pid_t	son;
 
-	son = fork();
-	if (son == 0)
+	create_file(cmd->limiter, data);
+	fd = open ("here_doc", O_RDONLY);
+	dup2(fd, 0);
+	dup_simple_call(cmd);
+	close(fd);
+	if (execve(cmd->path, cmd->cmd, data->envp) == -1)
 	{
-		g_signal_trigger = IN_HERE_DOC;
-		create_file(cmd->limiter, data);
-		if (cmd->outfile != NULL)
-		{
-			fd = open ("here_doc", O_RDONLY);
-			dup2(fd, 0);
-			close(fd);
-			if (execve(cmd->path, cmd->cmd, data->envp) == -1)
-			{
-				clean_data(data, 1);
-				exit (1);
-			}
-		}
 		clean_data(data, 1);
-		exit(0);
+		exit (1);
 	}
-	waitpid(son, NULL, 0);
-	unlink("here_doc");
 }
 
-//pas sur du exit que j'ai rajouté a la fin du fork
 void	here_doc_pipe(t_cmd *cmd, int **pipexfd, t_data *data, int i)
 {
 	pid_t	son;
