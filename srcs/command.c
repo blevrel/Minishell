@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/01 11:12:33 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/02 14:57:28 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,6 @@ int	builtin(char *cmd, t_data *data)
 	if (ft_strcmp(cmd, "unset") == 0)
 	{
 		unset(data->cmd[0], data);
-		return (0);
-	}
-	if (data->cmd[0]->heredoc == 1)
-	{
-		here_doc(data->cmd[0], data);
 		return (0);
 	}
 	return (1);
@@ -59,8 +54,6 @@ void	dup_simple_call(t_cmd *cmd)
 		dup2(fd, 1);
 		close(fd);
 	}
-	else
-		return ;
 }
 
 int	simple_cmd(t_data *data)
@@ -77,16 +70,18 @@ int	simple_cmd(t_data *data)
 	if (son == 0)
 	{
 		unset_signals();
-		dup_simple_call(data->cmd[0]);
 		if (check_builtin(data->cmd[0], data))
 		{
+			dup_simple_call(data->cmd[0]);
 			clean_data(data, 1);
 			exit (0);
 		}
+		dup_simple_call(data->cmd[0]);
 		if (execve(data->cmd[0]->path, data->cmd[0]->cmd, data->envp) == -1)
 			exit (2);
 	}
 	return_value(&son, data, 0);
 	signal_handler();
+	unlink("here_doc");
 	return (0);
 }

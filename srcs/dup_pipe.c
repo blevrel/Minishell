@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 11:16:11 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/02 14:07:20 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/02 15:05:03 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	check_dup_pipe_first(t_cmd *cmd, int **pipexfd, int i, t_data *data)
 		dup_entry(cmd, pipexfd, i);
 	if (cmd->outfile != NULL)
 	{
-		fd = open(cmd->file, O_RDONLY);
+		fd = open(cmd->outfile, O_RDONLY);
 		dup2(fd, 0);
 		dup2(pipexfd[i][1], 1);
 		close(fd);
@@ -52,7 +52,7 @@ void	check_dup_pipe_last(t_cmd *cmd, int **pipexfd, int i, t_data *data)
 		dup_entry(cmd, pipexfd, i - 1);
 	if (cmd->outfile != NULL)
 	{
-		fd = open(cmd->file, O_RDONLY);
+		fd = open(cmd->outfile, O_RDONLY);
 		dup2(fd, 0);
 		close(fd);
 	}
@@ -70,7 +70,7 @@ void	check_dup_pipe_n(t_cmd *cmd, int **pipexfd, int i, t_data *data)
 		dup_entry(cmd, pipexfd, i - 1);
 	if (cmd->outfile != NULL)
 	{
-		fd = open(cmd->file, O_RDONLY);
+		fd = open(cmd->outfile, O_RDONLY);
 		dup2(fd, 0);
 		dup2(pipexfd[i][1], 1);
 		close(fd);

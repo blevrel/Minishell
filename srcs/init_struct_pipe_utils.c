@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 09:47:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/02 11:07:26 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/02 14:48:27 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -50,7 +50,7 @@ int	check_index_pipe(char *full_arg, int index_pipe)
 			++i;
 		return (0);
 	}
-	count = nb_cmd(&full_arg[i]);
+	count = nb_cmd(full_arg, index_pipe);
 	while (full_arg[i] && full_arg[i] != '|')
 	{
 		if (check_char(&full_arg[i]) < 0)
@@ -63,14 +63,16 @@ int	check_index_pipe(char *full_arg, int index_pipe)
 	return (count);
 }
 
-int	nb_cmd(char *full_arg)
+int	nb_cmd(char *full_arg, int index_pipe)
 {
 	int	i;
 	int	res;
+	int nb_pipe;
 
 	i = 0;
-	res = 1;
-	while (full_arg[i] && full_arg[i] != '|')
+	res = 0;
+	nb_pipe = 0;
+	while (full_arg[i] && nb_pipe < index_pipe)
 	{
 		while (full_arg[i] && check_char(&full_arg[i]) == 1)
 			i++;
@@ -88,6 +90,12 @@ int	nb_cmd(char *full_arg)
 			if (full_arg[i - 2] != full_arg[i - 1])
 				res++;
 		}
+		if (full_arg[i] == '|')
+		{
+			i++;
+			res++;
+			++nb_pipe;
+		}
 	}
 	return (res);
 }
@@ -98,14 +106,14 @@ int	check_open(char **cmd)
 
 	if (ft_strcmp(cmd[0], ">") == 0)
 	{
-		fd = open(cmd[1], O_WRONLY | O_TRUNC | O_CREAT, 00644);
+		fd = open(cmd[1], O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		if (fd == -1)
 			return (1);
 		close (fd);
 	}
 	if (ft_strcmp(cmd[0], ">>") == 0)
 	{
-		fd = open(cmd[1], O_WRONLY | O_APPEND | O_CREAT, 00644);
+		fd = open(cmd[1], O_WRONLY | O_APPEND | O_CREAT, 0644);
 		if (fd == -1)
 			return (1);
 		close (fd);

@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 07:37:05 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/29 11:53:40 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/02 14:07:54 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	checkerror_open(char **verif, t_cmd *res)
 		if (verif[1] == NULL)
 			printf("minishell: : no such file or directory\n");
 		else if (!res->cmd[0])
-			printf("minishell: %s: no such file or directory\n", res->file);
+			printf("minishell: %s: no such file or directory\n", res->outfile);
 		else
 			printf("%s: %s: no such file or directory\n",
 				res->cmd[0], verif[1]);
