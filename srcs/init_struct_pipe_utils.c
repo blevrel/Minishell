@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 09:47:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/28 15:57:44 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/02 11:07:26 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -69,7 +69,7 @@ int	nb_cmd(char *full_arg)
 	int	res;
 
 	i = 0;
-	res = 0;
+	res = 1;
 	while (full_arg[i] && full_arg[i] != '|')
 	{
 		while (full_arg[i] && check_char(&full_arg[i]) == 1)

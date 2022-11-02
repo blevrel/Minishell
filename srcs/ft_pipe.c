@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 20:48:40 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/29 08:39:25 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/02 10:34:55 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -52,8 +52,8 @@ int	ft_pipe(t_data *data)
 	if (!data->cmd)
 		return (1);
 	data->pipexfd = malloc_pipe(nb_pipe);
-	if (data->pipexfd == 0)
-		return (0);
+	if (verif_malloc_int_arr(data->pipexfd) == 1)
+		return (1);
 	data->son = malloc(nb_pipe * sizeof(pid_t));
 	if (!data->son)
 	{
