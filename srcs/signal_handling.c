@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 16:49:41 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/29 14:48:16 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/01 13:40:53 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -14,6 +14,18 @@
 void	signal_handler(void)
 {
 	signal(SIGINT, catch_signal);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	unset_signals(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}
+
+void	ignore_signals(void)
+{
+	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 }
 

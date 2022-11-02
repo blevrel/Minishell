@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/29 14:58:40 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/01 11:12:33 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,11 @@ int	simple_cmd(t_data *data)
 		data->return_value = 0;
 		return (0);
 	}
-	g_signal_trigger = IN_COMMAND;
+	ignore_signals();
 	son = fork();
 	if (son == 0)
 	{
+		unset_signals();
 		dup_simple_call(data->cmd[0]);
 		if (check_builtin(data->cmd[0], data))
 		{
@@ -86,5 +87,6 @@ int	simple_cmd(t_data *data)
 			exit (2);
 	}
 	return_value(&son, data, 0);
+	signal_handler();
 	return (0);
 }

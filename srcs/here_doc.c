@@ -6,12 +6,19 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 16:34:01 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/29 11:43:30 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/01 13:46:59 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-char	*tokenize_here_doc_line(t_data *data)
+void	here_doc_err_msg(char *limiter)
+{
+	ft_printf("minishell: warning: here-document delimited \
+by end-of-file (wanted '%s')\n", limiter);
+	exit(0);
+}
+
+char	*tokenize_here_doc_line(t_data *data, char *limiter)
 {
 	int		i;
 	int		j;
@@ -22,7 +29,7 @@ char	*tokenize_here_doc_line(t_data *data)
 	j = 0;
 	line = readline("");
 	if (line == NULL)
-		exit(50);
+		here_doc_err_msg(limiter);
 	new_line = malloc((size_here_doc_line(line, data) + 1) * sizeof(char));
 	while (line[i])
 	{
@@ -50,13 +57,13 @@ void	create_file(char **limiter, t_data *data)
 	fd = open ("here_doc", O_WRONLY | O_CREAT, 0644);
 	while (limiter[i] != NULL)
 	{
-		line = tokenize_here_doc_line(data);
+		line = tokenize_here_doc_line(data, limiter[i]);
 		while (ft_strcmp(line, limiter[i]) != 0)
 		{
 			ft_putstr_fd(line, fd);
 			ft_putchar_fd('\n', fd);
 			free(line);
-			line = tokenize_here_doc_line(data);
+			line = tokenize_here_doc_line(data, limiter[i]);
 		}
 		free(line);
 		++i;
@@ -64,28 +71,36 @@ void	create_file(char **limiter, t_data *data)
 	close (fd);
 }
 
+//pas sur du exit que j'ai rajouté a la fin du fork
 void	here_doc(t_cmd *cmd, t_data *data)
 {
 	int		fd;
+	pid_t	son;
 
-	g_signal_trigger = IN_HERE_DOC;
-	signal_handler();
-	create_file(cmd->limiter, data);
-	if (cmd->outfile != NULL)
+	son = fork();
+	if (son == 0)
 	{
-		fd = open ("here_doc", O_RDONLY);
-		dup2(fd, 0);
-		close(fd);
-		if (execve(cmd->path, cmd->cmd, data->envp) == -1)
+		g_signal_trigger = IN_HERE_DOC;
+		create_file(cmd->limiter, data);
+		if (cmd->outfile != NULL)
 		{
-			clean_data(data, 1);
-			exit (1);
+			fd = open ("here_doc", O_RDONLY);
+			dup2(fd, 0);
+			close(fd);
+			if (execve(cmd->path, cmd->cmd, data->envp) == -1)
+			{
+				clean_data(data, 1);
+				exit (1);
+			}
 		}
+		clean_data(data, 1);
+		exit(0);
 	}
-	//waitpid(son, NULL, 0);
-	//unlink("here_doc");
+	waitpid(son, NULL, 0);
+	unlink("here_doc");
 }
 
+//pas sur du exit que j'ai rajouté a la fin du fork
 void	here_doc_pipe(t_cmd *cmd, int **pipexfd, t_data *data, int i)
 {
 	pid_t	son;
@@ -95,7 +110,6 @@ void	here_doc_pipe(t_cmd *cmd, int **pipexfd, t_data *data, int i)
 	if (son == 0)
 	{
 		g_signal_trigger = IN_HERE_DOC;
-		signal_handler();
 		create_file(cmd->limiter, data);
 		fd = open ("here_doc", O_RDONLY);
 		close(pipexfd[i][0]);
@@ -107,8 +121,10 @@ void	here_doc_pipe(t_cmd *cmd, int **pipexfd, t_data *data, int i)
 			clean_data(data, 1);
 			exit (1);
 		}
+		clean_data(data, 1);
+		exit (0);
 	}
 	waitpid(son, NULL, 0);
-	close(fd);
+	//close(fd);
 	unlink("here_doc");
 }

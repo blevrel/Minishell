@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 16:03:02 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/29 14:47:24 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/01 13:34:26 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -41,5 +41,8 @@ void	return_value(int *son, t_data *data, int size)
 	free(data->pipexfd);
 	data->pipexfd = 0;
 	data->return_value = replace_vreturn(status);
-	g_signal_trigger = IN_PARENT;
+	if (data->return_value == 131)
+		ft_printf("Quit (core dumped)\n");
+	else if (data->return_value == 130)
+		ft_printf("\n");
 }
