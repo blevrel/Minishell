@@ -6,33 +6,30 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 10:44:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/02 12:00:41 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/03 14:50:00 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
 
-char	**check_limiter(char **cmd)
+char	**check_limiter(char **cmd, int i)
 {
-	int		i;
 	char	**res;
 	int		j;
 
-	i = 0;
-	j = 0;
 	j = count_nb_here_doc(cmd);
 	if (j == 0)
 		return (NULL);
 	res = ft_calloc((j + 1), sizeof(char *));
 	if (verif_malloc_arr(res) == 1)
 		return (NULL);
-	i = 0;
 	j = 0;
-	while (cmd[i] != NULL)
+	while (cmd[i] != NULL && ft_strcmp(cmd[i], "|") != 0)
 	{
 		if (ft_strcmp(cmd[i], "<<") == 0)
 		{
 			res[j] = ft_strdup(cmd[i + 1]);
+		//	printf("%s\n", res[j]);
 			j++;
 		}
 		++i;
@@ -43,16 +40,23 @@ char	**check_limiter(char **cmd)
 
 t_cmd	*init_simple_cmd(t_data *data, int i, t_cmd *res, int index_pipe)
 {
-	int		j;
+	int			j;
+	static int	k = 0;
 
 	j = 0;
-	res->cmd = malloc((nb_cmd(&data->arg[i], index_pipe) + 1) * sizeof(char *));
-	//res->cmd = malloc((nb_cmd(data->arg) + 1) * sizeof(char *));
+	if (data->arg[k] == '|')
+		k++;
+	res->cmd = malloc((count_arg(data->arg, &k) + 1) * sizeof(char *));
+	res->cmd[count_arg(data->arg, &k) + 1] = NULL;
 	if (verif_malloc_arr(res->cmd) == 1)
 		return (NULL);
-	init_null_cmd(res, nb_cmd(data->arg, index_pipe));
-	res->limiter = check_limiter(data->parsing);
+	init_null_cmd(res, count_arg(data->arg, &k));
+	res->limiter = check_limiter(data->parsing, i);
 	res = fill_simple_cmd(data, res, i, j);
+	if (!res->cmd)
+		return (NULL);
+	if (index_pipe + 1 == check_nbpipe(data->arg))
+		k = 0;
 	return (res);
 }
 
@@ -66,7 +70,7 @@ t_cmd	*init_simple_struct(t_data *data, int index_pipe, t_cmd **cmd_pipe)
 		return (NULL);
 	i = check_index_pipe(data->arg, index_pipe);
 	res = init_simple_cmd(data, i, res, index_pipe);
-	if (!res->cmd)
+	if (!res)
 		return (NULL);
 	else if (ft_strlen(data->parsing[0]) == 0)
 	{
@@ -102,7 +106,7 @@ t_cmd	**init_struct_cmd(t_data *data)
 		cmd_pipe[i] = init_simple_struct(data, i, cmd_pipe);
 		if (!cmd_pipe[i])
 		{
-			free(cmd_pipe);
+			free_multiple_cmd(cmd_pipe);
 			return (NULL);
 		}
 		i++;

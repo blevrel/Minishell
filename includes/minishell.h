@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/03 10:00:18 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/03 14:54:39 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -64,7 +64,7 @@ int		check_index_pipe(char *full_arg, int index_pipe);
 t_cmd	*init_simple_struct(t_data *data, int index_pipe, t_cmd **cmd_pipe);
 t_cmd	**init_struct_cmd(t_data *data);
 t_cmd	*fill_simple_cmd(t_data *data, t_cmd *cmd, int i, int j);
-void	init_file(t_cmd *res, t_data *data, int i);
+int		init_file(t_cmd *res, t_data *data, int i);
 int		check_command(char *str);
 char	**sort_env(char **env);
 void	init_null_cmd(t_cmd *res, int nb_cmd);
@@ -154,6 +154,7 @@ int		count_exp(char *str, int *i);
 
 //BUILTIN
 int		check_builtin(t_cmd *cmd, t_data *data);
+int		check_builtin_pipe(t_cmd *cmd, int **pipexfd, t_data *data, int i);
 int		check_echo_option(char *full_arg, char **cmd);
 int		check_multiple_options(char *res);
 int		check_option_format(char *full_arg, char *option);
@@ -189,7 +190,6 @@ int		count_nb_here_doc(char **cmd);
 void	check_dup_pipe_first(t_cmd *cmd, int **pipexfd, int i,t_data *data);
 void	check_dup_pipe_n(t_cmd *cmd, int **pipexfd, int i,t_data *data);
 void	check_dup_pipe_last(t_cmd *cmd, int **pipexfd, int i,t_data *data);
-int		check_builtin_pipe(t_cmd *cmd, t_data *data);
 
 //EXPORT
 char	**new_env_export(char **cmd, char **env);
@@ -212,7 +212,7 @@ char	**new_tab(int i, char **src);
 //FREE
 void	free_parsing(t_data *data);
 void	free_simple_cmd(t_cmd *cmd);
-void	free_multiple_cmd(t_data *data);
+void	free_multiple_cmd(t_cmd **cmd);
 void	clean_data(t_data *data, int trigger);
 void	free_file(t_cmd *cmd);
 

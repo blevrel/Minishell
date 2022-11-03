@@ -6,15 +6,16 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 16:34:01 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 09:53:13 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/03 11:30:22 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-void	here_doc_err_msg(char *limiter)
+void	here_doc_err_msg(t_data *data, char *limiter)
 {
 	ft_printf("minishell: warning: here-document delimited \
 by end-of-file (wanted '%s')\n", limiter);
+	clean_data(data, 1);
 	exit(0);
 }
 
@@ -29,7 +30,7 @@ char	*tokenize_here_doc_line(t_data *data, char *limiter)
 	j = 0;
 	line = readline("");
 	if (line == NULL)
-		here_doc_err_msg(limiter);
+		here_doc_err_msg(data, limiter);
 	new_line = malloc((size_here_doc_line(line, data) + 1) * sizeof(char));
 	while (line[i])
 	{
@@ -75,6 +76,8 @@ void	here_doc(t_cmd *cmd, t_data *data)
 {
 	int		fd;
 
+	g_signal_trigger = IN_HERE_DOC;
+	signal_handler();
 	create_file(cmd->limiter, data);
 	fd = open ("here_doc", O_RDONLY);
 	dup2(fd, 0);
@@ -89,12 +92,10 @@ void	here_doc(t_cmd *cmd, t_data *data)
 
 void	here_doc_pipe(t_cmd *cmd, int **pipexfd, t_data *data, int i)
 {
-	pid_t	son;
 	int		fd;
 
 	g_signal_trigger = IN_HERE_DOC;
-	if (i != 0 && data->cmd[i - 1]->heredoc == 1)
-		waitpid(data->son[i - 1], NULL, 0);
+	signal_handler();
 	create_file(cmd->limiter, data);
 	fd = open ("here_doc", O_RDONLY);
 	close(pipexfd[i][0]);
@@ -106,9 +107,4 @@ void	here_doc_pipe(t_cmd *cmd, int **pipexfd, t_data *data, int i)
 		clean_data(data, 1);
 		exit (1);
 	}
-	clean_data(data, 1);
-	exit (0);
-	//waitpid(son, NULL, 0);
-	//close(fd);
-	//unlink("here_doc");
 }

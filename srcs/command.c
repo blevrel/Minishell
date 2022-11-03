@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/02 14:57:28 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/03 12:10:54 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,13 @@ int	simple_cmd(t_data *data)
 	son = fork();
 	if (son == 0)
 	{
-		unset_signals();
 		if (check_builtin(data->cmd[0], data))
 		{
 			dup_simple_call(data->cmd[0]);
 			clean_data(data, 1);
 			exit (0);
 		}
+		unset_signals();
 		dup_simple_call(data->cmd[0]);
 		if (execve(data->cmd[0]->path, data->cmd[0]->cmd, data->envp) == -1)
 			exit (2);

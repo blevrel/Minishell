@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 16:12:18 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 10:43:06 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/03 11:19:47 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -36,7 +36,7 @@ int	check_builtin(t_cmd *cmd, t_data *data)
 	return (0);
 }
 
-int	check_builtin_pipe(t_cmd *cmd, t_data *data, int i)
+int	check_builtin_pipe(t_cmd *cmd, int **pipexfd, t_data *data, int i)
 {
 	if (ft_strcmp(cmd->cmd[0], "echo") == 0)
 	{
@@ -55,8 +55,8 @@ int	check_builtin_pipe(t_cmd *cmd, t_data *data, int i)
 	}
 	if (data->cmd[0]->heredoc == 1)
 	{
-		here_doc_pipe(data->cmd[0], data->pipexfd, data, i);
-		return (0);
+		here_doc_pipe(data->cmd[0], pipexfd, data, i);
+		exit (0);
 	}
 	return (0);
 }
