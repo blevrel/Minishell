@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 16:03:02 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/01 13:34:26 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/03 12:13:07 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -45,4 +45,6 @@ void	return_value(int *son, t_data *data, int size)
 		ft_printf("Quit (core dumped)\n");
 	else if (data->return_value == 130)
 		ft_printf("\n");
+	//printf("%d\n", status);
+	printf("%d\n", data->return_value);
 }

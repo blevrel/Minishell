@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/03 14:58:57 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/03 15:10:45 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -64,7 +64,7 @@ int		check_index_pipe(char *full_arg, int index_pipe);
 t_cmd	*init_simple_struct(t_data *data, int index_pipe, t_cmd **cmd_pipe);
 t_cmd	**init_struct_cmd(t_data *data);
 t_cmd	*fill_simple_cmd(t_data *data, t_cmd *cmd, int i, int j);
-void	init_file(t_cmd *res, t_data *data, int i);
+int		init_file(t_cmd *res, t_data *data, int i);
 int		check_command(char *str);
 char	**sort_env(char **env);
 void	init_null_cmd(t_cmd *res, int nb_cmd);
@@ -212,7 +212,7 @@ char	**new_tab(int i, char **src);
 //FREE
 void	free_parsing(t_data *data);
 void	free_simple_cmd(t_cmd *cmd);
-void	free_multiple_cmd(t_data *data);
+void	free_multiple_cmd(t_cmd **cmd);
 void	clean_data(t_data *data, int trigger);
 void	free_file(t_cmd *cmd);
 

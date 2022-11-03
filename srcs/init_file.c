@@ -6,28 +6,28 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 07:37:05 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/02 15:10:28 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/03 15:01:54 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	checkerror_open(char **verif, t_cmd *res)
+int	checkerror_open(char **verif, t_cmd *res)
 {
-	if (check_open(&verif[0]) == 1)
+	if (check_open(&verif[0]) >= 1)
 	{
 		if (verif[1] == NULL)
 			printf("minishell: : no such file or directory\n");
-		else if (!res->cmd[0])
-			printf("minishell: %s: no such file or directory\n", res->outfile);
 		else
-			printf("%s: %s: no such file or directory\n",
-				res->cmd[0], verif[1]);
+			printf("minishell: %s: no such file or directory\n", res->outfile);
 	}
+	if (check_open(&verif[0]) == 2)
+		return (1);
+	return (0);
 }
 
 
-void	init_file(t_cmd *res, t_data *data, int i)
+int		init_file(t_cmd *res, t_data *data, int i)
 {
 	if (ft_strcmp(data->parsing[i], ">") == 0) 
 	{
@@ -54,7 +54,9 @@ void	init_file(t_cmd *res, t_data *data, int i)
 		res->infile = NULL;
 		res->infile_append = ft_strdup(data->parsing[i + 1]);
 	}
-	checkerror_open(&data->parsing[i], res);
+	if (checkerror_open(&data->parsing[i], res) == 1)
+		return (1);
+	return (0);
 }
 
 void	free_file(t_cmd *cmd)
