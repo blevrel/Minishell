@@ -48,6 +48,8 @@ int	check_index_pipe(char *full_arg, int index_pipe)
 	{
 		while (full_arg[i] && full_arg[i] != '|')
 			++i;
+		if (reset_pipe_index_if_needed(&full_arg[i]) == 0)
+		i = 0;
 		return (0);
 	}
 	count = nb_cmd(full_arg, index_pipe);

@@ -35,7 +35,7 @@ void	catch_signal(int signal)
 	{
 		if (g_signal_trigger == IN_HERE_DOC)
 		{
-			ft_printf("\33[2K\r");
+			ft_printf("\n");
 			exit(25);
 		}
 		else if (g_signal_trigger == IN_PARENT)

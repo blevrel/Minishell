@@ -43,16 +43,20 @@ char	**check_limiter(char **cmd)
 
 t_cmd	*init_simple_cmd(t_data *data, int i, t_cmd *res, int index_pipe)
 {
-	int		j;
+	int			j;
+	static int	k = 0;
 
 	j = 0;
-	res->cmd = malloc((nb_cmd(&data->arg[i], index_pipe) + 1) * sizeof(char *));
-	//res->cmd = malloc((nb_cmd(data->arg) + 1) * sizeof(char *));
+	if (data->arg[k] == '|')
+		k++;
+	res->cmd = malloc((count_arg(data->arg, &k) + 1) * sizeof(char *));
 	if (verif_malloc_arr(res->cmd) == 1)
 		return (NULL);
-	init_null_cmd(res, nb_cmd(data->arg, index_pipe));
+	init_null_cmd(res, count_arg(data->arg, &k));
 	res->limiter = check_limiter(data->parsing);
 	res = fill_simple_cmd(data, res, i, j);
+	if (index_pipe + 1 == check_nbpipe(data->arg))
+		k = 0;
 	return (res);
 }
 

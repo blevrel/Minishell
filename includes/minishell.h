@@ -154,6 +154,7 @@ int		count_exp(char *str, int *i);
 
 //BUILTIN
 int		check_builtin(t_cmd *cmd, t_data *data);
+int		check_builtin_pipe(t_cmd *cmd, int **pipexfd, t_data *data, int i);
 int		check_echo_option(char *full_arg, char **cmd);
 int		check_multiple_options(char *res);
 int		check_option_format(char *full_arg, char *option);
