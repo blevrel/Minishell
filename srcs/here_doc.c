@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 16:34:01 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/02 15:00:53 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/03 09:53:13 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -92,25 +92,23 @@ void	here_doc_pipe(t_cmd *cmd, int **pipexfd, t_data *data, int i)
 	pid_t	son;
 	int		fd;
 
-	son = fork();
-	if (son == 0)
+	g_signal_trigger = IN_HERE_DOC;
+	if (i != 0 && data->cmd[i - 1]->heredoc == 1)
+		waitpid(data->son[i - 1], NULL, 0);
+	create_file(cmd->limiter, data);
+	fd = open ("here_doc", O_RDONLY);
+	close(pipexfd[i][0]);
+	dup2(fd, 0);
+	dup2(pipexfd[i][1], 1);
+	close(fd);
+	if (execve(cmd->path, cmd->cmd, data->envp) == -1)
 	{
-		g_signal_trigger = IN_HERE_DOC;
-		create_file(cmd->limiter, data);
-		fd = open ("here_doc", O_RDONLY);
-		close(pipexfd[i][0]);
-		dup2(fd, 0);
-		dup2(pipexfd[i][1], 1);
-		close(fd);
-		if (execve(cmd->path, cmd->cmd, data->envp) == -1)
-		{
-			clean_data(data, 1);
-			exit (1);
-		}
 		clean_data(data, 1);
-		exit (0);
+		exit (1);
 	}
-	waitpid(son, NULL, 0);
+	clean_data(data, 1);
+	exit (0);
+	//waitpid(son, NULL, 0);
 	//close(fd);
-	unlink("here_doc");
+	//unlink("here_doc");
 }

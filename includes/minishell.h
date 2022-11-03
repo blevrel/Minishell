@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/02 14:36:23 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/03 10:00:18 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -189,6 +189,7 @@ int		count_nb_here_doc(char **cmd);
 void	check_dup_pipe_first(t_cmd *cmd, int **pipexfd, int i,t_data *data);
 void	check_dup_pipe_n(t_cmd *cmd, int **pipexfd, int i,t_data *data);
 void	check_dup_pipe_last(t_cmd *cmd, int **pipexfd, int i,t_data *data);
+int		check_builtin_pipe(t_cmd *cmd, t_data *data);
 
 //EXPORT
 char	**new_env_export(char **cmd, char **env);
