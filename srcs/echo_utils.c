@@ -6,36 +6,36 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 14:25:34 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/03 14:58:03 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/03 16:59:14 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
 char	*tokenize_env_var(char *full_arg, char *res, t_data *data, int *i)
 {
-	char	*value;
+	char	*find;
 	int		line;
-	int		len_env;
+	int		len;
 
 	line = 0;
 	(*i)++;
 	if (full_arg[*i] == '?')
 		return (fill_returnvalue(data, res, i));
-	value = isolate_env_var(&full_arg[*i]);
-	len_env = size_env(value);
+	find = isolate_env_var(&full_arg[*i]);
+	len = size_env(find);
 	while (full_arg[*i] && ft_isalnum(full_arg[*i]) != 0 && full_arg[*i] != '$')
 		(*i)++;
-	if (len_env == -1)
+	if (len == -1)
 	{
-		free(value);
+		free(find);
 		return (res);
 	}
-	while (data->envp[line] && ft_strncmp(data->envp[line], value, len_env + 1) != 0)
+	while (data->envp[line] && ft_strncmp(data->envp[line], find, len + 1) != 0)
 		line++;
-	free(value);
+	free(find);
 	if (!data->envp[line])
 		return (res);
-	res = ft_strjoin_no_malloc(res, &data->envp[line][len_env + 1]);
+	res = ft_strjoin_no_malloc(res, &data->envp[line][len + 1]);
 	return (res);
 }
 
@@ -89,7 +89,7 @@ char	*replace_env_in_full_arg(char *full_arg, t_data *data)
 		else
 		{
 			j = ft_strlen(res);
-			ft_fill_char_and_increment(res, full_arg, &i, &j); 
+			ft_fill_char_and_increment(res, full_arg, &i, &j);
 		}
 	}
 	free(full_arg);

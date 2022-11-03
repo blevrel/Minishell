@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 08:58:04 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/19 00:11:34 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/03 16:36:16 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -55,5 +55,5 @@ void	directory(t_cmd *cmd, t_data *data)
 	}
 	else
 		ft_printf("minishell: %s: %s: No such file or directory\n",
-				cmd->cmd[0], cmd->cmd[1]);
+			cmd->cmd[0], cmd->cmd[1]);
 }

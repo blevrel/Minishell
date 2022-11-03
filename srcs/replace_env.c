@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 12:09:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 12:01:25 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/03 16:04:21 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -52,21 +52,6 @@ char	*isolate_env_var(char *cmd)
 	to_find[j] = '=';
 	to_find[j + 1] = '\0';
 	return (to_find);
-}
-
-int	size_return_value(t_data *data)
-{
-	int	res;
-	int	tmp;
-
-	res = 1;
-	tmp = data->return_value;
-	while (tmp >= 10)
-	{
-		tmp = tmp / 10;
-		++res;
-	}
-	return (res);
 }
 
 int	get_env_variable_size(char *cmd, char **envp, t_data *data)
@@ -126,13 +111,13 @@ int	fill_env(char *res, char *str, t_data *data, int *j)
 	len_env = size_env(value);
 	if (len_env == -1)
 		return (2);
-	if (ft_strcmp(value, "?=") == 0 && replace_valuereturn(res, j , data) == 1)
+	if (ft_strcmp(value, "?=") == 0 && replace_valuereturn(res, j, data) == 1)
 	{
-			free(value);
-			return (1);
+		free(value);
+		return (1);
 	}
-	while (data->envp[line] 
-			&& ft_strncmp(data->envp[line], value, len_env + 1) != 0)
+	while (data->envp[line]
+		&& ft_strncmp(data->envp[line], value, len_env + 1) != 0)
 		++line;
 	free(value);
 	if (!data->envp[line])

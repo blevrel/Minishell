@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 16:03:02 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 12:13:07 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/03 17:07:31 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -18,6 +18,21 @@ int	replace_vreturn(int value)
 	if (value == 256)
 		return (1);
 	return (value);
+}
+
+int	size_return_value(t_data *data)
+{
+	int	res;
+	int	tmp;
+
+	res = 1;
+	tmp = data->return_value;
+	while (tmp >= 10)
+	{
+		tmp = tmp / 10;
+		++res;
+	}
+	return (res);
 }
 
 void	return_value(int *son, t_data *data, int size)
@@ -45,6 +60,4 @@ void	return_value(int *son, t_data *data, int size)
 		ft_printf("Quit (core dumped)\n");
 	else if (data->return_value == 130)
 		ft_printf("\n");
-	//printf("%d\n", status);
-	printf("%d\n", data->return_value);
 }

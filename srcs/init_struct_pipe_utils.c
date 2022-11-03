@@ -6,36 +6,14 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 09:47:41 by pirabaud          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/11/03 16:46:14 by pirabaud         ###   ########.fr       */
+=======
+/*   Updated: 2022/11/03 17:14:08 by blevrel          ###   ########.fr       */
+>>>>>>> 59df4a811e01d9bed7125f93ce527c1ad5752a18
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
-
-int	check_nbpipe(char *full_arg)
-{
-	int	res;
-	int	i;
-	int	quote;
-
-	i = 0;
-	res = 1;
-	while (full_arg[i])
-	{
-		if (check_char(&full_arg[i]) < 0)
-		{
-			quote = full_arg[i];
-			i++;
-			while (full_arg[i] != quote)
-				i++;
-			i++;
-		}
-		if (full_arg[i] == '|')
-			res++;
-		if (full_arg[i] && check_char(&full_arg[i]) >= 0)
-			i++;
-	}
-	return (res);
-}
 
 int	check_index_pipe(char *full_arg, int index_pipe)
 {
@@ -63,43 +41,6 @@ int	check_index_pipe(char *full_arg, int index_pipe)
 	if (reset_pipe_index_if_needed(&full_arg[i]) == 0)
 		i = 0;
 	return (count);
-}
-
-int	nb_cmd(char *full_arg, int index_pipe)
-{
-	int	i;
-	int	res;
-	int nb_pipe;
-
-	i = 0;
-	res = 0;
-	nb_pipe = 0;
-	while (full_arg[i] && nb_pipe < index_pipe)
-	{
-		while (full_arg[i] && check_char(&full_arg[i]) == 1)
-			i++;
-		if (full_arg[i] && check_char(&full_arg[i]) == 2)
-			res++;
-		while (check_char(&full_arg[i]) == 2)
-				i++;
-		if (full_arg[i] && check_char(&full_arg[i]) == 0 && full_arg[i] != '|')
-			res++;
-		while (full_arg[i] && check_char(&full_arg[i]) == 0)
-			i++;
-		if (check_char(&full_arg[i]) < 0)
-		{
-			i = move_index_after_quote(full_arg, i + 1);
-			if (full_arg[i - 2] != full_arg[i - 1])
-				res++;
-		}
-		if (full_arg[i] == '|')
-		{
-			i++;
-			res++;
-			++nb_pipe;
-		}
-	}
-	return (res);
 }
 
 int	check_open(char **cmd)
@@ -141,8 +82,14 @@ t_cmd	*fill_simple_cmd(t_data *data, t_cmd *res, int i, int j)
 		{
 			if (init_file(res, data, i) == 1)
 			{
+<<<<<<< HEAD
 				free_simple_cmd(res);
 				return(NULL);
+=======
+				free_double_tab(res->cmd);
+				res->cmd = NULL;
+				return (NULL);
+>>>>>>> 59df4a811e01d9bed7125f93ce527c1ad5752a18
 			}
 			if (data->parsing[i + 1])
 			{

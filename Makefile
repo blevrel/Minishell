@@ -6,7 +6,7 @@
 #    By: blevrel <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 09:35:57 by blevrel           #+#    #+#              #
-#    Updated: 2022/11/02 18:31:32 by pirabaud         ###   ########.fr        #
+#    Updated: 2022/11/03 17:14:33 by blevrel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCS  =	srcs/alloc_parsing.c \
 		srcs/cmd_arr_with_echo_n.c \
 		srcs/command.c \
 		srcs/count_arg.c \
+		srcs/count_cmd_pipes.c \
 		srcs/dup_pipe.c \
 		srcs/echo.c \
 		srcs/echo_utils.c \

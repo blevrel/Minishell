@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 12:10:54 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/03 17:11:07 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,19 @@ int	builtin(char *cmd, t_data *data)
 	if (ft_strcmp(cmd, "cd") == 0)
 	{
 		directory(data->cmd[0], data);
+		data->return_value = 0;
 		return (0);
 	}
 	if (ft_strcmp(cmd, "export") == 0)
 	{
 		ft_export(data->cmd[0], data);
+		data->return_value = 0;
 		return (0);
 	}
 	if (ft_strcmp(cmd, "unset") == 0)
 	{
 		unset(data->cmd[0], data);
+		data->return_value = 0;
 		return (0);
 	}
 	return (1);
@@ -36,21 +39,21 @@ void	dup_simple_call(t_cmd *cmd)
 {
 	int	fd;
 
-	if (cmd->infile != NULL)
+	if (cmd->outfile != NULL)
 	{
-		fd = open(cmd->infile, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		fd = open(cmd->outfile, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		dup2(fd, 1);
 		close(fd);
 	}
-	if (cmd->outfile != NULL)
+	if (cmd->infile != NULL)
 	{
-		fd = open(cmd->outfile, O_RDONLY);
+		fd = open(cmd->infile, O_RDONLY);
 		dup2(fd, 0);
 		close(fd);
 	}
-	if (cmd->infile_append != NULL)
+	if (cmd->outfile_append != NULL)
 	{
-		fd = open(cmd->infile_append, O_WRONLY | O_APPEND | O_CREAT, 0644);
+		fd = open(cmd->outfile_append, O_WRONLY | O_APPEND | O_CREAT, 0644);
 		dup2(fd, 1);
 		close(fd);
 	}
@@ -61,10 +64,7 @@ int	simple_cmd(t_data *data)
 	pid_t	son;
 
 	if (builtin(data->cmd[0]->cmd[0], data) == 0)
-	{
-		data->return_value = 0;
 		return (0);
-	}
 	ignore_signals();
 	son = fork();
 	if (son == 0)

@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 14:29:35 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/29 14:29:52 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/03 17:03:49 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	init_null_cmd(t_cmd *res, int nb_cmd)
 	i = 0;
 	res->infile = NULL;
 	res->outfile = NULL;
-	res->infile_append = NULL;
+	res->outfile_append = NULL;
 	res->path = NULL;
 	res->heredoc = 0;
 	res->limiter = NULL;

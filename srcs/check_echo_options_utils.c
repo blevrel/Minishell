@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 00:03:37 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/03 15:02:40 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/03 16:48:37 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -15,7 +15,7 @@ int	ft_strlen_var(char *str, t_data *data)
 {
 	int	i;
 	int	res;
-	
+
 	i = 0;
 	res = 0;
 	if (!str)

@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:40:20 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/28 09:09:40 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/03 16:35:37 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -76,7 +76,7 @@ int	fill_until_pipe(char **final_tab, char *arg, int *i, int *j)
 
 char	*alloc_first_arg(char *arg, int *i)
 {
-	char		*res;
+	char	*res;
 	int		j;
 
 	j = 0;

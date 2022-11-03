@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 08:30:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/02 18:30:30 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/03 16:46:44 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	check_value(char *str)
 	int	i;
 
 	i = 0;
-	if (str[i] == '_' && ( str[i + 1] == '\0' || str[i + 1] == '='))
+	if (str[i] == '_' && (str[i + 1] == '\0' || str[i + 1] == '='))
 		return (2);
 	if (ft_isalpha(str[i]) == 0 && str[i] != '_')
 		return (1);
@@ -25,7 +25,7 @@ int	check_value(char *str)
 	{
 		if (str[i] == '+' && str[i + 1] == '=')
 			i++;
-		if (ft_isalnum(str[i]) == 0 && str[i] != ' ' 
+		if (ft_isalnum(str[i]) == 0 && str[i] != ' '
 			&& str[i] != '_')
 			return (1);
 		++i;
