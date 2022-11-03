@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 16:34:01 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 15:10:06 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/03 16:32:16 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -24,7 +24,7 @@ char	*tokenize_here_doc_line(t_data *data, char *limiter)
 	int		j;
 	char	*line;
 	char	*new_line;
-	
+
 	i = 0;
 	j = 0;
 	line = readline("");

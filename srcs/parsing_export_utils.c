@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 17:23:22 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/28 17:24:02 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/03 16:50:21 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,5 @@ int	check_export(char *str)
 		return (1);
 	}
 	free(check);
-	return (0); 
+	return (0);
 }

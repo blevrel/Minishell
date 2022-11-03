@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/03 15:10:45 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/03 16:26:08 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -34,7 +34,7 @@ typedef struct s_cmd
 	char	**cmd;
 	char	*path;
 	char	*infile;
-	char	*infile_append;
+	char	*outfile_append;
 	char	*outfile;
 	int		heredoc;
 	char	**limiter;
@@ -108,7 +108,6 @@ char	next_non_spc_char(int i, char *str);
 char	*ft_strjoin_no_malloc(char *s1, char *s2);
 
 //CHECK_PATH
-//void	*cmd_not_found(char *cmd);
 char	*check_path(char *cmd, char **env, t_data *data);
 
 //CHECK_SYNTAX_ERROR
@@ -187,9 +186,9 @@ void	n_pipe(t_data *data, int i);
 void	l_pipe(t_data *data, int i);
 int		**malloc_pipe(int argc);
 int		count_nb_here_doc(char **cmd);
-void	check_dup_pipe_first(t_cmd *cmd, int **pipexfd, int i,t_data *data);
-void	check_dup_pipe_n(t_cmd *cmd, int **pipexfd, int i,t_data *data);
-void	check_dup_pipe_last(t_cmd *cmd, int **pipexfd, int i,t_data *data);
+void	check_dup_pipe_first(t_cmd *cmd, int **pipexfd, int i, t_data *data);
+void	check_dup_pipe_n(t_cmd *cmd, int **pipexfd, int i, t_data *data);
+void	check_dup_pipe_last(t_cmd *cmd, int **pipexfd, int i, t_data *data);
 
 //EXPORT
 char	**new_env_export(char **cmd, char **env);
@@ -203,7 +202,7 @@ char	**replace_value_export(char *str, int line, char **export);
 int		search_new_env(char **cmd, char **env);
 int		check_value(char *str);
 int		check_join_value(char *str);
-char	*join_value_env(char *str, int  line, char **env);
+char	*join_value_env(char *str, int line, char **env);
 
 //UNSET
 int		check_unset(char *str, char **env);
@@ -224,6 +223,7 @@ int		check_fill_heredoc_null(char **final_tab, char *arg, int *i, int *j);
 //PARSING_RETURNVALUE
 char	*fill_returnvalue(t_data *data, char *res, int *i);
 int		replace_valuereturn(char *dest, int *j, t_data *data);
+int		size_return_value(t_data *data);
 
 //MOVE_INDEX
 int		move_indextoenv(char *str, int i);

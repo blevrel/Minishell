@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:32:51 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/28 17:38:24 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/03 16:50:56 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -51,7 +51,7 @@ int	count_arg(char *arg, int *i)
 			(*i)++;
 		if (arg[*i] && check_char(&arg[*i]) == 2)
 		{
-			if(check_here_doc_null(&arg[*i]) == 1)
+			if (check_here_doc_null(&arg[*i]) == 1)
 				res++;
 			res++;
 		}
@@ -70,7 +70,7 @@ int	count_arg(char *arg, int *i)
 
 int	skip_space(char *arg)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (arg[i] && check_char(&arg[i]) == 1)

@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 08:18:00 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/28 17:29:03 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/03 16:37:23 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ int	check_here_doc_null(char *str)
 {
 	int	i;
 	int	res;
-	
+
 	i = 0;
 	res = 0;
-	while(str[i] == '<')
+	while (str[i] == '<')
 		i++;
 	if (str[i] == '"' && str[i + 1] == '"')
 	{

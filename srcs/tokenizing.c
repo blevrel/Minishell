@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:42:21 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 13:09:51 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/03 16:38:11 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -51,7 +51,7 @@ int	fill_tokenize_arg(char *res, char *src, t_data *data)
 			i = move_index_after_quote(src, i);
 		}
 		else if (src[i] == '$' && ft_isalnum(src[i + 1]) != 0
-				&& src[i + 1] != '\0')
+			&& src[i + 1] != '\0')
 		{
 			if (fill_env(res, &src[i], data, &j) == 1)
 				return (1);
@@ -66,7 +66,7 @@ int	fill_tokenize_arg(char *res, char *src, t_data *data)
 
 char	*tokenizing_arg(t_data *data, int i)
 {
-	char *res;
+	char	*res;
 
 	if (i > 0 && ft_strncmp(data->parsing[i - 1], "<<", 2) == 0)
 	{
@@ -91,7 +91,6 @@ char	**tokenizing(t_data *data)
 	res = malloc((size_tab(data->parsing) + 1) * sizeof (char *));
 	if (verif_malloc_arr(res))
 		return (NULL);
-	
 	while (data->parsing[i] != NULL)
 	{
 		res[i] = tokenizing_arg(data, i);

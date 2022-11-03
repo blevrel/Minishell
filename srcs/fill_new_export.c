@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:35:35 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/02 18:45:15 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/03 17:09:13 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 int	len_value(char *value)
 {
 	int	i;
-	int res;
-	
+	int	res;
+
 	i = 0;
 	res = 0;
 	if (!value)
@@ -31,12 +31,12 @@ int	len_value(char *value)
 	return (res);
 }
 
-char *new_value(char *value)
+char	*new_value(char *value)
 {
-	char *res;
-	int	i;
-	int	j;
-	
+	char	*res;
+	int		i;
+	int		j;
+
 	i = 0;
 	j = 0;
 	res = malloc(len_value(value) + 1 * sizeof(char));
@@ -89,7 +89,7 @@ char	**fill_new_export(char **new_exp, t_cmd *cmd, t_data *data, int i)
 	int	l_exp;
 
 	j = 1;
-	while (cmd->cmd[j] != NULL)
+	while (cmd->cmd[j++])
 	{
 		cmd->cmd[j] = new_value(cmd->cmd[j]);
 		if (check_value(cmd->cmd[j]) == 0)
@@ -106,7 +106,6 @@ char	**fill_new_export(char **new_exp, t_cmd *cmd, t_data *data, int i)
 		else if (check_value(cmd->cmd[j]) == 1)
 			printf("minishell: export: `%s': not a valid identifier\n",
 				cmd->cmd[j]);
-		++j;
 	}
 	new_exp[i] = NULL;
 	return (new_exp);

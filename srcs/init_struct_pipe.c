@@ -6,11 +6,10 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 10:44:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 14:50:00 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/03 16:38:37 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
-
 
 char	**check_limiter(char **cmd, int i)
 {
@@ -29,7 +28,6 @@ char	**check_limiter(char **cmd, int i)
 		if (ft_strcmp(cmd[i], "<<") == 0)
 		{
 			res[j] = ft_strdup(cmd[i + 1]);
-		//	printf("%s\n", res[j]);
 			j++;
 		}
 		++i;

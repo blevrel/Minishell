@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 08:44:36 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/28 17:28:24 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/03 16:32:34 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	count_exp(char *arg, int *i)
 {
 	int	res;
-	
+
 	res = 0;
 	while (arg[*i] && (check_char(&arg[*i]) <= 0))
 		res += go_to_first_arg(arg, i);

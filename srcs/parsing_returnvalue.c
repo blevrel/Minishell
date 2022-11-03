@@ -6,13 +6,12 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 10:23:49 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/28 11:00:39 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/03 16:49:25 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 
-char *fill_returnvalue(t_data *data, char *res, int *i)
+char	*fill_returnvalue(t_data *data, char *res, int *i)
 {
 	char	*value;
 
@@ -32,8 +31,8 @@ char *fill_returnvalue(t_data *data, char *res, int *i)
 
 int	replace_valuereturn(char *dest, int *j, t_data *data)
 {	
-	char *value;
-	int	i;
+	char	*value;
+	int		i;
 
 	i = 0;
 	value = NULL;
@@ -52,4 +51,3 @@ int	replace_valuereturn(char *dest, int *j, t_data *data)
 	free(value);
 	return (0);
 }
-

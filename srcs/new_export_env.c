@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 14:09:36 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/02 18:32:02 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/03 16:35:58 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ char	*join_value_env(char *str, int line, char **env)
 	env[line] = NULL;
 	return (tmp);
 }
-
 
 int	search_new_env(char **cmd, char **env)
 {

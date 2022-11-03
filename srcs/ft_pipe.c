@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:17:04 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 11:51:24 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/03 17:04:04 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	count_nb_here_doc(char **cmd)
 void	start_child(t_data *data, int nb_pipe)
 {
 	int	i;
-	
+
 	i = 1;
 	fi_pipe(data);
 	while (nb_pipe > 2)
@@ -42,14 +42,12 @@ void	start_child(t_data *data, int nb_pipe)
 	}
 	l_pipe(data, i);
 	return_value(data->son, data, check_nbpipe(data->arg));
-
 }
 
 int	ft_pipe(t_data *data)
 {
 	int		nb_pipe;
 
-	
 	if (!data->cmd)
 		return (1);
 	nb_pipe = check_nbpipe(data->arg);
