@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 09:47:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 14:44:44 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/03 16:46:14 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -141,8 +141,7 @@ t_cmd	*fill_simple_cmd(t_data *data, t_cmd *res, int i, int j)
 		{
 			if (init_file(res, data, i) == 1)
 			{
-				free_double_tab(res->cmd);
-				res->cmd = NULL;
+				free_simple_cmd(res);
 				return(NULL);
 			}
 			if (data->parsing[i + 1])

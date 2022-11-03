@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 10:44:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 14:50:00 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/03 17:29:40 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -42,21 +42,23 @@ t_cmd	*init_simple_cmd(t_data *data, int i, t_cmd *res, int index_pipe)
 {
 	int			j;
 	static int	k = 0;
+	int	nb_arg;
 
 	j = 0;
 	if (data->arg[k] == '|')
 		k++;
-	res->cmd = malloc((count_arg(data->arg, &k) + 1) * sizeof(char *));
-	res->cmd[count_arg(data->arg, &k) + 1] = NULL;
+	nb_arg = count_arg(data->arg, &k);
+	res->cmd = ft_calloc((nb_arg + 1), sizeof(char *));
+	res->cmd[nb_arg] = NULL;
 	if (verif_malloc_arr(res->cmd) == 1)
 		return (NULL);
 	init_null_cmd(res, count_arg(data->arg, &k));
 	res->limiter = check_limiter(data->parsing, i);
 	res = fill_simple_cmd(data, res, i, j);
-	if (!res->cmd)
-		return (NULL);
 	if (index_pipe + 1 == check_nbpipe(data->arg))
 		k = 0;
+	if (!res)
+		return (NULL);
 	return (res);
 }
 
