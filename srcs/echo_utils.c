@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 14:25:34 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/28 10:43:00 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/03 14:58:03 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -17,14 +17,13 @@ char	*tokenize_env_var(char *full_arg, char *res, t_data *data, int *i)
 	int		line;
 	int		len_env;
 
+	line = 0;
 	(*i)++;
 	if (full_arg[*i] == '?')
 		return (fill_returnvalue(data, res, i));
 	value = isolate_env_var(&full_arg[*i]);
-	line = 0;
 	len_env = size_env(value);
-	while (full_arg[*i] && check_char(&full_arg[*i]) == 0
-		&& full_arg[*i] != '$')
+	while (full_arg[*i] && ft_isalnum(full_arg[*i]) != 0 && full_arg[*i] != '$')
 		(*i)++;
 	if (len_env == -1)
 	{
@@ -36,7 +35,7 @@ char	*tokenize_env_var(char *full_arg, char *res, t_data *data, int *i)
 	free(value);
 	if (!data->envp[line])
 		return (res);
-	res = join_gnl(res, &data->envp[line][len_env + 1]);
+	res = ft_strjoin_no_malloc(res, &data->envp[line][len_env + 1]);
 	return (res);
 }
 
@@ -52,7 +51,7 @@ char	*replace_env_in_quotes(char *full_arg, char *res, t_data *data, int *i)
 	j++;
 	while (full_arg[*i] && full_arg[*i] != quote)
 	{
-		if (full_arg[*i] == '$' && quote == 34)
+		if (full_arg[*i] == '$' && quote == '\"')
 		{
 			res = tokenize_env_var(full_arg, res, data, i);
 			j = ft_strlen(res);

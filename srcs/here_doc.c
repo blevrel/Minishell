@@ -6,16 +6,15 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 16:34:01 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 10:21:43 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/03 14:34:02 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-void	here_doc_err_msg(t_data *data, char *limiter)
+void	here_doc_err_msg(char *limiter)
 {
 	ft_printf("minishell: warning: here-document delimited \
 by end-of-file (wanted '%s')\n", limiter);
-	clean_data(data, 1);
 	exit(0);
 }
 
@@ -30,7 +29,7 @@ char	*tokenize_here_doc_line(t_data *data, char *limiter)
 	j = 0;
 	line = readline("");
 	if (line == NULL)
-		here_doc_err_msg(data, limiter);
+		here_doc_err_msg(limiter);
 	new_line = malloc((size_here_doc_line(line, data) + 1) * sizeof(char));
 	while (line[i])
 	{
@@ -38,7 +37,7 @@ char	*tokenize_here_doc_line(t_data *data, char *limiter)
 			&& check_char(&line[i + 1]) >= 0)
 		{
 			fill_env(new_line, &line[i], data, &j);
-			move_indextoenv(line, &i);
+			i = move_indextoenv(line, i);
 		}
 		else
 			ft_fill_char_and_increment(new_line, line, &i, &j);

@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/02 14:36:23 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/03 14:58:57 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -105,6 +105,7 @@ void	swap_str(char **s1, char **s2);
 int		size_tab(char **tab);
 char	**cpy_tab(char **dest, char **src);
 char	next_non_spc_char(int i, char *str);
+char	*ft_strjoin_no_malloc(char *s1, char *s2);
 
 //CHECK_PATH
 //void	*cmd_not_found(char *cmd);
@@ -144,7 +145,6 @@ int		size_env(char *str);
 char	*isolate_env_var(char *cmd);
 int		get_env_variable_size(char *cmd, char **envp, t_data *data);
 int		fill_env(char *res, char *str, t_data *data, int *j);
-void	move_indextoenv(char *str, int *i);
 char	*fill_exp(char *arg, char *res, int *i, int *j;);
 int		count_size_exp(char *arg);
 char	*alloc_export(char *arg, int *i);
@@ -226,7 +226,7 @@ char	*fill_returnvalue(t_data *data, char *res, int *i);
 int		replace_valuereturn(char *dest, int *j, t_data *data);
 
 //MOVE_INDEX
-void	move_indextoenv(char *str, int *i);
+int		move_indextoenv(char *str, int i);
 int		move_index_after_quote(char *str, int i);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 00:03:37 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/25 08:17:52 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/03 15:02:40 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -36,6 +36,18 @@ int	ft_strlen_var(char *str, t_data *data)
 		}
 	}
 	return (res);
+}
+
+char	*ft_strjoin_no_malloc(char *s1, char *s2)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	j = ft_strlen(s1);
+	while (s2[i])
+		ft_fill_char_and_increment(s1, s2, &i, &j);
+	return (s1);
 }
 
 int	check_option_format_in_quotes(char *full_arg, int *j, char quote)

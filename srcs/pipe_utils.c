@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 10:22:53 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 10:23:40 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/02 10:35:16 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,6 @@ void	fi_pipe(t_data *data)
 {
 	pipe(data->pipexfd[0]);
 	data->son[0] = fork();
-	if (data->son[0] == -1)
-	{
-		ft_putstr_fd("Fork failed\n", 2);
-		exit(1);
-	}
 	if (data->son[0] == 0)
 	{
 		close(data->pipexfd[0][0]);
@@ -41,11 +36,6 @@ void	n_pipe(t_data *data, int i)
 {
 	pipe(data->pipexfd[i]);
 	data->son[i] = fork();
-	if (data->son[i] == -1)
-	{
-		ft_putstr_fd("Fork failed\n", 2);
-		exit(1);
-	}
 	if (data->son[i] == 0)
 	{
 		close(data->pipexfd[i][0]);
@@ -69,11 +59,6 @@ void	n_pipe(t_data *data, int i)
 void	l_pipe(t_data *data, int i)
 {
 	data->son[i] = fork();
-	if (data->son[i] == -1)
-	{
-		ft_putstr_fd("Fork failed\n", 2);
-		exit(1);
-	}
 	if (data->son[i] == 0)
 	{
 		close(data->pipexfd[i - 1][1]);

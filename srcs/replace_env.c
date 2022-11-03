@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 12:09:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/28 17:54:40 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/03 12:01:25 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -37,13 +37,13 @@ char	*isolate_env_var(char *cmd)
 		return (NULL);
 	if (cmd[i] == '$' || cmd[i] == '\"')
 		i++;
-	while (cmd[i + j] && check_char(&cmd[i + j]) == 0 && cmd[i + j] != '$')
+	while (cmd[i + j] && ft_isalnum(cmd[i + j]) == 8)
 		j++;
 	to_find = malloc(sizeof(char) * (j + 2));
-	if (!to_find)
+	if (verif_malloc_str(&to_find, 0) == 1)
 		return (NULL);
 	j = 0;
-	while (cmd[i] && check_char(&cmd[i]) == 0 && cmd[i] != '$')
+	while (cmd[i] && ft_isalnum(cmd[i]) == 8)
 	{
 		to_find[j] = cmd[i];
 		i++;
