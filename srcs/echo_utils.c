@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 14:25:34 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/03 16:59:14 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/04 11:40:51 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -68,7 +68,7 @@ char	*replace_env_in_quotes(char *full_arg, char *res, t_data *data, int *i)
 	return (res);
 }
 
-char	*replace_env_in_full_arg(char *full_arg, t_data *data)
+char	*replace_env_in_full_arg(char *arg, t_data *data)
 {
 	int		i;
 	int		j;
@@ -76,24 +76,23 @@ char	*replace_env_in_full_arg(char *full_arg, t_data *data)
 
 	i = 0;
 	j = 0;
-	res = ft_calloc((ft_strlen_var(full_arg, data) + 1), sizeof(char));
+	res = ft_calloc((ft_strlen_var(arg, data) + 1), sizeof(char));
 	if (verif_malloc_str(&res, 0) == 1)
 		return (NULL);
-	while (full_arg[i])
+	while (arg[i])
 	{
-		if (check_char(&full_arg[i]) < 0
-			&& check_closing_quotes(&full_arg[i]) == 0)
-			res = replace_env_in_quotes(full_arg, res, data, &i);
-		else if (full_arg[i] == '$' && full_arg[i + 1] != '$')
-			res = tokenize_env_var(full_arg, res, data, &i);
+		if (check_char(&arg[i]) < 0 && check_closing_quotes(&arg[i]) == 0)
+			res = replace_env_in_quotes(arg, res, data, &i);
+		else if (arg[i] == '$' && (ft_isalnum(arg[i + 1]) == 8 || arg[i + 1] == '?'))
+			res = tokenize_env_var(arg, res, data, &i);
 		else
 		{
 			j = ft_strlen(res);
-			ft_fill_char_and_increment(res, full_arg, &i, &j);
+			ft_fill_char_and_increment(res, arg, &i, &j);
 		}
 	}
-	free(full_arg);
-	full_arg = NULL;
+	free(arg);
+	arg = NULL;
 	return (res);
 }
 

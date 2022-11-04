@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:43:38 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 12:59:33 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/04 12:21:19 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	move_indextoenv(char *str, int i)
 		return (i);
 	if (str[i] == '$')
 		i++;
+	if (str[i] == '?')
+		return (i + 1);
 	while (str[i])
 	{
 		if (str[i] == '$' || ft_isalnum(str[i]) == 0)

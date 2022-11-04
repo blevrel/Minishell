@@ -6,11 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 09:47:41 by pirabaud          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/11/03 16:46:14 by pirabaud         ###   ########.fr       */
-=======
-/*   Updated: 2022/11/03 17:14:08 by blevrel          ###   ########.fr       */
->>>>>>> 59df4a811e01d9bed7125f93ce527c1ad5752a18
+/*   Updated: 2022/11/04 09:24:50 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -61,6 +57,7 @@ int	check_open(char **cmd)
 			return (1);
 		close (fd);
 	}
+	return (0);
 	if (ft_strcmp(cmd[0], "<") == 0)
 	{
 		fd = open(cmd[1], O_RDONLY);
@@ -68,7 +65,7 @@ int	check_open(char **cmd)
 			return (2);
 		close (fd);
 	}
-	return (0);
+	return (0); 
 }
 
 t_cmd	*fill_simple_cmd(t_data *data, t_cmd *res, int i, int j)
@@ -81,16 +78,7 @@ t_cmd	*fill_simple_cmd(t_data *data, t_cmd *res, int i, int j)
 		if (value == 1)
 		{
 			if (init_file(res, data, i) == 1)
-			{
-<<<<<<< HEAD
-				free_simple_cmd(res);
-				return(NULL);
-=======
-				free_double_tab(res->cmd);
-				res->cmd = NULL;
-				return (NULL);
->>>>>>> 59df4a811e01d9bed7125f93ce527c1ad5752a18
-			}
+				return(res);
 			if (data->parsing[i + 1])
 			{
 				i = i + 2;

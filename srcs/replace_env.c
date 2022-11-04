@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 12:09:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 16:04:21 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/04 12:14:37 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -37,17 +37,25 @@ char	*isolate_env_var(char *cmd)
 		return (NULL);
 	if (cmd[i] == '$' || cmd[i] == '\"')
 		i++;
-	while (cmd[i + j] && ft_isalnum(cmd[i + j]) == 8)
+	if (cmd[i] == '?')
 		j++;
+	else
+		while (cmd[i + j] && ft_isalnum(cmd[i + j]) == 8)
+			j++;
 	to_find = malloc(sizeof(char) * (j + 2));
 	if (verif_malloc_str(&to_find, 0) == 1)
 		return (NULL);
 	j = 0;
-	while (cmd[i] && ft_isalnum(cmd[i]) == 8)
+	if (cmd[i] == '?')
+		to_find[j++] = '?';
+	else
 	{
-		to_find[j] = cmd[i];
-		i++;
-		j++;
+		while (cmd[i] && ft_isalnum(cmd[i]) == 8)
+		{
+			to_find[j] = cmd[i];
+			i++;
+			j++;
+		}
 	}
 	to_find[j] = '=';
 	to_find[j + 1] = '\0';
@@ -111,10 +119,12 @@ int	fill_env(char *res, char *str, t_data *data, int *j)
 	len_env = size_env(value);
 	if (len_env == -1)
 		return (2);
-	if (ft_strcmp(value, "?=") == 0 && replace_valuereturn(res, j, data) == 1)
-	{
+	if (ft_strcmp(value, "?=") == 0)
+	{ 
 		free(value);
-		return (1);
+		if (replace_valuereturn(res, j, data) == 1)
+			return (1);
+		return (0);
 	}
 	while (data->envp[line]
 		&& ft_strncmp(data->envp[line], value, len_env + 1) != 0)
