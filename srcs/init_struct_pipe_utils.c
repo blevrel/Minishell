@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 09:47:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 17:14:08 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/04 10:12:37 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -83,18 +83,12 @@ t_cmd	*fill_simple_cmd(t_data *data, t_cmd *res, int i, int j)
 				return (NULL);
 			}
 			if (data->parsing[i + 1])
-			{
 				i = i + 2;
-				continue ;
-			}
 		}
 		else if (value == 2)
 			break ;
 		else if (value != 1 && ft_strcmp(data->parsing[i], "") != 0)
-		{
-			res->cmd[j] = ft_strdup(data->parsing[i]);
-			j++;
-		}
+			res->cmd[j++] = ft_strdup(data->parsing[i]);
 		i++;
 	}
 	res->cmd[j] = NULL;
