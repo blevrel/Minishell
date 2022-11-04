@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:40:20 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 16:35:37 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/04 18:09:34 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -29,26 +29,30 @@ void	fill_with_quotes(char **final_tab, char *arg, int *i, int *j)
 {
 	int	k;
 	int	quote;
+	int	inside;
 
 	k = 0;
+	inside = 1;
 	if (check_char(&arg[*i]) > -1 || arg[*i] == '|')
 		return ;
 	if (check_fill_heredoc_null(final_tab, arg, i, j) == 1)
 		return ;
 	quote = arg[*i];
-	final_tab[*j][k++] = arg[*i];
-	(*i)++;
-	while (arg[*i] && arg[*i] != quote)
+	final_tab[*j][k++] = arg[(*i)++];
+	while (arg[*i])
 	{
-		final_tab[*j][k] = arg[*i];
-		k++;
-		(*i)++;
+		if (arg[*i] == quote && inside)
+			inside = 0;
+		else if (!inside && check_char(&arg[*i]) < 0)
+		{
+			quote = arg[*i];
+			inside = 1;
+		}
+		final_tab[*j][k++] = arg[(*i)++];
+		if (arg[*i] && !inside && check_char(&arg[*i + 1]) > 0)
+			break ;
 	}
-	final_tab[*j][k] = arg[*i];
-	k++;
-	final_tab[*j][k] = '\0';
-	(*i)++;
-	(*j)++;
+	final_tab[(*j)++][k] = '\0';
 }
 
 int	fill_until_pipe(char **final_tab, char *arg, int *i, int *j)

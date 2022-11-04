@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 09:47:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/04 10:12:37 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/04 18:13:54 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -23,7 +23,7 @@ int	check_index_pipe(char *full_arg, int index_pipe)
 		while (full_arg[i] && full_arg[i] != '|')
 			++i;
 		if (reset_pipe_index_if_needed(&full_arg[i]) == 0)
-		i = 0;
+			i = 0;
 		return (0);
 	}
 	count = nb_cmd(full_arg, index_pipe);
@@ -57,6 +57,7 @@ int	check_open(char **cmd)
 			return (1);
 		close (fd);
 	}
+	return (0);
 	if (ft_strcmp(cmd[0], "<") == 0)
 	{
 		fd = open(cmd[1], O_RDONLY);
@@ -77,13 +78,9 @@ t_cmd	*fill_simple_cmd(t_data *data, t_cmd *res, int i, int j)
 		if (value == 1)
 		{
 			if (init_file(res, data, i) == 1)
-			{
-				free_double_tab(res->cmd);
-				res->cmd = NULL;
-				return (NULL);
-			}
+				return (res);
 			if (data->parsing[i + 1])
-				i = i + 2;
+				i++;
 		}
 		else if (value == 2)
 			break ;

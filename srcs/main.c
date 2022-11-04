@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/01 14:51:24 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/04 10:45:44 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -20,6 +20,8 @@ void	init_cmd(t_data *data)
 	if (!data->parsing || !data->parsing[0])
 		return ;
 	data->parsing = tokenizing(data);
+	if (data->parsing == NULL)
+		return ;
 	if (next_non_spc_char(0, data->arg) != 34
 		&& next_non_spc_char(0, data->arg) != 39)
 		remove_arg_if_needed(data);

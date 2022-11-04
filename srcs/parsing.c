@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 14:41:36 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/11 14:00:40 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/04 13:55:55 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -27,6 +27,8 @@ int	check_quote(char *arg, int *i)
 		count++;
 	}
 	if (arg[*i])
+		(*i)++;
+	while (arg[*i] && check_char(&arg[*i]) == 0)
 		(*i)++;
 	if (count <= 0)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 17:13:21 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/03 17:32:41 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/04 17:57:29 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -75,7 +75,7 @@ int	nb_cmd(char *full_arg, int index_pipe)
 			res++;
 		while (full_arg[i] && check_char(&full_arg[i]) == 0)
 			i++;
-		res += count_quotes_and_pipes(full_arg, &i, res, &nb_pipe);
+		res = count_quotes_and_pipes(full_arg, &i, res, &nb_pipe);
 	}
 	return (res);
 }

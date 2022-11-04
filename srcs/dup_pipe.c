@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 11:16:11 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 16:26:40 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/04 09:21:29 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ void	check_dup_pipe_first(t_cmd *cmd, int **pipexfd, int i, t_data *data)
 	if (cmd->infile != NULL)
 	{
 		fd = open(cmd->infile, O_RDONLY);
+		if (fd == -1)
+		{
+			printf("minishell : %s: no such file or directory\n", cmd->infile);
+			//a free
+			exit(1);
+		}
 		dup2(fd, 0);
 		dup2(pipexfd[i][1], 1);
 		close(fd);
@@ -48,7 +54,7 @@ void	check_dup_pipe_last(t_cmd *cmd, int **pipexfd, int i, t_data *data)
 {	
 	int	fd;
 
-	if (cmd->outfile != NULL || cmd->infile != NULL)
+	if (cmd->outfile != NULL || cmd->outfile_append != NULL)
 		dup_entry(cmd, pipexfd, i - 1);
 	if (cmd->infile != NULL)
 	{
@@ -66,9 +72,9 @@ void	check_dup_pipe_n(t_cmd *cmd, int **pipexfd, int i, t_data *data)
 {	
 	int	fd;
 
-	if (cmd->outfile != NULL || cmd->infile != NULL)
+	if (cmd->infile != NULL || cmd->outfile != NULL)
 		dup_entry(cmd, pipexfd, i - 1);
-	if (cmd->infile != NULL)
+	if (cmd->outfile != NULL)
 	{
 		fd = open(cmd->infile, O_RDONLY);
 		dup2(fd, 0);

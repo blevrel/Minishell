@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 09:28:07 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/28 15:58:03 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/04 10:37:20 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -56,6 +56,11 @@ void	remove_arg_if_needed(t_data *data)
 
 	i = 0;
 	save_parsing = malloc((size_tab(data->parsing) + 1) * sizeof(char *));
+	if (verif_malloc_arr(save_parsing) == 1)
+	{
+		//a free
+		exit (1);
+	}
 	while (data->parsing[i])
 	{
 		save_parsing[i] = ft_strdup(data->parsing[i]);

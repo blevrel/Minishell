@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:48:53 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/10/25 12:04:57 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/04 10:49:02 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -91,7 +91,7 @@ void	echo(char **cmd, t_data *data, int cmd_i, int arg_i)
 				ft_strlen(data->arg));
 		if (arg_i == 0)
 			space_before_first_arg(data->arg, arg_i);
-		while (ft_strcmp(&data->arg[arg_i], first_occ) != 0)
+		while (data->arg[arg_i] && ft_strcmp(&data->arg[arg_i], first_occ) != 0)
 			arg_i++;
 		ft_printf("%s", cmd[cmd_i]);
 		arg_i = move_arg_i(data->arg, arg_i);

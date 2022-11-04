@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:42:21 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 16:38:11 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/04 18:11:59 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -50,8 +50,8 @@ int	fill_tokenize_arg(char *res, char *src, t_data *data)
 			j = ft_strlen(res);
 			i = move_index_after_quote(src, i);
 		}
-		else if (src[i] == '$' && ft_isalnum(src[i + 1]) != 0
-			&& src[i + 1] != '\0')
+		else if (src[i] == '$' && ((ft_isalnum(src[i + 1]) != 0
+					&& src[i + 1] != '\0') || src[i + 1] == '?'))
 		{
 			if (fill_env(res, &src[i], data, &j) == 1)
 				return (1);
@@ -76,7 +76,10 @@ char	*tokenizing_arg(t_data *data, int i)
 	res = malloc((size_tokenize(data->parsing[i], data->envp, data) + 1)
 			* sizeof(char));
 	if (!res)
+	{
+		ft_putstr_fd("Malloc failed", 2);
 		return (NULL);
+	}
 	if (fill_tokenize_arg(res, data->parsing[i], data) == 1)
 		return (NULL);
 	return (res);

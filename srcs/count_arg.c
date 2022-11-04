@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:32:51 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 16:50:56 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/04 15:39:36 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -35,7 +35,7 @@ int	go_to_first_arg(char *arg, int *i)
 		if (arg[*i])
 			(*i)++;
 	}
-	if (count <= 0)
+	if (arg[*i] && check_char(&arg[*i]) == 0)
 		return (0);
 	return (1);
 }
