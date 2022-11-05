@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 10:22:53 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 15:09:47 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/05 11:07:28 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ void	fi_pipe(t_data *data)
 			exit (1);
 		}
 		if (execve(data->cmd[0]->path, data->cmd[0]->cmd, data->envp) == -1)
+		{
+			clean_data(data, 1);
 			exit(2);
+		}
 	}
 	if (data->cmd[0]->heredoc == 1)
 		waitpid(data->son[0], NULL, 0);
@@ -51,7 +54,10 @@ void	n_pipe(t_data *data, int i)
 			exit (1);
 		}
 		if (execve(data->cmd[i]->path, data->cmd[i]->cmd, data->envp) == -1)
+		{
+			clean_data(data, 1);
 			exit (2);
+		}
 	}
 	if (data->cmd[i]->heredoc == 1)
 		waitpid(data->son[i], NULL, 0);
@@ -74,7 +80,10 @@ void	l_pipe(t_data *data, int i)
 			exit (1);
 		}
 		if (execve(data->cmd[i]->path, data->cmd[i]->cmd, data->envp) == -1)
+		{
+			clean_data(data, 1);
 			exit(2);
+		}
 	}
 	close(data->pipexfd[i - 1][1]);
 	close(data->pipexfd[i - 1][0]);

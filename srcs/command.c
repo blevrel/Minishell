@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/04 10:07:00 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/05 11:05:16 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,10 @@ int	simple_cmd(t_data *data)
 		}
 		unset_signals();
 		if (execve(data->cmd[0]->path, data->cmd[0]->cmd, data->envp) == -1)
+		{
+			clean_data(data, 1);
 			exit (2);
+		}
 	}
 	return_value(&son, data, 0);
 	signal_handler();

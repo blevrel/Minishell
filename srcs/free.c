@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 14:40:05 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 16:27:23 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/05 12:22:03 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,14 @@ void	free_rest_of_simple_cmd(t_cmd *cmd)
 
 void	free_simple_cmd(t_cmd *cmd)
 {
-	if (cmd->path)
-		free(cmd->path);
-	cmd->path = NULL;
-	free_file(cmd);
-	free_rest_of_simple_cmd(cmd);
+	if (cmd)
+	{
+		if (cmd->path)
+			free(cmd->path);
+		cmd->path = NULL;
+		free_file(cmd);
+		free_rest_of_simple_cmd(cmd);
+	}
 }
 
 void	free_multiple_cmd(t_cmd **cmd)
@@ -80,14 +83,15 @@ void	free_multiple_cmd(t_cmd **cmd)
 
 void	clean_data(t_data *data, int trigger)
 {
+	if (trigger != 0 && data->cmd && data->parsing[0])
+		free_multiple_cmd(data->cmd);
 	if (data->parsing)
 		free_parsing(data);
 	free(data->arg);
-	free(data->son);
+	if (data ->son)
+		free(data->son);
 	data->arg = NULL;
 	data->son = NULL;
-	if (data->cmd)
-		free_multiple_cmd(data->cmd);
 	if (trigger == 1)
 	{
 		free_double_tab(data->envp);

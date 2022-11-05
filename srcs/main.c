@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/04 10:45:44 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/05 12:15:17 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -40,23 +40,25 @@ void	init_cmd(t_data *data)
 
 void	routine(t_data *data)
 {
+	int	trigger;
+
 	while (1)
 	{
+		trigger = 0;
 		data->arg = readline("Mishell-> ");
 		if (data->arg && data->arg[0])
 			add_history(data->arg);
 		if (data->arg == NULL)
 		{
 			free(data->arg);
-			free_double_tab(data->export);
-			free_double_tab(data->envp);
-			free(data);
-			ft_printf("exit\n");
-			exit(0);
+			return ;
 		}
 		if (data->arg[0])
+		{
 			init_cmd(data);
-		clean_data(data, 0);
+			trigger = -1;
+		}
+		clean_data(data, trigger);
 	}
 }
 
