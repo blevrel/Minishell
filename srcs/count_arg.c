@@ -57,10 +57,11 @@ int	count_arg(char *arg, int *i)
 		}
 		while (check_char(&arg[*i]) == 2)
 				(*i)++;
-		if (arg[*i] && check_char(&arg[*i]) == 0 && arg[*i] != '|')
+		if (arg[*i] && check_char(&arg[*i]) == 0)
 		{
 			while (arg[*i] && check_char(&arg[*i]) == 0)
 				(*i)++;
+			check_quote(arg, i);
 			res++;
 		}
 		res += check_quote(arg, i);
@@ -104,5 +105,6 @@ int	nb_arg(char *arg)
 		if (res != 0 && arg[i])
 			res += count_arg(arg, &i);
 	}
+	ft_printf("%d\n", res);
 	return (res);
 }

@@ -15,21 +15,28 @@ int	check_quote(char *arg, int *i)
 {
 	int	quote;
 	int	count;
+	int	inside;
 
 	count = 0;
+	inside = 1;
 	if (check_char(&arg[*i]) > -1 || arg[*i] == '|')
 		return (0);
 	quote = arg[*i];
 	(*i)++;
-	while (arg[*i] && arg[*i] != quote)
+	while (arg[*i])
 	{
-		(*i)++;
+		if (arg[*i] == quote && inside)
+			inside = 0;
+		else if (!inside && check_char(&arg[*i]) < 0)
+		{
+			quote = arg[*i];
+			inside = 1;
+		}
+		if (arg[*i] && !inside && check_char(&arg[*i]) > 0)
+			break ;
 		count++;
+		(*i)++;
 	}
-	if (arg[*i])
-		(*i)++;
-	while (arg[*i] && check_char(&arg[*i]) == 0)
-		(*i)++;
 	if (count <= 0)
 		return (0);
 	return (1);
@@ -37,7 +44,7 @@ int	check_quote(char *arg, int *i)
 
 int	fill_pipe(t_data *data, char **final_tab, int *i, int *j)
 {		
-	final_tab[*j] = malloc((count_size_arg(&data->arg[*i], 3) + 1)
+	final_tab[*j] = malloc((count_size_arg(data->arg, 3, i) + 1)
 			* sizeof(char));
 	if (verif_malloc_str(final_tab, *j) == 1)
 		return (1);

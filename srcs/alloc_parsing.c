@@ -65,7 +65,7 @@ int	check_size_export_arg(char *arg, int i)
 	return (count);
 }
 
-int	alloc_with_quotes(char **final_tab, char *arg, int *i, int *j)
+int	alloc_with_quotes(char *arg, int *i)
 {
 	int	quote;
 	int	count;
@@ -90,27 +90,18 @@ int	alloc_with_quotes(char **final_tab, char *arg, int *i, int *j)
 		(*i)++;
 		count++;
 	}
-	if (count != 1)
-	{
-		final_tab[*j] = malloc((count + 1) * sizeof(char));
-		if (verif_malloc_str(final_tab, *j) == 1)
-			return (1);
-		(*j)++;
-	}
-	return (0);
+	return (count);
 }
 
 int	alloc_and_check_final_tab(char **final_tab, char *arg, int *i, int *j)
 {
 	if (check_char(&arg[*i]) == 2)
 	{
-		final_tab[*j] = malloc((count_size_arg(&arg[*i], 2) + 1)
+		final_tab[*j] = malloc((count_size_arg(arg, 2, i) + 1)
 				* sizeof(char));
 		if (verif_malloc_str(final_tab, *j) == 1)
 			return (1);
 		if (alloc_heredoc_null(final_tab, &arg[*i], j) == 1)
-			return (1);
-		if (verif_malloc_str(final_tab, *j) == 1)
 			return (1);
 		(*j)++;
 		while (check_char(&arg[*i]) == 2)
@@ -118,34 +109,37 @@ int	alloc_and_check_final_tab(char **final_tab, char *arg, int *i, int *j)
 	}
 	else
 	{
-		final_tab[*j] = malloc((count_size_arg(&arg[*i], 0) + 1)
+		final_tab[*j] = malloc((count_size_arg(arg, 0, i) + 1)
 				* sizeof(char));
 		if (verif_malloc_str(final_tab, *j) == 1)
 			return (1);
 		(*j)++;
-		while (arg[*i] && check_char(&arg[*i]) == 0)
-			(*i)++;
 	}
 	return (0);
 }
 
 int	alloc_until_pipe(char **final_tab, char *arg, int i, int j)
 {
+	int	count;
+
 	while (arg[i] && arg[i] != '|')
 	{
 		while (arg[i] && check_char(&arg[i]) == 1)
 				i++;
 		if (arg[i] && check_char(&arg[i]) == 2)
-		{
 			if (alloc_and_check_final_tab(final_tab, arg, &i, &j) == 1)
 				return (1);
-		}
-		if (arg[i] && check_char(&arg[i]) == 0 && arg[i] != '|')
-		{
+		if (arg[i] && check_char(&arg[i]) == 0)
 			if (alloc_and_check_final_tab(final_tab, arg, &i, &j) == 1)
 				return (1);
+		count = alloc_with_quotes(arg, &i);
+		if (count != 0)
+		{
+			final_tab[j] = malloc((count + 1) * sizeof(char));
+			if (verif_malloc_str(final_tab, j) == 1)
+				return (1);
+			j++;
 		}
-		alloc_with_quotes(final_tab, arg, &i, &j);
 	}
 	return (0);
 }

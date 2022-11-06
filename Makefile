@@ -69,7 +69,7 @@ SRCS  =	srcs/alloc_parsing.c \
 
 OBJS = ${SRCS:.c=.o}
 
-CC = cc
+CC = gcc
 
 LIB = -L libft -lft
 

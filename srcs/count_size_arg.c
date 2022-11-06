@@ -53,12 +53,27 @@ int	count_size_first_arg(char *arg)
 	return (res);
 }
 
-int	count_size_arg(char *arg, int value)
+int	count_size_arg(char *arg, int value, int *i)
 {
-	int	i;
+	int	count;
 
-	i = 0;
-	while (arg[i] && check_char(&arg[i]) == value)
-		i++;
-	return (i);
+	count = 0;
+	if (value == 2)
+		while (arg[*i] && check_char(&arg[*i]) == value)
+		{
+			(*i)++;
+			count++;
+		}
+	else
+		while (arg[*i] && check_char(&arg[*i]) <= 0)
+		{
+			if (check_char(&arg[*i]) < 0)
+				count += alloc_with_quotes(arg, i);
+			else
+			{
+				(*i)++;
+				count++;
+			}
+		}
+	return (count);
 }

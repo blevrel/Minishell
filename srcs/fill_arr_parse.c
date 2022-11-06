@@ -16,13 +16,17 @@ void	fill_arg(char *final_tab, char *arg, int *i, int value)
 	int	j;
 
 	j = 0;
-	while (arg[*i] && check_char(&arg[*i]) == value)
-	{
-		final_tab[j] = arg[*i];
-		(*i)++;
-		j++;
-	}
+	if (value == 2)
+		while (arg[*i] && check_char(&arg[*i]) == value)
+		{
+			final_tab[j] = arg[*i];
+			(*i)++;
+			j++;
+		}
 	final_tab[j] = '\0';
+	//remplir quand value = 0 jusqu'a un separateur en remplissant les quotes
+	//peut etre voir l'allocation avant jsp
+	//utiliser fill with quotes je pense
 }
 
 void	fill_with_quotes(char **final_tab, char *arg, int *i, int *j)
