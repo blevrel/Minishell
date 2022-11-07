@@ -6,28 +6,10 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:40:20 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/04 18:09:34 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/07 11:32:17 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
-
-void	fill_arg(char *final_tab, char *arg, int *i, int value)
-{
-	int	j;
-
-	j = 0;
-	if (value == 2)
-		while (arg[*i] && check_char(&arg[*i]) == value)
-		{
-			final_tab[j] = arg[*i];
-			(*i)++;
-			j++;
-		}
-	final_tab[j] = '\0';
-	//remplir quand value = 0 jusqu'a un separateur en remplissant les quotes
-	//peut etre voir l'allocation avant jsp
-	//utiliser fill with quotes je pense
-}
 
 void	fill_with_quotes(char **final_tab, char *arg, int *i, int *j)
 {
@@ -35,10 +17,10 @@ void	fill_with_quotes(char **final_tab, char *arg, int *i, int *j)
 	int	quote;
 	int	inside;
 
-	k = 0;
 	inside = 1;
 	if (check_char(&arg[*i]) > -1 || arg[*i] == '|')
 		return ;
+	k = ft_strlen(final_tab[*j]);
 	if (check_fill_heredoc_null(final_tab, arg, i, j) == 1)
 		return ;
 	quote = arg[*i];
@@ -53,10 +35,31 @@ void	fill_with_quotes(char **final_tab, char *arg, int *i, int *j)
 			inside = 1;
 		}
 		final_tab[*j][k++] = arg[(*i)++];
-		if (arg[*i] && !inside && check_char(&arg[*i + 1]) > 0)
+		if (arg[*i] && !inside && check_char(&arg[*i]) > 0)
 			break ;
 	}
-	final_tab[(*j)++][k] = '\0';
+}
+
+void	fill_arg(char **final_tab, char *arg, int *i, int *j)
+{
+	int	k;
+
+	k = 0;
+	if (check_char(&arg[*i]) == 2)
+		while (arg[*i] && check_char(&arg[*i]) == 2)
+		{
+			final_tab[*j][k] = arg[*i];
+			(*i)++;
+			k++;
+		}
+	else
+		while (arg[*i] && check_char(&arg[*i]) <= 0)
+		{
+			if (check_char(&arg[*i]) < 0)
+				fill_with_quotes(final_tab, arg, i, j);
+			else
+				ft_fill_char_and_increment(final_tab[*j], arg, i, &k);
+		}
 }
 
 int	fill_until_pipe(char **final_tab, char *arg, int *i, int *j)
@@ -69,12 +72,12 @@ int	fill_until_pipe(char **final_tab, char *arg, int *i, int *j)
 				(*i)++;
 		if (arg[*i] && check_char(&arg[*i]) == 2)
 		{
-			fill_arg(final_tab[*j], arg, i, 2);
+			fill_arg(final_tab, arg, i, j);
 			(*j)++;
 		}
-		if (arg[*i] && check_char(&arg[*i]) == 0 && arg[*i] != '|')
+		if (arg[*i] && check_char(&arg[*i]) == 0)
 		{
-			fill_arg(final_tab[*j], arg, i, 0);
+			fill_arg(final_tab, arg, i, j);
 			(*j)++;
 		}
 		fill_with_quotes(final_tab, arg, i, j);

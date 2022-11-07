@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 14:41:36 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/04 13:55:55 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/07 13:17:34 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -44,11 +44,29 @@ int	check_quote(char *arg, int *i)
 
 int	fill_pipe(t_data *data, char **final_tab, int *i, int *j)
 {		
-	final_tab[*j] = malloc((count_size_arg(data->arg, 3, i) + 1)
-			* sizeof(char));
+	int	count;
+	int	cpy_i;
+	int	k;
+
+	count = 0;
+	cpy_i = *i;
+	k = 0;
+	while (check_char(&data->arg[cpy_i]) == 3)
+	{
+		cpy_i++;
+		count++;
+	}
+	final_tab[*j] = malloc((count + 1) * sizeof(char));
 	if (verif_malloc_str(final_tab, *j) == 1)
 		return (1);
-	fill_arg(final_tab[(*j)++], data->arg, i, 3);
+	while (data->arg[*i] && check_char(&data->arg[*i]) == 3)
+	{
+		final_tab[*j][k] = data->arg[*i];
+		(*i)++;
+		k++;
+	}
+	final_tab[*j][k] = '\0';
+	(*j)++;
 	return (0);
 }
 
@@ -60,7 +78,7 @@ char	**alloc_final_tab(t_data *data)
 
 	i = 0;
 	j = 0;
-	final_tab = malloc((nb_arg(data->arg) + 1) * sizeof (char *));
+	final_tab = ft_calloc((nb_arg(data->arg) + 1), sizeof (char *));
 	if (verif_malloc_arr(final_tab) == 1)
 		return (NULL);
 	final_tab = fill_final_tab(final_tab, data, &i, &j);
@@ -89,6 +107,5 @@ char	**fill_final_tab(char **final_tab, t_data *data, int *i, int *j)
 				return (NULL);
 		}
 	}
-	final_tab[*j] = NULL;
 	return (final_tab);
 }

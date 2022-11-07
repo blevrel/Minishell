@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/03 16:26:08 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/07 09:49:48 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -128,7 +128,7 @@ int		count_arg(char *arg, int *i);
 int		nb_arg(char *arg);
 int		count_size_first_arg(char *arg);
 int		count_size_arg(char *arg, int value, int *i);
-void	fill_arg(char *final_tab, char *arg, int *i, int value);
+void	fill_arg(char **final_tab, char *arg, int *i, int *j);
 int		fill_until_pipe(char **final_tab, char *arg, int *i, int *j);
 char	*alloc_first_arg(char *arg, int *i);
 char	*fill_first_arg(char *arg, char *res, int *i, int *j);
