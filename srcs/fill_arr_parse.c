@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:40:20 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/07 11:32:17 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/07 15:18:18 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -38,6 +38,7 @@ void	fill_with_quotes(char **final_tab, char *arg, int *i, int *j)
 		if (arg[*i] && !inside && check_char(&arg[*i]) > 0)
 			break ;
 	}
+	(*j)++;
 }
 
 void	fill_arg(char **final_tab, char *arg, int *i, int *j)
@@ -58,7 +59,11 @@ void	fill_arg(char **final_tab, char *arg, int *i, int *j)
 			if (check_char(&arg[*i]) < 0)
 				fill_with_quotes(final_tab, arg, i, j);
 			else
+			{
 				ft_fill_char_and_increment(final_tab[*j], arg, i, &k);
+				if (!arg[*i] || check_char(&arg[*i]) > 0)
+					(*j)++;
+			}
 		}
 }
 
@@ -71,15 +76,9 @@ int	fill_until_pipe(char **final_tab, char *arg, int *i, int *j)
 		while (arg[*i] && check_char(&arg[*i]) == 1)
 				(*i)++;
 		if (arg[*i] && check_char(&arg[*i]) == 2)
-		{
 			fill_arg(final_tab, arg, i, j);
-			(*j)++;
-		}
 		if (arg[*i] && check_char(&arg[*i]) == 0)
-		{
 			fill_arg(final_tab, arg, i, j);
-			(*j)++;
-		}
 		fill_with_quotes(final_tab, arg, i, j);
 	}
 	return (0);

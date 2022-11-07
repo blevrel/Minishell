@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:32:51 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/07 12:52:21 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/07 15:50:00 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -105,6 +105,5 @@ int	nb_arg(char *arg)
 		if (res != 0 && arg[i])
 			res += count_arg(arg, &i);
 	}
-	ft_printf("%d\n", res);
 	return (res);
 }
