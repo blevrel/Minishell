@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 17:29:47 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 16:51:21 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/08 10:53:07 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	count_size_quote(char *arg, int *i)
 	quote = arg[*i];
 	(*i)++;
 	res++;
-	while (arg[*i] != quote)
+	while (arg[*i] && arg[*i] != quote)
 	{
 		res++;
 		(*i)++;
@@ -46,7 +46,7 @@ int	count_size_first_arg(char *arg)
 	while (arg[i] && check_char(&arg[i]) <= 0)
 	{
 		if (check_char(&arg[i]) < 0)
-			res += count_size_quote(&arg[i], &i);
+			res += count_size_quote(arg, &i);
 		i++;
 		res++;
 	}

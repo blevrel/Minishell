@@ -6,10 +6,11 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/05 12:15:17 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/08 11:38:44 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
+int	g_signal_trigger = 0;
 
 void	init_cmd(t_data *data)
 {
@@ -64,7 +65,7 @@ void	routine(t_data *data)
 
 int	main(int argc, char **argv, char **env)
 {
-	t_data	*data;
+	t_data		*data;
 
 	if (argc != 1)
 	{

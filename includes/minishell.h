@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/07 09:49:48 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/08 11:38:15 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -27,7 +27,7 @@
 # define IN_HERE_DOC 1
 # define IN_COMMAND 2
 
-int	g_signal_trigger;
+extern int	g_signal_trigger;
 
 typedef struct s_cmd
 {
@@ -144,7 +144,7 @@ int		size_env(char *str);
 char	*isolate_env_var(char *cmd);
 int		get_env_variable_size(char *cmd, char **envp, t_data *data);
 int		fill_env(char *res, char *str, t_data *data, int *j);
-char	*fill_exp(char *arg, char *res, int *i, int *j;);
+char	*fill_exp(char *arg, char *res, int *i, int *j);
 int		count_size_exp(char *arg);
 char	*alloc_export(char *arg, int *i);
 int		fill_after_export(char **final_tab, char *arg, int *i, int *j);

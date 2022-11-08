@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 21:24:49 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/25 11:53:39 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/08 11:43:42 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -54,7 +54,7 @@ int	join_option_is_doable(char c, char *full_arg, int *j)
 	ret = 0;
 	while (full_arg[*j] && full_arg[*j] != c)
 		(*j)++;
-	if (check_char(&full_arg[*j - 1]) == 1)
+	if (*j != 0 && check_char(&full_arg[*j - 1]) == 1)
 		ret = 1;
 	while (full_arg[*j] && check_char(&full_arg[*j]) == 0)
 		(*j)++;

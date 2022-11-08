@@ -6,14 +6,15 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 10:45:41 by blevrel           #+#    #+#             */
-/*   Updated: 2022/09/27 15:08:41 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/08 14:54:48 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
 int	print_exit_error(int trigger, char *arg)
 {
-	(void)arg;
+	if (!arg)
+		return (0);
 	if (trigger == 0)
 	{
 		printf("exit\n");
@@ -23,7 +24,7 @@ int	print_exit_error(int trigger, char *arg)
 	{
 		printf("exit\n");
 		printf("minishell: exit: %s: numeric argument required\n", arg);
-		return (0);
+		return (2);
 	}
 	if (trigger == 2)
 	{
@@ -43,18 +44,13 @@ void	ft_exit(t_data *data)
 	if (data->parsing[1])
 		check_exit_arg(data->parsing, &exit_arg);
 	else
-	{
-		free_parsing(data);
-		free(data->arg);
-		free_double_tab(data->export);
-		free_double_tab(data->envp);
-		free(data);
 		printf("exit\n");
-		exit(0);
-	}
 	exit_value = print_exit_error(exit_arg, data->parsing[1]);
 	if (exit_value == 1 && data->parsing[2])
+	{
+		data->return_value = 1;
 		return ;
+	}
 	free(data->arg);
 	free_double_tab(data->export);
 	free_double_tab(data->envp);

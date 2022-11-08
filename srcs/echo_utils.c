@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 14:25:34 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/04 18:12:45 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/08 14:05:24 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -119,7 +119,7 @@ int	move_arg_i_in_quote(char *full_arg, int arg_i)
 
 int	move_arg_i(char *full_arg, int arg_i)
 {
-	if (check_char(&full_arg[arg_i - 1]) < 0
+	if (arg_i != 0 && check_char(&full_arg[arg_i - 1]) < 0
 		&& check_closing_quotes(&full_arg[arg_i - 1]) == 0)
 		arg_i = move_arg_i_in_quote(full_arg, arg_i);
 	else

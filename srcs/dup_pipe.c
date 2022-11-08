@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 11:16:11 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/04 09:21:29 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/08 09:53:55 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@ void	dup_entry(t_cmd *cmd, int **pipexfd, int i)
 {
 	int	fd;
 
-	if (cmd->outfile != NULL)
+	if (cmd->outfile)
 		fd = open(cmd->outfile, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	else if (cmd->outfile_append)
 			fd = open(cmd->outfile_append, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	else
+		return ;
 	dup2(fd, 1);
 	dup2(pipexfd[i][0], 0);
 	close(fd);

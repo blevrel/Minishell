@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:40:20 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/07 15:18:18 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/08 14:17:41 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -47,12 +47,15 @@ void	fill_arg(char **final_tab, char *arg, int *i, int *j)
 
 	k = 0;
 	if (check_char(&arg[*i]) == 2)
+	{
 		while (arg[*i] && check_char(&arg[*i]) == 2)
 		{
 			final_tab[*j][k] = arg[*i];
 			(*i)++;
 			k++;
 		}
+		(*j)++;
+	}
 	else
 		while (arg[*i] && check_char(&arg[*i]) <= 0)
 		{
