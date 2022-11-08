@@ -6,18 +6,18 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 16:03:02 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 17:07:31 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/08 16:23:31 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-int	replace_vreturn(int value)
+int	get_return_value(int status)
 {
-	if (value == 2)
-		return (130);
-	if (value == 256)
-		return (1);
-	return (value);
+	if (WIFEXITED(status) == 1)
+		return (WEXITSTATUS(status));
+	if (WIFSIGNALED(status) == 1)
+		return (128 + WTERMSIG(status));
+	return (1);
 }
 
 int	size_return_value(t_data *data)
@@ -55,7 +55,7 @@ void	return_value(int *son, t_data *data, int size)
 	}
 	free(data->pipexfd);
 	data->pipexfd = 0;
-	data->return_value = replace_vreturn(status);
+	data->return_value = get_return_value(status);
 	if (data->return_value == 131)
 		ft_printf("Quit (core dumped)\n");
 	else if (data->return_value == 130)

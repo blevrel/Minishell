@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 14:40:05 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/05 12:22:03 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/08 16:26:16 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	free_multiple_cmd(t_cmd **cmd)
 
 void	clean_data(t_data *data, int trigger)
 {
-	if (trigger != 0 && data->cmd && data->parsing[0])
+	if (trigger != 0 && data->cmd && data->parsing && data->parsing[0])
 		free_multiple_cmd(data->cmd);
 	if (data->parsing)
 		free_parsing(data);

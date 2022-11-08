@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:08:32 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/05 11:19:04 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/08 18:08:03 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -51,7 +51,7 @@ int	size_tokenize(char *src, char **env, t_data *data)
 			res += size_in_quote(src, &i, quote, data);
 			continue ;
 		}
-		else if (src[i] == '$' && src[i + 1] != '$' && src[i + 1] != 0)
+		else if (src[i] == '$' && src[i + 1] != '$' && ft_isalnum(src[i + 1]) == 8)
 		{
 			res += get_env_variable_size(&src[i], env, data);
 			i = move_indextoenv(src, i);

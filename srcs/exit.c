@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 10:45:41 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/08 14:54:48 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/08 15:46:15 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -42,7 +42,7 @@ void	ft_exit(t_data *data)
 
 	exit_arg = 0;
 	if (data->parsing[1])
-		check_exit_arg(data->parsing, &exit_arg);
+		exit_arg = check_exit_arg(data->parsing);
 	else
 		printf("exit\n");
 	exit_value = print_exit_error(exit_arg, data->parsing[1]);
@@ -59,26 +59,23 @@ void	ft_exit(t_data *data)
 	exit(exit_value);
 }
 
-void	check_exit_arg(char **args, int *exit_arg)
+int	check_exit_arg(char **args)
 {
 	int	i;
+	int	res;
 
 	i = 0;
-	while (args[1][i])
+	res = 0;
+	while (args[1][i] && res != 1 && i < 18)
 	{
 		if (ft_isdigit(args[1][i]) == 2048)
 			i++;
 		else
-		{
-			*exit_arg = 1;
-			if (!args[2])
-				return ;
-			break ;
-		}
+			res = 1;
 	}
-	if (args[2] && *exit_arg == 0)
-	{
-		*exit_arg = 2;
-		return ;
-	}
+	if (i >= 18)
+		res = 1;
+	if (args[2] && res == 0)
+		res = 2;
+	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 00:03:37 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/04 11:32:39 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/08 16:41:22 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -26,7 +26,7 @@ int	ft_strlen_var(char *str, t_data *data)
 		{
 			res += get_env_variable_size(&str[i], data->envp, data);
 			i++;
-			while (str[i] && ft_isalnum(str[i]) != 0)
+			while (str[i] && (ft_isalnum(str[i]) == 8 || str[i] == '?'))
 				i++;
 		}
 		else
