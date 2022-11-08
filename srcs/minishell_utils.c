@@ -69,5 +69,6 @@ char	**cpy_tab(char **dest, char **src)
 		dest[i] = ft_strdup(src[i]);
 		i++;
 	}
+	dest[i] = NULL;
 	return (dest);
 }

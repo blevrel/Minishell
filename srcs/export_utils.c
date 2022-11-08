@@ -53,20 +53,22 @@ int	search_env(char *str, char **env)
 {
 	int	i;
 	int	j;
+	int	k;
 
 	j = 0;
 	while (env[j] != NULL)
 	{
+		k = 0;
 		i = 0;
-		while (env[j][i] && env[j][i] != '=')
-				++i;
-		if (ft_strncmp(str, env[j], i) == 0)
+		while (str[k] && str[k] != '=' && str[k] != '+')
 		{
-			while (str[i] && str[i] != '=' && str[i] != '+')
-					++i;
-			if (ft_strncmp(str, env[j], i) == 0)
-				return (j);
+			if (env[j][i] != str[k])
+				break ;
+			++k;
+			i++;
 		}
+		if (env[j][i] == str[k])
+			return (j);
 		++j;
 	}
 	return (-1);

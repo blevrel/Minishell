@@ -16,17 +16,25 @@ int	len_value(char *value)
 {
 	int	i;
 	int	res;
+	int	key;
 
 	i = 0;
 	res = 0;
+	key = 0;
 	if (!value)
 		return (0);
 	while (value[i])
 	{
 		if (value[i] == '$')
 			++res;
-		++i;
+		if (value[i] == '+' && value [i + 1] == '=' && key == 1)
+		{
+			++i;
+			key = 1;
+			continue ;
+		}
 		++res;
+		++i;
 	}
 	return (res);
 }
@@ -36,22 +44,24 @@ char	*new_value(char *value)
 	char	*res;
 	int		i;
 	int		j;
+	int		key;
 
-	i = 0;
+	key = 0;
+	i = -1;
 	j = 0;
 	res = malloc(len_value(value) + 1 * sizeof(char));
 	if (verif_malloc_str(&res, 0) == 1)
 		return (NULL);
-	while (value[i])
+	while (value[++i])
 	{
 		if (value[i] == '$')
-		{	
-			res[j] = '\\';
-			j++;
+			res[j++] = '\\';
+		if (value[i] == '+' && value[i + 1] == '=' && key == 0)
+		{
+			key = 1;
+			continue ;
 		}
-		res[j] = value[i];
-		j++;
-		i++;
+		res[j++] = value[i];
 	}
 	res[j] = '\0';
 	free(value);
@@ -88,10 +98,10 @@ char	**fill_new_export(char **new_exp, t_cmd *cmd, t_data *data, int i)
 	int	l_env;
 	int	l_exp;
 
-	j = 1;
-	while (cmd->cmd[j++])
+	j = 0;
+	while (cmd->cmd[++j])
 	{
-		cmd->cmd[j] = new_value(cmd->cmd[j]);
+		//cmd->cmd[j] = new_value(cmd->cmd[j]);
 		if (check_value(cmd->cmd[j]) == 0)
 		{
 			l_env = search_env(cmd->cmd[j], data->envp);
@@ -101,7 +111,7 @@ char	**fill_new_export(char **new_exp, t_cmd *cmd, t_data *data, int i)
 			if (l_exp >= 0)
 				new_exp = replace_value_export(cmd->cmd[j], l_exp, new_exp);
 			else
-				new_exp[i++] = ft_strdup(cmd->cmd[j]);
+				new_exp[i++] = new_value(cmd->cmd[j]);
 		}
 		else if (check_value(cmd->cmd[j]) == 1)
 			printf("minishell: export: `%s': not a valid identifier\n",

@@ -75,6 +75,13 @@ void	ft_export(t_cmd *cmd, t_data *data)
 		print_export(data->export);
 		return ;
 	}
+	int i=0;
+
+	while(data->parsing[i])
+	{
+		printf("%s\n", data->parsing[i++]);
+	}
+
 	data->export = new_export(cmd, data);
 	if (search_new_env(cmd->cmd, data->envp) > 0)
 		data->envp = new_env_export(cmd->cmd, data->envp);
