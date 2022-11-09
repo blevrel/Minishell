@@ -12,17 +12,15 @@
 
 #include "minishell.h"
 
-int	checkerror_open(char **verif, t_cmd *res)
+int	checkerror_open(char **verif, t_cmd *res, t_data *data)
 {
-	if (check_open(&verif[0], res) == 1)
+	if (check_open(&verif[0], res, data) == 1)
 	{
 		if (verif[1] == NULL)
 			printf("minishell: : no such file or directory\n");
 		else
 			printf("minishell: %s: no such file or directory\n", res->infile);
 	}
-	if (check_open(&verif[0]) == 2)
-		return (1);
 	return (0);
 }
 
@@ -56,7 +54,7 @@ int	init_file(t_cmd *res, t_data *data, int i)
 	}
 	else
 		res->outfile_append = dup_outfile(data, res, i);
-	if (checkerror_open(&data->parsing[i], res) == 1)
+	if (checkerror_open(&data->parsing[i], res, data) == 1)
 		return (1);
 	return (0);
 }

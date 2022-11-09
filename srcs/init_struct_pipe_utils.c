@@ -39,7 +39,7 @@ int	check_index_pipe(char *full_arg, int index_pipe)
 	return (count);
 }
 
-int	check_open(char **cmd, t_cmd *limiter)
+int	check_open(char **cmd, t_cmd *limiter, t_data *data)
 {
 	int	fd;
 
@@ -62,11 +62,11 @@ int	check_open(char **cmd, t_cmd *limiter)
 	{
 		fd = open(cmd[1], O_RDONLY);
 		if (fd == -1)
-			return (2);
+			return (1);
 		close (fd);
 	}
 	else 
-		here_doc(limiter);
+		here_doc(limiter, data);
 	return (0);
 }
 

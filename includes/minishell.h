@@ -56,7 +56,7 @@ int		simple_cmd(t_data *data);
 void	return_value(int *son, t_data *data, int size);
 
 //INIT_STRUCT_COMMAND
-int		check_open(char **cmd);
+int		check_open(char **cmd, t_cmd *limiter, t_data *data);
 int		nb_cmd(char *full_arg, int index_pipe);
 int		check_redirection_pipe(char *str);
 int		check_nbpipe(char *full_arg);
@@ -153,7 +153,7 @@ int		count_exp(char *str, int *i);
 
 //BUILTIN
 int		check_builtin(t_cmd *cmd, t_data *data);
-int		check_builtin_pipe(t_cmd *cmd, int **pipexfd, t_data *data, int i);
+int		check_builtin_pipe(t_cmd *cmd, t_data *data);
 int		check_echo_option(char *full_arg, char **cmd);
 int		check_multiple_options(char *res);
 int		check_option_format(char *full_arg, char *option);
@@ -186,9 +186,9 @@ void	n_pipe(t_data *data, int i);
 void	l_pipe(t_data *data, int i);
 int		**malloc_pipe(int argc);
 int		count_nb_here_doc(char **cmd);
-void	check_dup_pipe_first(t_cmd *cmd, int **pipexfd, int i, t_data *data);
-void	check_dup_pipe_n(t_cmd *cmd, int **pipexfd, int i, t_data *data);
-void	check_dup_pipe_last(t_cmd *cmd, int **pipexfd, int i, t_data *data);
+void	check_dup_pipe_first(t_cmd *cmd, int **pipexfd, int i);
+void	check_dup_pipe_n(t_cmd *cmd, int **pipexfd, int i);
+void	check_dup_pipe_last(t_cmd *cmd, int **pipexfd, int i);
 
 //EXPORT
 char	**new_env_export(char **cmd, char **env);

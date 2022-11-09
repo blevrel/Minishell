@@ -19,9 +19,9 @@ void	fi_pipe(t_data *data)
 	if (data->son[0] == 0)
 	{
 		close(data->pipexfd[0][0]);
-		check_dup_pipe_first(data->cmd[0], data->pipexfd, 0, data);
+		check_dup_pipe_first(data->cmd[0], data->pipexfd, 0);
 		close(data->pipexfd[0][1]);
-		if (check_builtin_pipe(data->cmd[0], data->pipexfd, data, 0))
+		if (check_builtin_pipe(data->cmd[0], data))
 		{
 			clean_data(data, 1);
 			exit (1);
@@ -45,10 +45,10 @@ void	n_pipe(t_data *data, int i)
 	{
 		close(data->pipexfd[i][0]);
 		close(data->pipexfd[i - 1][1]);
-		check_dup_pipe_n(data->cmd[i], data->pipexfd, i, data);
+		check_dup_pipe_n(data->cmd[i], data->pipexfd, i);
 		close(data->pipexfd[i - 1][0]);
 		close(data->pipexfd[i][1]);
-		if (check_builtin_pipe(data->cmd[i], data->pipexfd, data, i))
+		if (check_builtin_pipe(data->cmd[i],  data))
 		{
 			clean_data(data, 1);
 			exit (1);
@@ -72,9 +72,9 @@ void	l_pipe(t_data *data, int i)
 	if (data->son[i] == 0)
 	{
 		close(data->pipexfd[i - 1][1]);
-		check_dup_pipe_last(data->cmd[i], data->pipexfd, i, data);
+		check_dup_pipe_last(data->cmd[i], data->pipexfd, i);
 		close(data->pipexfd[i - 1][0]);
-		if (check_builtin_pipe(data->cmd[i], data->pipexfd, data, i))
+		if (check_builtin_pipe(data->cmd[i], data))
 		{
 			clean_data(data, 1);
 			exit (1);

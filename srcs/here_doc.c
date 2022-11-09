@@ -47,7 +47,7 @@ char	*tokenize_here_doc_line(t_data *data, char *limiter)
 	return (new_line);
 }
 
-void	create_file(char **limiter)
+void	create_file(char **limiter, t_data *data)
 {
 	int		fd;
 	char	*line;
@@ -71,11 +71,11 @@ void	create_file(char **limiter)
 	close (fd);
 }
 
-void	here_doc(t_cmd *cmd)
+void	here_doc(t_cmd *cmd, t_data *data)
 {
 
 	g_signal_trigger = IN_HERE_DOC;
 	signal_handler();
-	create_file(cmd->limiter);
+	create_file(cmd->limiter, data);
 	return ;
 }
