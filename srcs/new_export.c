@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 08:30:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 16:46:44 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/09 11:48:26 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ int	check_value(char *str)
 		return (2);
 	if (ft_isalpha(str[i]) == 0 && str[i] != '_')
 		return (1);
-	while (str[i] && str[i] == '=')
+	while (str[i] && str[i] != '=')
 	{
 		if (str[i] == '+' && str[i + 1] == '=')
-			i++;
+			break ;
 		if (ft_isalnum(str[i]) == 0 && str[i] != ' '
 			&& str[i] != '_')
 			return (1);
@@ -75,13 +75,6 @@ void	ft_export(t_cmd *cmd, t_data *data)
 		print_export(data->export);
 		return ;
 	}
-	int i=0;
-
-	while(data->parsing[i])
-	{
-		printf("%s\n", data->parsing[i++]);
-	}
-
 	data->export = new_export(cmd, data);
 	if (search_new_env(cmd->cmd, data->envp) > 0)
 		data->envp = new_env_export(cmd->cmd, data->envp);

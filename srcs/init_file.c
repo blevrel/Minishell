@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 07:37:05 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/04 18:09:13 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/09 17:31:12 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	checkerror_open(char **verif, t_cmd *res)
 {
-	if (check_open(&verif[0]) == 1)
+	if (check_open(&verif[0], res) == 1)
 	{
 		if (verif[1] == NULL)
 			printf("minishell: : no such file or directory\n");
@@ -52,8 +52,7 @@ int	init_file(t_cmd *res, t_data *data, int i)
 	else if (ft_strcmp(data->parsing[i], "<<") == 0)
 	{
 		free(res->infile);
-		res->infile = NULL;
-		res->heredoc = 1;
+		res->infile = ft_strdup("here_doc");
 	}
 	else
 		res->outfile_append = dup_outfile(data, res, i);

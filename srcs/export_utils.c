@@ -6,11 +6,63 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 14:54:28 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/02 16:23:25 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/09 15:47:17 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	len_value_env(char *value)
+{
+	int	i;
+	int	res;
+	int	key;
+
+	i = 0;
+	res = 0;
+	key = 0;
+	if (!value)
+		return (0);
+	while (value[i])
+	{
+		if (value[i] == '+' && value [i + 1] == '=' && key == 1)
+		{
+			++i;
+			key = 1;
+			continue ;
+		}
+		++res;
+		++i;
+	}
+	return (res);
+}
+
+int	len_value(char *value)
+{
+	int	i;
+	int	res;
+	int	key;
+
+	i = 0;
+	res = 0;
+	key = 0;
+	if (!value)
+		return (0);
+	while (value[i])
+	{
+		if (value[i] == '$')
+			++res;
+		if (value[i] == '+' && value [i + 1] == '=' && key == 1)
+		{
+			++i;
+			key = 1;
+			continue ;
+		}
+		++res;
+		++i;
+	}
+	return (res);
+}
 
 void	swap_str(char **s1, char **s2)
 {
@@ -67,6 +119,8 @@ int	search_env(char *str, char **env)
 			++k;
 			i++;
 		}
+		if (str[k] == '+')
+			++k;
 		if (env[j][i] == str[k])
 			return (j);
 		++j;

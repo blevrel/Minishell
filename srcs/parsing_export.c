@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 08:44:36 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 16:32:34 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/09 13:28:10 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	count_size_exp(char *arg)
 		if (check_char(&arg[i]) < 0)
 		{
 			quote = arg[i];
+				++res;
 			while (arg[++i] != quote)
 				res++;
 		}

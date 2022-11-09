@@ -6,36 +6,35 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:35:35 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 17:09:13 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/09 16:05:09 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	len_value(char *value)
+char	*new_value_env(char *value)
 {
-	int	i;
-	int	res;
-	int	key;
+	char	*res;
+	int		i;
+	int		j;
+	int		key;
 
-	i = 0;
-	res = 0;
 	key = 0;
-	if (!value)
-		return (0);
-	while (value[i])
+	i = -1;
+	j = 0;
+	res = malloc(len_value_env(value) + 1 * sizeof(char));
+	if (verif_malloc_str(&res, 0) == 1)
+		return (NULL);
+	while (value[++i])
 	{
-		if (value[i] == '$')
-			++res;
-		if (value[i] == '+' && value [i + 1] == '=' && key == 1)
+		if (value[i] == '+' && value[i + 1] == '=' && key == 0)
 		{
-			++i;
 			key = 1;
 			continue ;
 		}
-		++res;
-		++i;
+		res[j++] = value[i];
 	}
+	res[j] = '\0';
 	return (res);
 }
 
@@ -64,16 +63,18 @@ char	*new_value(char *value)
 		res[j++] = value[i];
 	}
 	res[j] = '\0';
-	free(value);
 	return (res);
 }
 
 void	replace_value(char *str, int line, t_data *data)
 {
+	char *new_valuestr;
+
 	if (check_join_value(str) == 1)
 	{
-		str = new_value(str);
-		data->envp[line] = join_value_env(str, line, data->envp);
+		new_valuestr = new_value_env(str);
+		data->envp[line] = join_value_env(new_valuestr, line, data->envp);
+		free(new_valuestr);
 		return ;
 	}
 	free(data->envp[line]);
@@ -82,9 +83,13 @@ void	replace_value(char *str, int line, t_data *data)
 
 char	**replace_value_export(char *str, int line, char **export)
 {
+	char *new_valuestr;
+
 	if (check_join_value(str) == 1)
 	{
-		export[line] = join_value_env(str, line, export);
+		new_valuestr = new_value(str);
+		export[line] = join_value_env(new_valuestr, line, export);
+		free(new_valuestr);
 		return (export);
 	}
 	free(export[line]);
@@ -95,21 +100,19 @@ char	**replace_value_export(char *str, int line, char **export)
 char	**fill_new_export(char **new_exp, t_cmd *cmd, t_data *data, int i)
 {
 	int	j;
-	int	l_env;
-	int	l_exp;
-
+	int	new;
+	
 	j = 0;
 	while (cmd->cmd[++j])
 	{
-		//cmd->cmd[j] = new_value(cmd->cmd[j]);
 		if (check_value(cmd->cmd[j]) == 0)
 		{
-			l_env = search_env(cmd->cmd[j], data->envp);
-			l_exp = search_env(cmd->cmd[j], data->export);
-			if (l_env >= 0)
-				replace_value(cmd->cmd[j], l_env, data);
-			if (l_exp >= 0)
-				new_exp = replace_value_export(cmd->cmd[j], l_exp, new_exp);
+			new = search_env(cmd->cmd[j], data->envp);
+			if (new >= 0)
+				replace_value(cmd->cmd[j], new, data);
+			new = search_env(cmd->cmd[j], data->export);
+			if (new >= 0)
+				new_exp = replace_value_export(cmd->cmd[j], new, new_exp);
 			else
 				new_exp[i++] = new_value(cmd->cmd[j]);
 		}

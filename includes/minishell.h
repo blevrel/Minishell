@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/08 15:44:42 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/09 15:59:18 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -203,6 +203,10 @@ int		search_new_env(char **cmd, char **env);
 int		check_value(char *str);
 int		check_join_value(char *str);
 char	*join_value_env(char *str, int line, char **env);
+char	*new_value(char *value);
+char	*new_value_env(char *value);
+int		len_value_env(char *str);
+int		len_value(char *str);
 
 //UNSET
 int		check_unset(char *str, char **env);
