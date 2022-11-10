@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 16:34:01 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/09 17:32:05 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/10 15:54:51 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -54,9 +54,10 @@ void	create_file(char **limiter, t_data *data)
 	int		i;
 
 	i = 0;
-	fd = open ("here_doc", O_WRONLY | O_CREAT, 0644);
 	while (limiter[i] != NULL)
 	{
+		printf("%s\n", limiter[i]);
+		fd = open ("here_doc", O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		line = tokenize_here_doc_line(data, limiter[i]);
 		while (ft_strcmp(line, limiter[i]) != 0)
 		{
@@ -67,13 +68,19 @@ void	create_file(char **limiter, t_data *data)
 		}
 		free(line);
 		++i;
+		close (fd);
 	}
-	close (fd);
 }
 
 void	here_doc(t_cmd *cmd, t_data *data)
 {
-
+	//int fd;
+	
+	//fd = open("here_doc", O_RDONLY);
+	//printf("%d\n", fd);
+	//if (fd != -1)
+	//	return ;
+	//close (fd);
 	g_signal_trigger = IN_HERE_DOC;
 	signal_handler();
 	create_file(cmd->limiter, data);

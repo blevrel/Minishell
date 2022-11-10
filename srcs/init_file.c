@@ -6,15 +6,15 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 07:37:05 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/09 17:31:12 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/10 17:17:08 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	checkerror_open(char **verif, t_cmd *res, t_data *data)
+int	checkerror_open(char **verif, t_cmd *res)
 {
-	if (check_open(&verif[0], res, data) == 1)
+	if (check_open(&verif[0]) == 1)
 	{
 		if (verif[1] == NULL)
 			printf("minishell: : no such file or directory\n");
@@ -51,10 +51,11 @@ int	init_file(t_cmd *res, t_data *data, int i)
 	{
 		free(res->infile);
 		res->infile = ft_strdup("here_doc");
+		res->heredoc = 1;
 	}
 	else
 		res->outfile_append = dup_outfile(data, res, i);
-	if (checkerror_open(&data->parsing[i], res, data) == 1)
+	if (checkerror_open(&data->parsing[i], res) == 1)
 		return (1);
 	return (0);
 }

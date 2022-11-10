@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/09 15:59:18 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/10 18:17:03 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -56,7 +56,7 @@ int		simple_cmd(t_data *data);
 void	return_value(int *son, t_data *data, int size);
 
 //INIT_STRUCT_COMMAND
-int		check_open(char **cmd, t_cmd *limiter, t_data *data);
+int		check_open(char **cmd);
 int		nb_cmd(char *full_arg, int index_pipe);
 int		check_redirection_pipe(char *str);
 int		check_nbpipe(char *full_arg);
@@ -179,16 +179,15 @@ int		ft_strlen_var(char *str, t_data *data);
 
 //PIPE
 int		check_pipe(t_data *data);
-void	dup_simple_call(t_cmd *cmd);
 int		ft_pipe(t_data *data);
 void	fi_pipe(t_data *data);
 void	n_pipe(t_data *data, int i);
 void	l_pipe(t_data *data, int i);
 int		**malloc_pipe(int argc);
 int		count_nb_here_doc(char **cmd);
-void	check_dup_pipe_first(t_cmd *cmd, int **pipexfd, int i);
-void	check_dup_pipe_n(t_cmd *cmd, int **pipexfd, int i);
-void	check_dup_pipe_last(t_cmd *cmd, int **pipexfd, int i);
+void	check_dup_pipe_first(t_cmd *cmd, int **pipexfd, int i, t_data *data);
+void	check_dup_pipe_n(t_cmd *cmd, int **pipexfd, int i, t_data *data);
+void	check_dup_pipe_last(t_cmd *cmd, int **pipexfd, int i, t_data *data);
 
 //EXPORT
 char	**new_env_export(char **cmd, char **env);

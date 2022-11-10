@@ -6,7 +6,7 @@
 #    By: blevrel <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 09:35:57 by blevrel           #+#    #+#              #
-#    Updated: 2022/11/08 11:39:02 by blevrel          ###   ########.fr        #
+#    Updated: 2022/11/10 11:08:13 by pirabaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,7 +69,7 @@ SRCS  =	srcs/alloc_parsing.c \
 
 OBJS = ${SRCS:.c=.o}
 
-CC = gcc
+CC = clang
 
 LIB = -L libft -lft
 

@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 09:47:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/09 17:33:53 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/10 15:16:00 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -39,7 +39,7 @@ int	check_index_pipe(char *full_arg, int index_pipe)
 	return (count);
 }
 
-int	check_open(char **cmd, t_cmd *limiter, t_data *data)
+int	check_open(char **cmd)
 {
 	int	fd;
 
@@ -57,7 +57,6 @@ int	check_open(char **cmd, t_cmd *limiter, t_data *data)
 			return (1);
 		close (fd);
 	}
-	return (0);
 	if (ft_strcmp(cmd[0], "<") == 0)
 	{
 		fd = open(cmd[1], O_RDONLY);
@@ -65,8 +64,8 @@ int	check_open(char **cmd, t_cmd *limiter, t_data *data)
 			return (1);
 		close (fd);
 	}
-	else 
-		here_doc(limiter, data);
+	//else
+		//here_doc(limiter, data);
 	return (0);
 }
 
