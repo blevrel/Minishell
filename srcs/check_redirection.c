@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 15:35:25 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/10 18:35:28 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/11 11:26:20 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -93,9 +93,11 @@ int	move_index_redirection(char *full_arg, char *str, int i)
 	else
 	{
 		i += j;
-		while (full_arg[i] && check_char(&full_arg[i]) < 1)
+		while (full_arg[i] && (check_char(&full_arg[i]) < 1
+			|| check_closing_quotes(&full_arg[i]) == 1))
 		{
-			if (check_char(&full_arg[i]) < 0)
+			if (check_char(&full_arg[i]) < 0
+				&& check_closing_quotes(&full_arg[i]) == 0)
 				i = move_index_after_quote(full_arg, i);
 			else
 				i++;

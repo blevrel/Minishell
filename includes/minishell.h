@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/11 10:21:34 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/11 11:08:19 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -121,6 +121,8 @@ int		check_size_export_arg(char *arg, int i);
 //PARSING / TOKENIZING
 char	**alloc_final_tab(t_data *data);
 char	**fill_final_tab(char **final_tab, t_data *data, int *i, int *j);
+char	*tokenize_full_arg_with_quotes(char *arg, t_data *data);
+char	*tokenize_env_var(char *full_arg, char *res, t_data *data, int *i);
 int		check_size_first_arg(char *arg, int i);
 int		alloc_with_quotes(char *arg, int *i);
 int		alloc_until_pipe(char **final_tab, char *arg, int i, int j);
