@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 10:44:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/04 18:11:32 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/10 09:12:22 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"

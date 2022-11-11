@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 16:34:01 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 16:32:16 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/10 15:54:51 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -54,9 +54,10 @@ void	create_file(char **limiter, t_data *data)
 	int		i;
 
 	i = 0;
-	fd = open ("here_doc", O_WRONLY | O_CREAT, 0644);
 	while (limiter[i] != NULL)
 	{
+		printf("%s\n", limiter[i]);
+		fd = open ("here_doc", O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		line = tokenize_here_doc_line(data, limiter[i]);
 		while (ft_strcmp(line, limiter[i]) != 0)
 		{
@@ -67,43 +68,21 @@ void	create_file(char **limiter, t_data *data)
 		}
 		free(line);
 		++i;
+		close (fd);
 	}
-	close (fd);
 }
 
 void	here_doc(t_cmd *cmd, t_data *data)
 {
-	int		fd;
-
+	//int fd;
+	
+	//fd = open("here_doc", O_RDONLY);
+	//printf("%d\n", fd);
+	//if (fd != -1)
+	//	return ;
+	//close (fd);
 	g_signal_trigger = IN_HERE_DOC;
 	signal_handler();
 	create_file(cmd->limiter, data);
-	fd = open ("here_doc", O_RDONLY);
-	dup2(fd, 0);
-	dup_simple_call(cmd);
-	close(fd);
-	if (execve(cmd->path, cmd->cmd, data->envp) == -1)
-	{
-		clean_data(data, 1);
-		exit (1);
-	}
-}
-
-void	here_doc_pipe(t_cmd *cmd, int **pipexfd, t_data *data, int i)
-{
-	int		fd;
-
-	g_signal_trigger = IN_HERE_DOC;
-	signal_handler();
-	create_file(cmd->limiter, data);
-	fd = open ("here_doc", O_RDONLY);
-	close(pipexfd[i][0]);
-	dup2(fd, 0);
-	dup2(pipexfd[i][1], 1);
-	close(fd);
-	if (execve(cmd->path, cmd->cmd, data->envp) == -1)
-	{
-		clean_data(data, 1);
-		exit (1);
-	}
+	return ;
 }

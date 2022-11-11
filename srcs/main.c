@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/08 11:38:44 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/11 10:24:36 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -36,6 +36,7 @@ void	init_cmd(t_data *data)
 		return ;
 	if (check_pipe(data) == 1)
 		return ;
+	data->arg = tokenize_full_arg(data->arg, data);
 	simple_cmd(data);
 }
 

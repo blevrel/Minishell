@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 10:22:53 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/05 11:07:28 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/10 15:37:40 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	fi_pipe(t_data *data)
 		close(data->pipexfd[0][0]);
 		check_dup_pipe_first(data->cmd[0], data->pipexfd, 0, data);
 		close(data->pipexfd[0][1]);
-		if (check_builtin_pipe(data->cmd[0], data->pipexfd, data, 0))
+		if (check_builtin_pipe(data->cmd[0], data))
 		{
 			clean_data(data, 1);
 			exit (1);
@@ -32,9 +32,11 @@ void	fi_pipe(t_data *data)
 			exit(2);
 		}
 	}
-	if (data->cmd[0]->heredoc == 1)
+	if (ft_strcmp("here_doc", data->cmd[0]->infile) == 0)
 		waitpid(data->son[0], NULL, 0);
 	unlink("here_doc");
+	printf("first : %d\n", open("here_doc", O_RDONLY));
+	printf("first : %s\n", data->cmd[0]->infile);
 }
 
 void	n_pipe(t_data *data, int i)
@@ -48,7 +50,7 @@ void	n_pipe(t_data *data, int i)
 		check_dup_pipe_n(data->cmd[i], data->pipexfd, i, data);
 		close(data->pipexfd[i - 1][0]);
 		close(data->pipexfd[i][1]);
-		if (check_builtin_pipe(data->cmd[i], data->pipexfd, data, i))
+		if (check_builtin_pipe(data->cmd[i],  data))
 		{
 			clean_data(data, 1);
 			exit (1);
@@ -59,7 +61,7 @@ void	n_pipe(t_data *data, int i)
 			exit (2);
 		}
 	}
-	if (data->cmd[i]->heredoc == 1)
+	if (ft_strcmp("here_doc", data->cmd[i]->infile) == 0)
 		waitpid(data->son[i], NULL, 0);
 	close(data->pipexfd[i - 1][1]);
 	close(data->pipexfd[i - 1][0]);
@@ -74,7 +76,7 @@ void	l_pipe(t_data *data, int i)
 		close(data->pipexfd[i - 1][1]);
 		check_dup_pipe_last(data->cmd[i], data->pipexfd, i, data);
 		close(data->pipexfd[i - 1][0]);
-		if (check_builtin_pipe(data->cmd[i], data->pipexfd, data, i))
+		if (check_builtin_pipe(data->cmd[i], data))
 		{
 			clean_data(data, 1);
 			exit (1);
@@ -88,6 +90,7 @@ void	l_pipe(t_data *data, int i)
 	close(data->pipexfd[i - 1][1]);
 	close(data->pipexfd[i - 1][0]);
 	unlink("here_doc");
+	printf("last : %d\n", open("here_doc", O_RDONLY));
 }
 
 int	**malloc_pipe(int argc)

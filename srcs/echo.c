@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:48:53 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/04 10:49:02 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/10 14:40:21 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -61,10 +61,10 @@ void	echo_n(char **cmd, char *full_arg, int arg_i, int cmd_i)
 {
 	char	*first_occ;
 
-	while (cmd[cmd_i] != NULL
-		&& check_only_redirection(cmd[cmd_i], full_arg) != 2)
+	while (cmd[cmd_i] != NULL && (!cmd[cmd_i][0]
+		|| check_only_redirection(cmd[cmd_i], full_arg) != 2))
 	{
-		first_occ = ft_strnstr(&full_arg[arg_i], cmd[cmd_i],
+		first_occ = ft_strnstr_skip_quotes(&full_arg[arg_i], cmd[cmd_i],
 				ft_strlen(full_arg));
 		if (arg_i == 0)
 			space_before_first_arg(full_arg, arg_i);
@@ -84,10 +84,10 @@ void	echo(char **cmd, t_data *data, int cmd_i, int arg_i)
 {
 	char	*first_occ;
 
-	while (cmd[cmd_i] != NULL
-		&& check_only_redirection(cmd[cmd_i], data->arg) != 2)
+	while (cmd[cmd_i] != NULL && (!cmd[cmd_i][0]
+		|| check_only_redirection(cmd[cmd_i], data->arg) != 2))
 	{
-		first_occ = ft_strnstr(&data->arg[arg_i], cmd[cmd_i],
+		first_occ = ft_strnstr_skip_quotes(&data->arg[arg_i], cmd[cmd_i],
 				ft_strlen(data->arg));
 		if (arg_i == 0)
 			space_before_first_arg(data->arg, arg_i);
@@ -112,7 +112,6 @@ void	pick_correct_echo(t_cmd *cmd, t_data *data)
 
 	cmd_i = 1;
 	arg_i = 0;
-	data->arg = replace_env_in_full_arg(data->arg, data);
 	if (check_echo_option(data->arg, cmd->cmd) == 0)
 	{
 		options = join_echo_options(cmd->cmd, data->arg);

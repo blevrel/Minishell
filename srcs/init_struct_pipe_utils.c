@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 09:47:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/10 19:52:53 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/11 10:19:46 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -63,14 +63,15 @@ int	check_open(char **cmd)
 			return (1);
 		close (fd);
 	}
-	return (0);
 	if (ft_strcmp(cmd[0], "<") == 0)
 	{
 		fd = open(cmd[1], O_RDONLY);
 		if (fd == -1)
-			return (2);
+			return (1);
 		close (fd);
 	}
+	//else
+		//here_doc(limiter, data);
 	return (0);
 }
 

@@ -28,15 +28,10 @@ int	check_builtin(t_cmd *cmd, t_data *data)
 		env(data->envp);
 		return (1);
 	}
-	if (data->cmd[0]->heredoc == 1)
-	{
-		here_doc(data->cmd[0], data);
-		return (0);
-	}
 	return (0);
 }
 
-int	check_builtin_pipe(t_cmd *cmd, int **pipexfd, t_data *data, int i)
+int	check_builtin_pipe(t_cmd *cmd, t_data *data)
 {
 	if (ft_strcmp(cmd->cmd[0], "echo") == 0)
 	{
@@ -52,11 +47,6 @@ int	check_builtin_pipe(t_cmd *cmd, int **pipexfd, t_data *data, int i)
 	{
 		env(data->envp);
 		return (1);
-	}
-	if (data->cmd[0]->heredoc == 1)
-	{
-		here_doc_pipe(data->cmd[0], pipexfd, data, i);
-		exit (0);
 	}
 	return (0);
 }

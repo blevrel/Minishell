@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/10 18:03:54 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/11 10:21:34 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -154,7 +154,14 @@ int		count_exp(char *str, int *i);
 
 //BUILTIN
 int		check_builtin(t_cmd *cmd, t_data *data);
-int		check_builtin_pipe(t_cmd *cmd, int **pipexfd, t_data *data, int i);
+int		check_builtin_pipe(t_cmd *cmd, t_data *data);
+int		check_echo_option(char *full_arg, char **cmd);
+int		check_multiple_options(char *res);
+int		check_option_format(char *full_arg, char *option);
+int		is_valid_option(char **cmd, int cmd_i);
+void	echo(char **cmd, t_data *data, int i, int arg_i);
+void	pick_correct_echo(t_cmd *cmd, t_data *data);
+void	echo_n(char **cmd, char *full_arg, int arg_i, int cmd_i);
 int		move_cmd_arr_index(char **cmd, char *options);
 char	*tokenize_full_arg(char *full_arg, t_data *data);
 int		move_arg_i_in_quote(char *full_arg, int arg_i);
@@ -183,7 +190,6 @@ char	*ft_strnstr_skip_quotes(char *big, char *little, size_t len);
 
 //PIPE
 int		check_pipe(t_data *data);
-void	dup_simple_call(t_cmd *cmd);
 int		ft_pipe(t_data *data);
 void	fi_pipe(t_data *data);
 void	n_pipe(t_data *data, int i);
@@ -207,6 +213,10 @@ int		search_new_env(char **cmd, char **env);
 int		check_value(char *str);
 int		check_join_value(char *str);
 char	*join_value_env(char *str, int line, char **env);
+char	*new_value(char *value);
+char	*new_value_env(char *value);
+int		len_value_env(char *str);
+int		len_value(char *str);
 
 //UNSET
 int		check_unset(char *str, char **env);

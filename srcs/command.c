@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/09 16:57:36 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/11 10:20:14 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	builtin(char *cmd, t_data *data)
 	return (1);
 }
 
-void	dup_simple_call(t_cmd *cmd)
+void	dup_simple_call(t_cmd *cmd, t_data *data)
 {
 	int	fd;
 
@@ -47,10 +47,11 @@ void	dup_simple_call(t_cmd *cmd)
 	}
 	if (cmd->infile != NULL)
 	{
+		if (cmd->heredoc == 1)
+			here_doc(cmd, data);
 		fd = open(cmd->infile, O_RDONLY);
 		if (fd == -1)
 		{
-			printf("minishell: %s: no such file or directory \n", cmd->infile);
 			// a free
 			exit (1);
 		}
@@ -75,7 +76,7 @@ int	simple_cmd(t_data *data)
 	son = fork();
 	if (son == 0)
 	{
-		dup_simple_call(data->cmd[0]);
+		dup_simple_call(data->cmd[0], data);
 		if (check_builtin(data->cmd[0], data))
 		{
 			clean_data(data, 1);

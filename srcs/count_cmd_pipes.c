@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 17:13:21 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/04 17:57:29 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/10 14:15:00 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -41,8 +41,9 @@ int	count_quotes_and_pipes(char *full_arg, int *i, int res, int *nb_pipe)
 {
 	if (check_char(&full_arg[*i]) < 0)
 	{
-		*i = move_index_after_quote(full_arg, *i + 1);
-		if (full_arg[*i - 2] != full_arg[*i - 1])
+		*i = move_index_after_quote(full_arg, *i);
+		if (full_arg[*i - 2] != full_arg[*i - 1]
+			|| check_char(&full_arg[*i - 3]) >= 1)
 			res++;
 	}
 	if (full_arg[*i] == '|')
