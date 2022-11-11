@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 16:34:01 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/10 15:54:51 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/11 11:15:29 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -56,7 +56,6 @@ void	create_file(char **limiter, t_data *data)
 	i = 0;
 	while (limiter[i] != NULL)
 	{
-		printf("%s\n", limiter[i]);
 		fd = open ("here_doc", O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		line = tokenize_here_doc_line(data, limiter[i]);
 		while (ft_strcmp(line, limiter[i]) != 0)
