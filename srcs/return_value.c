@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 16:03:02 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/08 16:23:31 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/09 17:01:17 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -41,20 +41,20 @@ void	return_value(int *son, t_data *data, int size)
 	int	status;
 
 	i = 0;
-	while (i <= size)
+	while (i < size)
 	{
 		waitpid(son[i], &status, 0);
 		i++;
 	}
-	i = 0;
-	while (i < size)
+	i = 1;
+/*	while (size > 1 && i < size)
 	{
 		free(data->pipexfd[i]);
 		data->pipexfd[i] = 0;
 		i++;
 	}
 	free(data->pipexfd);
-	data->pipexfd = 0;
+	data->pipexfd = 0;*/
 	data->return_value = get_return_value(status);
 	if (data->return_value == 131)
 		ft_printf("Quit (core dumped)\n");

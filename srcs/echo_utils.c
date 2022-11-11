@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 14:25:34 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/08 17:13:04 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/09 16:54:51 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -46,6 +46,11 @@ char	*replace_env_in_quotes(char *full_arg, char *res, t_data *data, int *i)
 
 	quote = full_arg[*i];
 	j = ft_strlen(res);
+	if (check_char(&full_arg[*i + 1]) > 1 && full_arg[*i + 2] == quote)
+	{
+		res[j++] = quote;
+		res[j + 1] = quote;
+	}
 	(*i)++;
 	while (full_arg[*i] && full_arg[*i] != quote)
 	{
@@ -58,12 +63,12 @@ char	*replace_env_in_quotes(char *full_arg, char *res, t_data *data, int *i)
 		else
 			ft_fill_char_and_increment(res, full_arg, i, &j);
 	}
-	if (full_arg[*i] == quote)
+	if (full_arg[*i])
 		(*i)++;
 	return (res);
 }
 
-char	*replace_env_in_full_arg(char *arg, t_data *data)
+char	*tokenize_full_arg(char *arg, t_data *data)
 {
 	int		i;
 	int		j;

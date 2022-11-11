@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:43:38 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/04 12:21:19 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/10 18:15:59 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,20 @@ int	move_indextoenv(char *str, int i)
 			return (i);
 		i++;
 	}
+	return (i);
+}
+
+int	count_index_after_quote(char *str)
+{
+	int	i;
+	int	quote;
+
+	i = 0;
+	if (!str)
+		return (0);
+	quote = str[i];
+	while (str[i] && str[i] == quote)
+		i++;
 	return (i);
 }
 

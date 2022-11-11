@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/10 18:17:03 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/11 11:08:19 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -78,6 +78,7 @@ void	remove_arg_if_needed(t_data *data);
 //REDIRECTION
 int		check_redirection(char *str);
 int		reset_pipe_index_if_needed(char *full_arg);
+int		reset_index_if_needed(char *full_arg, int i, int j);
 int		check_only_redirection(char *str, char *full_arg);
 int		size_here_doc_line(char *line, t_data *data);
 void	here_doc(t_cmd *cmd, t_data *data);
@@ -120,6 +121,8 @@ int		check_size_export_arg(char *arg, int i);
 //PARSING / TOKENIZING
 char	**alloc_final_tab(t_data *data);
 char	**fill_final_tab(char **final_tab, t_data *data, int *i, int *j);
+char	*tokenize_full_arg_with_quotes(char *arg, t_data *data);
+char	*tokenize_env_var(char *full_arg, char *res, t_data *data, int *i);
 int		check_size_first_arg(char *arg, int i);
 int		alloc_with_quotes(char *arg, int *i);
 int		alloc_until_pipe(char **final_tab, char *arg, int i, int j);
@@ -162,12 +165,9 @@ void	echo(char **cmd, t_data *data, int i, int arg_i);
 void	pick_correct_echo(t_cmd *cmd, t_data *data);
 void	echo_n(char **cmd, char *full_arg, int arg_i, int cmd_i);
 int		move_cmd_arr_index(char **cmd, char *options);
-char	*join_echo_options(char **cmd, char *full_arg);
-char	*replace_env_in_full_arg(char *full_arg, t_data *data);
+char	*tokenize_full_arg(char *full_arg, t_data *data);
 int		move_arg_i_in_quote(char *full_arg, int arg_i);
-int		check_if_space_is_needed(char *cmd, char *first_occ);
 int		move_arg_i(char *full_arg, int arg_i);
-void	add_space_if_needed(char *cmd, char *first_occ);
 void	pwd(void);
 void	env(char **env);
 void	ft_exit(t_data *data);
@@ -176,6 +176,19 @@ void	directory(t_cmd *cmd, t_data *data);
 void	ft_export(t_cmd *cmd, t_data *data);
 void	unset(t_cmd *cmd, t_data *data);
 int		ft_strlen_var(char *str, t_data *data);
+
+//ECHO
+int		check_echo_option(char *full_arg, char **cmd);
+int		check_multiple_options(char *res);
+int		check_option_format(char *full_arg, char *option);
+int		is_valid_option(char **cmd, int cmd_i);
+void	echo(char **cmd, t_data *data, int i, int arg_i);
+void	pick_correct_echo(t_cmd *cmd, t_data *data);
+void	echo_n(char **cmd, char *full_arg, int arg_i, int cmd_i);
+char	*join_echo_options(char **cmd, char *full_arg);
+int		check_if_space_is_needed(char *cmd, char *first_occ);
+void	add_space_if_needed(char *cmd, char *first_occ);
+char	*ft_strnstr_skip_quotes(char *big, char *little, size_t len);
 
 //PIPE
 int		check_pipe(t_data *data);
@@ -231,5 +244,6 @@ int		size_return_value(t_data *data);
 //MOVE_INDEX
 int		move_indextoenv(char *str, int i);
 int		move_index_after_quote(char *str, int i);
+int		count_index_after_quote(char *str);
 
 #endif

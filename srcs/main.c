@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/08 11:38:44 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/11 10:59:47 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -31,6 +31,8 @@ void	init_cmd(t_data *data)
 		ft_exit(data);
 		return ;
 	}
+	//tokenizer en laissant les quotes
+	data->arg = tokenize_full_arg_with_quotes(data->arg, data);
 	data->cmd = init_struct_cmd(data);
 	if (data->cmd == NULL)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 00:03:37 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/08 16:41:22 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/09 17:47:13 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -44,6 +44,10 @@ char	*ft_strjoin_no_malloc(char *s1, char *s2)
 	int		j;
 
 	i = 0;
+	if (!s1)
+		return (NULL);
+	if (!s2)
+		return (NULL);
 	j = ft_strlen(s1);
 	while (s2[i])
 		ft_fill_char_and_increment(s1, s2, &i, &j);
@@ -88,4 +92,30 @@ int	check_option_format(char *full_arg, char *option)
 		return (0);
 	else
 		return (1);
+}
+
+char	*ft_strnstr_skip_quotes(char *big, char *little, size_t len)
+{
+	size_t	i;
+	int		j;
+
+	i = 0;
+	if (little[i] == '\0')
+		return (big);
+	while (big[i] != '\0' && i < len)
+	{
+		j = 0;
+		while (big[i] == little[j] && big && i < len)
+		{
+			++j;
+			++i;
+			if (check_char(&big[i - 1]) > 1)
+				while (check_char(&big[i]) < 0)
+					i++;
+			if (little[j] == '\0')
+				return (&big[i - j]);
+		}
+		i = i - j + 1;
+	}
+	return (NULL);
 }
