@@ -6,11 +6,12 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 09:47:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/04 18:13:54 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/10 19:52:53 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
+//mettre la boucle index_pipe = 0 dans une autre fonction
 int	check_index_pipe(char *full_arg, int index_pipe)
 {
 	static int	i = 0;
@@ -21,7 +22,12 @@ int	check_index_pipe(char *full_arg, int index_pipe)
 	if (index_pipe == 0)
 	{
 		while (full_arg[i] && full_arg[i] != '|')
-			++i;
+		{
+			if (check_char(&full_arg[i]) < 0)
+				i = move_index_after_quote(full_arg, i);
+			else
+				i++;
+		}
 		if (reset_pipe_index_if_needed(&full_arg[i]) == 0)
 			i = 0;
 		return (0);
@@ -84,7 +90,7 @@ t_cmd	*fill_simple_cmd(t_data *data, t_cmd *res, int i, int j)
 		}
 		else if (value == 2)
 			break ;
-		else if (value != 1 && ft_strcmp(data->parsing[i], "") != 0)
+		else if (value != 1 /*&& ft_strcmp(data->parsing[i], "") != 0*/)
 			res->cmd[j++] = ft_strdup(data->parsing[i]);
 		i++;
 	}

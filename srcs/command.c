@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/05 11:05:16 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/09 16:57:36 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	simple_cmd(t_data *data)
 			exit (2);
 		}
 	}
-	return_value(&son, data, 0);
+	return_value(&son, data, 1);
 	signal_handler();
 	unlink("here_doc");
 	return (0);

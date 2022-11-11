@@ -6,7 +6,7 @@
 #    By: blevrel <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 09:35:57 by blevrel           #+#    #+#              #
-#    Updated: 2022/11/08 11:39:02 by blevrel          ###   ########.fr        #
+#    Updated: 2022/11/10 09:35:57 by blevrel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ SRCS  =	srcs/alloc_parsing.c \
 		srcs/pwd.c \
 		srcs/remove_first_arg.c \
 		srcs/replace_env.c \
+		srcs/reset_index.c \
 		srcs/signal_handling.c \
 		srcs/tokenize_here_doc_line.c \
 		srcs/tokenizing.c \
