@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 15:35:25 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/12 16:39:04 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/12 17:27:44 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -88,7 +88,7 @@ int	move_index_redirection(char *full_arg, char *str, int i)
 	{
 		while (ft_strncmp(&full_arg[i], "\"\"", 2) != 0)
 			i++;
-		i += 2;
+		i = move_to_end_of_arg(full_arg, i);
 	}
 	else
 	{
