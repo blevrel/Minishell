@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 09:47:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/12 11:09:59 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/12 15:40:01 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -82,7 +82,7 @@ t_cmd	*fill_simple_cmd(t_data *data, t_cmd *res, int i, int j)
 
 	while (data->parsing[i] != NULL)
 	{
-		value = check_only_redirection(data, data->parsing[i], data->arg, trigger);
+		value = get_arg_type(data, data->parsing[i], data->arg, trigger);
 		if (value == 1)
 		{
 			if (init_file(res, data, i) == 1)

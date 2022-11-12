@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/12 14:52:52 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/12 16:22:03 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -79,8 +79,7 @@ void	remove_arg_if_needed(t_data *data);
 int		check_redirection(char *str);
 int		reset_pipe_index_if_needed(char *full_arg);
 int		reset_index_if_needed(t_data *data, int i, int trigger, char *cmd);
-int		check_only_redirection(t_data *data, char *str, char *full_arg,
-		int trigger);
+int		get_arg_type(t_data *data, char *str, char *full_arg, int trigger);
 int		size_heredoc(char *line, t_data *data, char *limiter);
 void	here_doc(t_cmd *cmd, t_data *data);
 void	here_doc_pipe(t_cmd *cmd, int **pipexfd, t_data *data, int i);
@@ -103,6 +102,7 @@ int		ft_strchr_int(const char *s, int c);
 int		ft_strnchr_int(const char *s, int c, int size);
 void	free_double_tab(char **tab);
 int		check_char(char *str);
+int		check_only_redirection(char *str);
 void	swap_str(char **s1, char **s2);
 int		size_tab(char **tab);
 char	**cpy_tab(char **dest, char **src);
@@ -240,5 +240,6 @@ int		size_return_value(t_data *data);
 int		move_indextoenv(char *str, int i);
 int		move_index_after_quote(char *str, int i);
 int		count_index_after_quote(char *str);
+int		move_to_end_of_arg(char *str, int i);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:48:53 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/12 14:53:31 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/12 15:41:25 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -62,7 +62,7 @@ void	echo_n(char **cmd, t_data *data, int arg_i, int cmd_i)
 	char	*first_occ;
 
 	while (cmd[cmd_i] != NULL && (!cmd[cmd_i][0]
-		|| check_only_redirection(data, cmd[cmd_i], data->arg, -1) != 2))
+		|| get_arg_type(data, cmd[cmd_i], data->arg, -1) != 2))
 	{
 		first_occ = ft_strnstr_skip_quotes(&data->arg[arg_i], cmd[cmd_i],
 				ft_strlen(data->arg));
@@ -85,7 +85,7 @@ void	echo(char **cmd, t_data *data, int cmd_i, int arg_i)
 	char	*first_occ;
 
 	while (cmd[cmd_i] != NULL && (!cmd[cmd_i][0]
-		|| check_only_redirection(data, cmd[cmd_i], data->arg, -1) != 2))
+		|| get_arg_type(data, cmd[cmd_i], data->arg, -1) != 2))
 	{
 		first_occ = ft_strnstr_skip_quotes(&data->arg[arg_i], cmd[cmd_i],
 				ft_strlen(data->arg));

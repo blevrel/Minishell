@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 15:35:25 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/12 12:37:59 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/12 16:39:04 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -66,14 +66,14 @@ int	check_if_redirection_is_in_quotes(char *str, char *full_arg, int *i)
 	if (check_char(&full_arg[*i - 1]) < 0
 		&& check_closing_quotes(&full_arg[*i - 1]) == 0)
 	{
-		*i += ft_strlen(str);
-		//if (reset_index_if_needed(full_arg, *i, j) == 0)
-		//	*i = 0;
+		*i += j;
+		if (check_only_redirection(str) == 1)
+			*i = move_to_end_of_arg(full_arg, *i);
 		return (1);
 	}
-	*i += ft_strlen(str);
-	//if (reset_index_if_needed(full_arg, *i, j) == 0)
-	//	*i = 0;
+	*i += j;
+	if (check_only_redirection(str) == 1)
+		*i = move_to_end_of_arg(full_arg, *i);
 	return (0);
 }
 
@@ -106,29 +106,17 @@ int	move_index_redirection(char *full_arg, char *str, int i)
 	return (i);
 }
 
-int	check_only_redirection(t_data *data, char *str, char *full_arg, int trigger)
+int	get_arg_type(t_data *data, char *str, char *full_arg, int trigger)
 {
 	int			ret;
 	static int	i = 0;
 
-	if (ft_strcmp(str, "<") == 0)
-		ret = 1;
-	else if (ft_strcmp(str, ">") == 0)
-		ret = 1;
-	else if (ft_strcmp(str, ">>") == 0)
-		ret = 1;
-	else if (ft_strcmp(str, "<<") == 0)
-		ret = 1;
-	else if (ft_strcmp(str, "|") == 0)
-		ret = 2;
-	else
-		ret = 0;
+	ret = check_only_redirection(str);
 	if (ret != 0 && check_if_redirection_is_in_quotes(str, full_arg, &i) == 1)
 		return (-1);
-	if (ret != 2)
+	if (ret != 2 && ret != 1)
 		i = move_index_redirection(full_arg, str, i);
 	if (reset_index_if_needed(data, i, trigger, str) == 0)
 		i = 0;
-	//if (!full_arg[i] || (check_char(&full_arg[i]) < 0 && !full_arg[i + 1]))
 	return (ret);
 }
