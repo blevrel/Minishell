@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/11 11:08:19 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/12 14:52:52 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -78,9 +78,10 @@ void	remove_arg_if_needed(t_data *data);
 //REDIRECTION
 int		check_redirection(char *str);
 int		reset_pipe_index_if_needed(char *full_arg);
-int		reset_index_if_needed(char *full_arg, int i, int j);
-int		check_only_redirection(char *str, char *full_arg);
-int		size_here_doc_line(char *line, t_data *data);
+int		reset_index_if_needed(t_data *data, int i, int trigger, char *cmd);
+int		check_only_redirection(t_data *data, char *str, char *full_arg,
+		int trigger);
+int		size_heredoc(char *line, t_data *data, char *limiter);
 void	here_doc(t_cmd *cmd, t_data *data);
 void	here_doc_pipe(t_cmd *cmd, int **pipexfd, t_data *data, int i);
 char	*tokenize_here_doc_limiter(char *str);
@@ -109,7 +110,8 @@ char	next_non_spc_char(int i, char *str);
 char	*ft_strjoin_no_malloc(char *s1, char *s2);
 
 //CHECK_PATH
-char	*check_path(char *cmd, char **env, t_data *data);
+char	*check_path(char *cmd, t_data *data);
+int		check_valid_cmd_for_static_reset(t_data *data, char *cmd);
 
 //CHECK_SYNTAX_ERROR
 char	*check_syntax_error(char *str);
@@ -157,13 +159,6 @@ int		count_exp(char *str, int *i);
 //BUILTIN
 int		check_builtin(t_cmd *cmd, t_data *data);
 int		check_builtin_pipe(t_cmd *cmd, t_data *data);
-int		check_echo_option(char *full_arg, char **cmd);
-int		check_multiple_options(char *res);
-int		check_option_format(char *full_arg, char *option);
-int		is_valid_option(char **cmd, int cmd_i);
-void	echo(char **cmd, t_data *data, int i, int arg_i);
-void	pick_correct_echo(t_cmd *cmd, t_data *data);
-void	echo_n(char **cmd, char *full_arg, int arg_i, int cmd_i);
 int		move_cmd_arr_index(char **cmd, char *options);
 char	*tokenize_full_arg(char *full_arg, t_data *data);
 int		move_arg_i_in_quote(char *full_arg, int arg_i);
@@ -184,7 +179,7 @@ int		check_option_format(char *full_arg, char *option);
 int		is_valid_option(char **cmd, int cmd_i);
 void	echo(char **cmd, t_data *data, int i, int arg_i);
 void	pick_correct_echo(t_cmd *cmd, t_data *data);
-void	echo_n(char **cmd, char *full_arg, int arg_i, int cmd_i);
+void	echo_n(char **cmd, t_data *data, int arg_i, int cmd_i);
 char	*join_echo_options(char **cmd, char *full_arg);
 int		check_if_space_is_needed(char *cmd, char *first_occ);
 void	add_space_if_needed(char *cmd, char *first_occ);

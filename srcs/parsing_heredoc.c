@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 08:18:00 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/07 10:53:12 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/11 14:35:30 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ int	alloc_heredoc_null(char **final_tab, char *arg, int *line)
 {
 	if (check_here_doc_null(arg) == 1)
 	{
-		(*line)++;
 		final_tab[*line] = ft_calloc(1, sizeof(char));
 		if (verif_malloc_str(final_tab, *line) == 1)
 			return (1);
+		(*line)++;
 		return (0);
 	}
 	return (0);

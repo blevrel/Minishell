@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 16:34:01 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/10 15:54:51 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/11 15:27:57 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -30,11 +30,10 @@ char	*tokenize_here_doc_line(t_data *data, char *limiter)
 	line = readline("");
 	if (line == NULL)
 		here_doc_err_msg(limiter);
-	new_line = malloc((size_here_doc_line(line, data) + 1) * sizeof(char));
-	while (line[i])
+	new_line = ft_calloc((size_heredoc(line, data, limiter) + 1), sizeof(char));
+	while (line[i] && ft_strcmp(line, limiter) != 0)
 	{
-		if (line[i] == '$' && line[i + 1] != '$'
-			&& check_char(&line[i + 1]) >= 0)
+		if (line[i] == 36 && line[i + 1] != 36 && check_char(&line[i + 1]) >= 0)
 		{
 			fill_env(new_line, &line[i], data, &j);
 			i = move_indextoenv(line, i);
@@ -42,7 +41,8 @@ char	*tokenize_here_doc_line(t_data *data, char *limiter)
 		else
 			ft_fill_char_and_increment(new_line, line, &i, &j);
 	}
-	new_line[j] = '\0';
+	if (ft_strcmp(line, limiter) == 0)
+		new_line = ft_strcpy(new_line, line);
 	free(line);
 	return (new_line);
 }

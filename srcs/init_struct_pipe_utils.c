@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 09:47:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/11 10:19:46 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/12 11:09:59 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -77,15 +77,19 @@ int	check_open(char **cmd)
 
 t_cmd	*fill_simple_cmd(t_data *data, t_cmd *res, int i, int j)
 {
-	int	value;
+	int			value;
+	static int	trigger = 0;
 
 	while (data->parsing[i] != NULL)
 	{
-		value = check_only_redirection(data->parsing[i], data->arg);
+		value = check_only_redirection(data, data->parsing[i], data->arg, trigger);
 		if (value == 1)
 		{
 			if (init_file(res, data, i) == 1)
+			{
+				trigger = 0;
 				return (res);
+			}
 			if (data->parsing[i + 1])
 				i++;
 		}
@@ -93,8 +97,10 @@ t_cmd	*fill_simple_cmd(t_data *data, t_cmd *res, int i, int j)
 			break ;
 		else if (value != 1 /*&& ft_strcmp(data->parsing[i], "") != 0*/)
 			res->cmd[j++] = ft_strdup(data->parsing[i]);
+		trigger++;
 		i++;
 	}
 	res->cmd[j] = NULL;
+	trigger = 0;
 	return (res);
 }

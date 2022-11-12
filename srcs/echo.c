@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:48:53 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/11 10:58:46 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/12 14:53:31 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -57,24 +57,24 @@ void	space_before_first_arg(char *full_arg, int arg_i)
 	}
 }
 
-void	echo_n(char **cmd, char *full_arg, int arg_i, int cmd_i)
+void	echo_n(char **cmd, t_data *data, int arg_i, int cmd_i)
 {
 	char	*first_occ;
 
 	while (cmd[cmd_i] != NULL && (!cmd[cmd_i][0]
-		|| check_only_redirection(cmd[cmd_i], full_arg) != 2))
+		|| check_only_redirection(data, cmd[cmd_i], data->arg, -1) != 2))
 	{
-		first_occ = ft_strnstr_skip_quotes(&full_arg[arg_i], cmd[cmd_i],
-				ft_strlen(full_arg));
+		first_occ = ft_strnstr_skip_quotes(&data->arg[arg_i], cmd[cmd_i],
+				ft_strlen(data->arg));
 		if (arg_i == 0)
-			space_before_first_arg(full_arg, arg_i);
-		while (ft_strcmp(&full_arg[arg_i], first_occ) != 0)
+			space_before_first_arg(data->arg, arg_i);
+		while (ft_strcmp(&data->arg[arg_i], first_occ) != 0)
 			arg_i++;
 		ft_printf("%s", cmd[cmd_i]);
-		arg_i = move_arg_i(full_arg, arg_i);
+		arg_i = move_arg_i(data->arg, arg_i);
 		if (check_if_space_is_needed(cmd[cmd_i], first_occ) == 1)
 			ft_printf(" ");
-		if (check_char(&full_arg[arg_i]) == 1)
+		if (check_char(&data->arg[arg_i]) == 1)
 			ft_printf(" ");
 		cmd_i++;
 	}
@@ -85,7 +85,7 @@ void	echo(char **cmd, t_data *data, int cmd_i, int arg_i)
 	char	*first_occ;
 
 	while (cmd[cmd_i] != NULL && (!cmd[cmd_i][0]
-		|| check_only_redirection(cmd[cmd_i], data->arg) != 2))
+		|| check_only_redirection(data, cmd[cmd_i], data->arg, -1) != 2))
 	{
 		first_occ = ft_strnstr_skip_quotes(&data->arg[arg_i], cmd[cmd_i],
 				ft_strlen(data->arg));
@@ -117,7 +117,7 @@ void	pick_correct_echo(t_cmd *cmd, t_data *data)
 	{
 		options = join_echo_options(cmd->cmd, data->arg);
 		cmd_i = move_cmd_arr_index(cmd->cmd, options);
-		echo_n(cmd->cmd, data->arg, arg_i, cmd_i);
+		echo_n(cmd->cmd, data, arg_i, cmd_i);
 		free(options);
 	}
 	else

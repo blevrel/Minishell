@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 17:13:21 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/10 14:15:00 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/12 14:34:07 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -39,12 +39,20 @@ int	check_nbpipe(char *full_arg)
 
 int	count_quotes_and_pipes(char *full_arg, int *i, int res, int *nb_pipe)
 {
-	if (check_char(&full_arg[*i]) < 0)
+	int	inside;
+
+	inside = 1;
+	if (*i == 0)
+		res++;
+	if (*i != 0 && check_char(&full_arg[*i]) < 0
+		&& check_char(&full_arg[*i - 1]) != 0)
+		res++;
+	while (full_arg[*i] && check_char(&full_arg[*i]) < 1)
 	{
-		*i = move_index_after_quote(full_arg, *i);
-		if (full_arg[*i - 2] != full_arg[*i - 1]
-			|| check_char(&full_arg[*i - 3]) >= 1)
-			res++;
+		if (check_char(&full_arg[*i]) < 0)
+			*i = move_index_after_quote(full_arg, *i);
+		else
+			(*i)++;
 	}
 	if (full_arg[*i] == '|')
 	{
@@ -72,7 +80,7 @@ int	nb_cmd(char *full_arg, int index_pipe)
 			res++;
 		while (check_char(&full_arg[i]) == 2)
 				i++;
-		if (full_arg[i] && check_char(&full_arg[i]) == 0 && full_arg[i] != '|')
+		if (full_arg[i] && check_char(&full_arg[i]) == 0)
 			res++;
 		while (full_arg[i] && check_char(&full_arg[i]) == 0)
 			i++;
