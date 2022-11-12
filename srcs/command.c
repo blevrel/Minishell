@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/11 10:20:14 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/11 12:24:59 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,6 @@ void	dup_simple_call(t_cmd *cmd, t_data *data)
 {
 	int	fd;
 
-	if (cmd->outfile != NULL)
-	{
-		fd = open(cmd->outfile, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-		dup2(fd, 1);
-		close(fd);
-	}
 	if (cmd->infile != NULL)
 	{
 		if (cmd->heredoc == 1)
@@ -58,9 +52,17 @@ void	dup_simple_call(t_cmd *cmd, t_data *data)
 		dup2(fd, 0);
 		close(fd);
 	}
+	
 	if (cmd->outfile_append != NULL)
 	{
 		fd = open(cmd->outfile_append, O_WRONLY | O_APPEND | O_CREAT, 0644);
+		dup2(fd, 1);
+		close(fd);
+	}
+
+	if (cmd->outfile != NULL)
+	{
+		fd = open(cmd->outfile, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		dup2(fd, 1);
 		close(fd);
 	}

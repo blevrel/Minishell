@@ -1,2 +1,0 @@
-dans check_only_redirection, envoyer data pour avoir acces a envp et pour voir recuperer le path de la commande a verifier pour savoir si il existe. Si il n'existe pas, reset la static. 
-Remplacer ft_strlen(str) par data et calculer la taille de str a l'interieur de la fonction au lieu de l'envoyer.
