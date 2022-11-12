@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:17:04 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/03 17:04:04 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/12 16:49:44 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,21 @@ void	start_child(t_data *data, int nb_pipe)
 	return_value(data->son, data, check_nbpipe(data->arg));
 }
 
+void	free_pipex(int **pipexfd, int size)
+{
+	int	i;
+
+	i = 0;
+	while (size > 1 && i < size)
+	{
+		free(pipexfd[i]);
+		pipexfd[i] = 0;
+		i++;
+	}
+	free(pipexfd);
+	pipexfd = 0;
+}
+
 int	ft_pipe(t_data *data)
 {
 	int		nb_pipe;
@@ -61,5 +76,6 @@ int	ft_pipe(t_data *data)
 		return (1);
 	}
 	start_child(data, nb_pipe);
+	free_pipex(data->pipexfd, nb_pipe);
 	return (0);
 }

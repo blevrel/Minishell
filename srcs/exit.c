@@ -6,15 +6,15 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 10:45:41 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/08 15:46:15 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/12 15:38:05 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-int	print_exit_error(int trigger, char *arg)
+int	print_exit_error(int trigger, char *arg, int return_value)
 {
 	if (!arg)
-		return (0);
+		return (return_value);
 	if (trigger == 0)
 	{
 		printf("exit\n");
@@ -45,7 +45,7 @@ void	ft_exit(t_data *data)
 		exit_arg = check_exit_arg(data->parsing);
 	else
 		printf("exit\n");
-	exit_value = print_exit_error(exit_arg, data->parsing[1]);
+	exit_value = print_exit_error(exit_arg, data->parsing[1], data->return_value);
 	if (exit_value == 1 && data->parsing[2])
 	{
 		data->return_value = 1;

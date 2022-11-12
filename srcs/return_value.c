@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 16:03:02 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/09 17:01:17 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/12 16:46:57 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -47,14 +47,6 @@ void	return_value(int *son, t_data *data, int size)
 		i++;
 	}
 	i = 1;
-/*	while (size > 1 && i < size)
-	{
-		free(data->pipexfd[i]);
-		data->pipexfd[i] = 0;
-		i++;
-	}
-	free(data->pipexfd);
-	data->pipexfd = 0;*/
 	data->return_value = get_return_value(status);
 	if (data->return_value == 131)
 		ft_printf("Quit (core dumped)\n");

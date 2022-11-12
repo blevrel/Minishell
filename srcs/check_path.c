@@ -6,18 +6,20 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:54 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/12 13:49:13 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/12 16:27:57 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-char	*init_res(char **path, char *cmd)
+char	*init_res(char *env, char *cmd)
 {
 	int		i;
 	char	*tmp;
 	char	*res;
+	char	**path;
 
 	i = 0;
+	path = ft_split(env, ':');
 	tmp = ft_strjoin(path[i], "/");
 	res = ft_strjoin(tmp, cmd);
 	free(tmp);
@@ -48,7 +50,6 @@ int	check_cmd_no_print(char *cmd)
 
 int	check_valid_cmd_for_static_reset(t_data *data, char *cmd)
 {
-	char	**path;
 	char	*res;
 	int		line;
 
@@ -58,8 +59,7 @@ int	check_valid_cmd_for_static_reset(t_data *data, char *cmd)
 		line++;
 	if (data->envp[line] == NULL)
 		return (1);
-	path = ft_split(data->envp[line], ':');
-	res = init_res(path, cmd);
+	res = init_res(data->envp[line], cmd);
 	if (access(res, F_OK) == 0 && access(res, X_OK) == 0)
 	{
 		free(res);
@@ -99,17 +99,20 @@ int	check_cmd(char *cmd, t_data *data)
 char	*check_path(char *cmd, t_data *data)
 {
 	char	*res;
-	char	**path;
 	int		line;
 
 	line = 0;
 	while (data->envp[line] != NULL
 		&& ft_memcmp(data->envp[line], "PATH", 4) != 0)
 		line++;
-	if (data->envp[line] == NULL)
+	if (data->envp[line] == NULL || ft_strcmp(cmd, ".") == 0 
+		|| ft_strcmp(cmd, "..") == 0)
+	{
+		ft_printf("%s : command not found\n", cmd);
+		data->return_value = 127;
 		return (NULL);
-	path = ft_split(data->envp[line], ':');
-	res = init_res(path, cmd);
+	}
+	res = init_res(data->envp[line], cmd);
 	if (access(res, F_OK) == 0 && access(res, X_OK) == 0)
 		return (res);
 	free(res);

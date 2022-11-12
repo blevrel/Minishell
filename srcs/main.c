@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/11 10:59:47 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/12 15:34:54 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -68,6 +68,7 @@ void	routine(t_data *data)
 int	main(int argc, char **argv, char **env)
 {
 	t_data		*data;
+	int	return_value;
 
 	if (argc != 1)
 	{
@@ -88,6 +89,7 @@ int	main(int argc, char **argv, char **env)
 	ft_printf("exit\n");
 	free_double_tab(data->envp);
 	free_double_tab(data->export);
+	return_value = data->return_value;	
 	free(data);
-	return (0);
+	return (return_value);
 }

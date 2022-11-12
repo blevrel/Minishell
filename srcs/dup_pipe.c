@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 11:16:11 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/10 18:09:41 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/12 17:57:51 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	check_dup_pipe_first(t_cmd *cmd, int **pipexfd, int i, t_data *data)
 		fd = open(cmd->infile, O_RDONLY);
 		if (fd == -1)
 		{
-			//a free
+			clean_data(data, 1);
 			exit(1);
 		}
 		dup2(fd, 0);
@@ -60,6 +60,11 @@ void	check_dup_pipe_last(t_cmd *cmd, int **pipexfd, int i, t_data *data)
 		if (ft_strcmp(cmd->infile, "here_doc") == 0 || cmd->heredoc == 1) 
 				here_doc(cmd, data);
 		fd = open(cmd->infile, O_RDONLY);
+		if (fd == -1)
+		{
+			clean_data(data, 1);
+			exit(1);
+		}
 		dup2(fd, 0);
 		close(fd);
 	}
@@ -78,6 +83,11 @@ void	check_dup_pipe_n(t_cmd *cmd, int **pipexfd, int i, t_data *data)
 		if (ft_strcmp(cmd->infile, "here_doc") == 0) 
 				here_doc(cmd, data);
 		fd = open(cmd->infile, O_RDONLY);
+		if (fd == -1)
+		{
+			clean_data(data, 1);
+			exit(1);
+		}
 		dup2(fd, 0);
 		dup2(pipexfd[i][1], 1);
 		close(fd);
