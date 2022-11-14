@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 04:26:01 by blevrel           #+#    #+#             */
-/*   Updated: 2022/10/18 20:09:15 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/14 13:09:02 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -16,6 +16,8 @@ int	only_n(char *str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (1);
 	while (str[i])
 	{
 		if (str[i] != 'n')
@@ -27,6 +29,8 @@ int	only_n(char *str)
 
 int	check_option_syntax(char **cmd, int cmd_i, int i)
 {
+	if (!cmd[cmd_i])
+		return (1);
 	while (cmd[cmd_i][i])
 	{
 		if (cmd[cmd_i][i] == '-')

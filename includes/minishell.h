@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/12 16:22:03 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/14 14:33:26 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -161,8 +161,6 @@ int		check_builtin(t_cmd *cmd, t_data *data);
 int		check_builtin_pipe(t_cmd *cmd, t_data *data);
 int		move_cmd_arr_index(char **cmd, char *options);
 char	*tokenize_full_arg(char *full_arg, t_data *data);
-int		move_arg_i_in_quote(char *full_arg, int arg_i);
-int		move_arg_i(char *full_arg, int arg_i);
 void	pwd(void);
 void	env(char **env);
 void	ft_exit(t_data *data);

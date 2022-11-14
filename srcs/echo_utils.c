@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 14:25:34 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/09 16:54:51 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/14 14:33:55 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -95,56 +95,4 @@ char	*tokenize_full_arg(char *arg, t_data *data)
 	free(arg);
 	arg = NULL;
 	return (res);
-}
-
-int	move_arg_i_in_quote(char *full_arg, int arg_i)
-{
-	int	quote;
-
-	quote = full_arg[arg_i - 1];
-	while (full_arg[arg_i] != quote)
-		arg_i++;
-	arg_i++;
-	while ((check_char(&full_arg[arg_i]) == 1)
-		|| (check_char(&full_arg[arg_i]) < 0
-			&& full_arg[arg_i] == full_arg[arg_i + 1]))
-	{
-		if (check_char(&full_arg[arg_i]) < 0
-			&& full_arg[arg_i] == full_arg[arg_i + 1])
-		{
-			arg_i += 2;
-			if (check_char(&full_arg[arg_i]) == 1)
-				ft_printf(" ");
-		}
-		else
-			arg_i++;
-	}
-	return (arg_i);
-}
-
-int	move_arg_i(char *full_arg, int arg_i)
-{
-	if (arg_i != 0 && check_char(&full_arg[arg_i - 1]) < 0
-		&& check_closing_quotes(&full_arg[arg_i - 1]) == 0)
-		arg_i = move_arg_i_in_quote(full_arg, arg_i);
-	else
-	{
-		while (full_arg[arg_i] && check_char(&full_arg[arg_i]) == 0)
-			arg_i++;
-		while ((check_char(&full_arg[arg_i]) == 1)
-			|| (check_char(&full_arg[arg_i]) < 0
-				&& full_arg[arg_i] == full_arg[arg_i + 1]))
-		{
-			if (check_char(&full_arg[arg_i]) < 0
-				&& full_arg[arg_i] == full_arg[arg_i + 1])
-			{
-				arg_i += 2;
-				if (check_char(&full_arg[arg_i]) == 1)
-					ft_printf(" ");
-			}
-			else
-				arg_i++;
-		}
-	}
-	return (arg_i);
 }
