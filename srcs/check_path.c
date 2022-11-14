@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:54 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/12 16:27:57 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/13 09:24:12 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -105,7 +105,7 @@ char	*check_path(char *cmd, t_data *data)
 	while (data->envp[line] != NULL
 		&& ft_memcmp(data->envp[line], "PATH", 4) != 0)
 		line++;
-	if (data->envp[line] == NULL || ft_strcmp(cmd, ".") == 0 
+	if (data->envp[line] == NULL || ft_strcmp(cmd, ".") == 0
 		|| ft_strcmp(cmd, "..") == 0)
 	{
 		ft_printf("%s : command not found\n", cmd);

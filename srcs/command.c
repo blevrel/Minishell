@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/11 12:24:59 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/13 09:35:17 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,18 @@ void	dup_simple_call(t_cmd *cmd, t_data *data)
 		fd = open(cmd->infile, O_RDONLY);
 		if (fd == -1)
 		{
-			// a free
+			clean_data(data, 1);
 			exit (1);
 		}
 		dup2(fd, 0);
 		close(fd);
 	}
-	
 	if (cmd->outfile_append != NULL)
 	{
 		fd = open(cmd->outfile_append, O_WRONLY | O_APPEND | O_CREAT, 0644);
 		dup2(fd, 1);
 		close(fd);
 	}
-
 	if (cmd->outfile != NULL)
 	{
 		fd = open(cmd->outfile, O_WRONLY | O_TRUNC | O_CREAT, 0644);

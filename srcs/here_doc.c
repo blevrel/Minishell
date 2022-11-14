@@ -6,15 +6,16 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 16:34:01 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/12 15:03:43 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/13 11:04:04 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-void	here_doc_err_msg(char *limiter)
+void	here_doc_err_msg(t_data *data, char *limiter)
 {
 	ft_printf("minishell: warning: here-document delimited \
 by end-of-file (wanted '%s')\n", limiter);
+	clean_data(data, 1);
 	exit(0);
 }
 
@@ -29,7 +30,7 @@ char	*tokenize_here_doc_line(t_data *data, char *limiter)
 	j = 0;
 	line = readline("");
 	if (line == NULL)
-		here_doc_err_msg(limiter);
+		here_doc_err_msg(data, limiter);
 	new_line = ft_calloc((size_heredoc(line, data, limiter) + 1), sizeof(char));
 	while (line[i] && ft_strcmp(line, limiter) != 0)
 	{
@@ -73,13 +74,6 @@ void	create_file(char **limiter, t_data *data)
 
 void	here_doc(t_cmd *cmd, t_data *data)
 {
-	//int fd;
-	
-	//fd = open("here_doc", O_RDONLY);
-	//printf("%d\n", fd);
-	//if (fd != -1)
-	//	return ;
-	//close (fd);
 	g_signal_trigger = IN_HERE_DOC;
 	signal_handler();
 	create_file(cmd->limiter, data);

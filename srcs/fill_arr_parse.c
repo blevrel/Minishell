@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:40:20 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/08 14:17:41 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/13 12:42:15 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -25,7 +25,8 @@ void	fill_with_quotes(char **final_tab, char *arg, int *i, int *j)
 		return ;
 	quote = arg[*i];
 	final_tab[*j][k++] = arg[(*i)++];
-	while (arg[*i])
+	//trouver une condition qui marche pour le while a la place du break
+	while (arg[*i] /*&& (inside || check_char(&arg[*i]) > 0)*/)
 	{
 		if (arg[*i] == quote && inside)
 			inside = 0;
@@ -57,6 +58,7 @@ void	fill_arg(char **final_tab, char *arg, int *i, int *j)
 		(*j)++;
 	}
 	else
+	{
 		while (arg[*i] && check_char(&arg[*i]) <= 0)
 		{
 			if (check_char(&arg[*i]) < 0)
@@ -68,6 +70,7 @@ void	fill_arg(char **final_tab, char *arg, int *i, int *j)
 					(*j)++;
 			}
 		}
+	}
 }
 
 int	fill_until_pipe(char **final_tab, char *arg, int *i, int *j)

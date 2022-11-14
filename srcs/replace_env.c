@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 12:09:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/04 18:08:56 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/13 11:15:27 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -23,43 +23,6 @@ int	size_env(char *str)
 	if (str[i] == '\0')
 		return (-1);
 	return (i);
-}
-
-char	*isolate_env_var(char *cmd)
-{
-	int		i;
-	int		j;
-	char	*to_find;
-
-	i = 0;
-	j = 0;
-	if (!cmd[i] || check_char(&cmd[i]) > 0)
-		return (NULL);
-	if (cmd[i] == '$' || cmd[i] == '\"')
-		i++;
-	if (cmd[i] == '?')
-		j++;
-	else
-		while (cmd[i + j] && ft_isalnum(cmd[i + j]) == 8)
-			j++;
-	to_find = malloc(sizeof(char) * (j + 2));
-	if (verif_malloc_str(&to_find, 0) == 1)
-		return (NULL);
-	j = 0;
-	if (cmd[i] == '?')
-		to_find[j++] = '?';
-	else
-	{
-		while (cmd[i] && ft_isalnum(cmd[i]) == 8)
-		{
-			to_find[j] = cmd[i];
-			i++;
-			j++;
-		}
-	}
-	to_find[j] = '=';
-	to_find[j + 1] = '\0';
-	return (to_find);
 }
 
 int	get_env_variable_size(char *cmd, char **envp, t_data *data)
@@ -130,8 +93,7 @@ int	fill_env(char *res, char *str, t_data *data, int *j)
 		&& ft_strncmp(data->envp[line], value, len_env + 1) != 0)
 		++line;
 	free(value);
-	if (!data->envp[line])
-		return (0);
-	res = ft_cpy_env(res, j, &data->envp[line][len_env + i]);
+	if (data->envp[line])
+		res = ft_cpy_env(res, j, &data->envp[line][len_env + i]);
 	return (0);
 }

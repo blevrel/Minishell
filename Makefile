@@ -6,7 +6,7 @@
 #    By: blevrel <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 09:35:57 by blevrel           #+#    #+#              #
-#    Updated: 2022/11/11 11:07:00 by blevrel          ###   ########.fr        #
+#    Updated: 2022/11/13 11:13:17 by blevrel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRCS  =	srcs/alloc_parsing.c \
 		srcs/init_null.c\
 		srcs/init_struct_pipe.c \
 		srcs/init_struct_pipe_utils.c \
+		srcs/isolate_env.c \
 		srcs/main.c \
 		srcs/minishell_utils.c \
 		srcs/new_export.c \

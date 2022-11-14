@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 10:45:41 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/12 15:38:05 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/13 09:19:18 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -38,15 +38,15 @@ int	print_exit_error(int trigger, char *arg, int return_value)
 void	ft_exit(t_data *data)
 {
 	int	exit_arg;
-	int	exit_value;
+	int	exit_val;
 
 	exit_arg = 0;
 	if (data->parsing[1])
 		exit_arg = check_exit_arg(data->parsing);
 	else
 		printf("exit\n");
-	exit_value = print_exit_error(exit_arg, data->parsing[1], data->return_value);
-	if (exit_value == 1 && data->parsing[2])
+	exit_val = print_exit_error(exit_arg, data->parsing[1], data->return_value);
+	if (exit_val == 1 && data->parsing[2])
 	{
 		data->return_value = 1;
 		return ;
@@ -56,7 +56,7 @@ void	ft_exit(t_data *data)
 	free_double_tab(data->envp);
 	free_parsing(data);
 	free(data);
-	exit(exit_value);
+	exit(exit_val);
 }
 
 int	check_exit_arg(char **args)
