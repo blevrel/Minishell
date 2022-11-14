@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 17:29:47 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/08 10:53:07 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/13 09:30:54 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,15 @@ int	count_size_arg(char *arg, int value, int *i)
 
 	count = 0;
 	if (value == 2)
+	{
 		while (arg[*i] && check_char(&arg[*i]) == value)
 		{
 			(*i)++;
 			count++;
 		}
+	}
 	else
+	{
 		while (arg[*i] && check_char(&arg[*i]) <= 0)
 		{
 			if (check_char(&arg[*i]) < 0)
@@ -75,5 +78,6 @@ int	count_size_arg(char *arg, int value, int *i)
 				count++;
 			}
 		}
+	}
 	return (count);
 }

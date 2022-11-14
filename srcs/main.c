@@ -6,10 +6,11 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/12 15:34:54 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/13 09:25:43 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
+
 int	g_signal_trigger = 0;
 
 void	init_cmd(t_data *data)
@@ -31,7 +32,6 @@ void	init_cmd(t_data *data)
 		ft_exit(data);
 		return ;
 	}
-	//tokenizer en laissant les quotes
 	data->arg = tokenize_full_arg_with_quotes(data->arg, data);
 	data->cmd = init_struct_cmd(data);
 	if (data->cmd == NULL)
@@ -68,7 +68,7 @@ void	routine(t_data *data)
 int	main(int argc, char **argv, char **env)
 {
 	t_data		*data;
-	int	return_value;
+	int			return_value;
 
 	if (argc != 1)
 	{
@@ -89,7 +89,7 @@ int	main(int argc, char **argv, char **env)
 	ft_printf("exit\n");
 	free_double_tab(data->envp);
 	free_double_tab(data->export);
-	return_value = data->return_value;	
+	return_value = data->return_value;
 	free(data);
 	return (return_value);
 }

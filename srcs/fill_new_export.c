@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:35:35 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/09 16:05:09 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/13 09:21:30 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*new_value(char *value)
 
 void	replace_value(char *str, int line, t_data *data)
 {
-	char *new_valuestr;
+	char	*new_valuestr;
 
 	if (check_join_value(str) == 1)
 	{
@@ -83,7 +83,7 @@ void	replace_value(char *str, int line, t_data *data)
 
 char	**replace_value_export(char *str, int line, char **export)
 {
-	char *new_valuestr;
+	char	*new_valuestr;
 
 	if (check_join_value(str) == 1)
 	{
@@ -101,7 +101,7 @@ char	**fill_new_export(char **new_exp, t_cmd *cmd, t_data *data, int i)
 {
 	int	j;
 	int	new;
-	
+
 	j = 0;
 	while (cmd->cmd[++j])
 	{

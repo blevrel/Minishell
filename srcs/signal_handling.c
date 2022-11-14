@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 16:49:41 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/01 13:40:53 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/13 11:03:33 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -36,7 +36,7 @@ void	catch_signal(int signal)
 		if (g_signal_trigger == IN_HERE_DOC)
 		{
 			ft_printf("\n");
-			exit(25);
+			exit (25);
 		}
 		else if (g_signal_trigger == IN_PARENT)
 		{

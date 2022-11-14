@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 11:01:28 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/11 11:06:26 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/13 09:18:33 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -66,4 +66,3 @@ char	*tokenize_full_arg_with_quotes(char *arg, t_data *data)
 	arg = NULL;
 	return (res);
 }
-

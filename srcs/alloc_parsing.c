@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:34:33 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/11 14:49:14 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/13 09:20:44 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -102,8 +102,6 @@ int	alloc_and_check_final_tab(char **final_tab, char *arg, int *i, int *j)
 		if (verif_malloc_str(final_tab, *j) == 1)
 			return (1);
 		(*j)++;
-		//if (alloc_heredoc_null(final_tab, &arg[*i], j) == 1)
-		//	return (1);
 		while (check_char(&arg[*i]) == 2)
 			(*i)++;
 	}

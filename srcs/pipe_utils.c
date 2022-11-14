@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 10:22:53 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/10 15:37:40 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/13 09:27:56 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	n_pipe(t_data *data, int i)
 		check_dup_pipe_n(data->cmd[i], data->pipexfd, i, data);
 		close(data->pipexfd[i - 1][0]);
 		close(data->pipexfd[i][1]);
-		if (check_builtin_pipe(data->cmd[i],  data))
+		if (check_builtin_pipe(data->cmd[i], data))
 		{
 			clean_data(data, 1);
 			exit (1);
