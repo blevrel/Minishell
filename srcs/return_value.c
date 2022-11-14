@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 16:03:02 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/12 16:46:57 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/14 15:45:59 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -39,17 +39,24 @@ void	return_value(int *son, t_data *data, int size)
 {
 	int	i;
 	int	status;
+	int	trigger;
 
 	i = 0;
+	trigger = 0;
 	while (i < size)
 	{
 		waitpid(son[i], &status, 0);
+		if (i == 0 && size > 1)
+		{
+			data->return_value = get_return_value(status);
+			if (data->return_value == 130)
+				trigger = 1;
+		}
 		i++;
 	}
-	i = 1;
 	data->return_value = get_return_value(status);
 	if (data->return_value == 131)
 		ft_printf("Quit (core dumped)\n");
-	else if (data->return_value == 130)
+	else if (data->return_value == 130 || trigger == 1)
 		ft_printf("\n");
 }

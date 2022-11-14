@@ -6,12 +6,25 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 09:47:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/13 09:28:37 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/14 12:02:10 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-//mettre la boucle index_pipe = 0 dans une autre fonction
+int	move_static(char *full_arg, int i)
+{
+	while (full_arg[i] && full_arg[i] != '|')
+	{
+		if (check_char(&full_arg[i]) < 0)
+			i = move_index_after_quote(full_arg, i);
+		else
+			i++;
+	}
+	if (reset_pipe_index_if_needed(&full_arg[i]) == 0)
+		i = 0;
+	return (i);
+}
+
 int	check_index_pipe(char *full_arg, int index_pipe)
 {
 	static int	i = 0;
@@ -21,15 +34,7 @@ int	check_index_pipe(char *full_arg, int index_pipe)
 		i++;
 	if (index_pipe == 0)
 	{
-		while (full_arg[i] && full_arg[i] != '|')
-		{
-			if (check_char(&full_arg[i]) < 0)
-				i = move_index_after_quote(full_arg, i);
-			else
-				i++;
-		}
-		if (reset_pipe_index_if_needed(&full_arg[i]) == 0)
-			i = 0;
+		i = move_static(full_arg, i);
 		return (0);
 	}
 	count = nb_cmd(full_arg, index_pipe);
@@ -75,10 +80,11 @@ int	check_open(char **cmd)
 
 t_cmd	*fill_simple_cmd(t_data *data, t_cmd *res, int i, int j)
 {
-	int			value;
-	static int	trigger = 0;
+	int	value;
+	int	trigger;
 
-	while (data->parsing[i] != NULL)
+	trigger = 0;
+	while (data->parsing[++i] != NULL)
 	{
 		value = get_arg_type(data, data->parsing[i], data->arg, trigger);
 		if (value == 1)
@@ -93,12 +99,10 @@ t_cmd	*fill_simple_cmd(t_data *data, t_cmd *res, int i, int j)
 		}
 		else if (value == 2)
 			break ;
-		else if (value != 1)
+		else
 			res->cmd[j++] = ft_strdup(data->parsing[i]);
 		trigger++;
-		i++;
 	}
 	res->cmd[j] = NULL;
-	trigger = 0;
 	return (res);
 }

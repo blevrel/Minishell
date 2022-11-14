@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/14 14:33:26 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/14 16:56:14 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -107,6 +107,7 @@ void	swap_str(char **s1, char **s2);
 int		size_tab(char **tab);
 char	**cpy_tab(char **dest, char **src);
 char	next_non_spc_char(int i, char *str);
+int		ft_strncmp_skip_quotes(char *s1, char *s2, size_t len);
 char	*ft_strjoin_no_malloc(char *s1, char *s2);
 
 //CHECK_PATH
@@ -223,6 +224,7 @@ void	free_simple_cmd(t_cmd *cmd);
 void	free_multiple_cmd(t_cmd **cmd);
 void	clean_data(t_data *data, int trigger);
 void	free_file(t_cmd *cmd);
+void	free_pipex(int **pipexfd, int size);
 
 //PARSING_HEREDOC
 int		check_here_doc_null(char *str);
@@ -239,5 +241,7 @@ int		move_indextoenv(char *str, int i);
 int		move_index_after_quote(char *str, int i);
 int		count_index_after_quote(char *str);
 int		move_to_end_of_arg(char *str, int i);
+int		move_index_redirection(char *full_arg, char *str, int i);
+int		move_to_successive_quotes(char *full_arg);
 
 #endif

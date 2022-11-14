@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 00:03:37 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/09 17:47:13 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/14 17:24:25 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -98,6 +98,7 @@ char	*ft_strnstr_skip_quotes(char *big, char *little, size_t len)
 {
 	size_t	i;
 	int		j;
+	int		k;
 
 	i = 0;
 	if (little[i] == '\0')
@@ -105,13 +106,14 @@ char	*ft_strnstr_skip_quotes(char *big, char *little, size_t len)
 	while (big[i] != '\0' && i < len)
 	{
 		j = 0;
-		while (big[i] == little[j] && big && i < len)
+		k = 0;
+		while (big[i + k] == little[j] && big && i < len)
 		{
 			++j;
 			++i;
-			if (check_char(&big[i - 1]) > 1)
-				while (check_char(&big[i]) < 0)
-					i++;
+			if (check_char(&big[i + k]) < 0)
+				while (check_char(&big[i + k]) < 0)
+					k++;
 			if (little[j] == '\0')
 				return (&big[i - j]);
 		}

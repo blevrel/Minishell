@@ -6,11 +6,19 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 10:22:53 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/13 09:27:56 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/14 16:15:28 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
+
+void	wait_process_and_close_pipes(t_data *data, int i)
+{
+	if (ft_strcmp("here_doc", data->cmd[i]->infile) == 0)
+		waitpid(data->son[i], NULL, 0);
+	close(data->pipexfd[i - 1][1]);
+	close(data->pipexfd[i - 1][0]);
+	unlink("here_doc");
+}
 
 void	fi_pipe(t_data *data)
 {
@@ -23,11 +31,14 @@ void	fi_pipe(t_data *data)
 		close(data->pipexfd[0][1]);
 		if (check_builtin_pipe(data->cmd[0], data))
 		{
+			free_pipex(data->pipexfd, check_nbpipe(data->arg));
 			clean_data(data, 1);
 			exit (1);
 		}
+		unset_signals();
 		if (execve(data->cmd[0]->path, data->cmd[0]->cmd, data->envp) == -1)
 		{
+			free_pipex(data->pipexfd, check_nbpipe(data->arg));
 			clean_data(data, 1);
 			exit(2);
 		}
@@ -35,8 +46,6 @@ void	fi_pipe(t_data *data)
 	if (ft_strcmp("here_doc", data->cmd[0]->infile) == 0)
 		waitpid(data->son[0], NULL, 0);
 	unlink("here_doc");
-	printf("first : %d\n", open("here_doc", O_RDONLY));
-	printf("first : %s\n", data->cmd[0]->infile);
 }
 
 void	n_pipe(t_data *data, int i)
@@ -52,20 +61,19 @@ void	n_pipe(t_data *data, int i)
 		close(data->pipexfd[i][1]);
 		if (check_builtin_pipe(data->cmd[i], data))
 		{
+			free_pipex(data->pipexfd, check_nbpipe(data->arg));
 			clean_data(data, 1);
 			exit (1);
 		}
+		unset_signals();
 		if (execve(data->cmd[i]->path, data->cmd[i]->cmd, data->envp) == -1)
 		{
+			free_pipex(data->pipexfd, check_nbpipe(data->arg));
 			clean_data(data, 1);
 			exit (2);
 		}
 	}
-	if (ft_strcmp("here_doc", data->cmd[i]->infile) == 0)
-		waitpid(data->son[i], NULL, 0);
-	close(data->pipexfd[i - 1][1]);
-	close(data->pipexfd[i - 1][0]);
-	unlink("here_doc");
+	wait_process_and_close_pipes(data, i);
 }
 
 void	l_pipe(t_data *data, int i)
@@ -78,11 +86,14 @@ void	l_pipe(t_data *data, int i)
 		close(data->pipexfd[i - 1][0]);
 		if (check_builtin_pipe(data->cmd[i], data))
 		{
+			free_pipex(data->pipexfd, check_nbpipe(data->arg));
 			clean_data(data, 1);
 			exit (1);
 		}
+		unset_signals();
 		if (execve(data->cmd[i]->path, data->cmd[i]->cmd, data->envp) == -1)
 		{
+			free_pipex(data->pipexfd, check_nbpipe(data->arg));
 			clean_data(data, 1);
 			exit(2);
 		}
@@ -90,7 +101,6 @@ void	l_pipe(t_data *data, int i)
 	close(data->pipexfd[i - 1][1]);
 	close(data->pipexfd[i - 1][0]);
 	unlink("here_doc");
-	printf("last : %d\n", open("here_doc", O_RDONLY));
 }
 
 int	**malloc_pipe(int argc)

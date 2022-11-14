@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 15:35:25 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/13 09:23:39 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/14 18:04:22 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -54,6 +54,25 @@ int	check_redirection(char *str)
 		return (0);
 }
 
+int	move_to_successive_quotes(char *full_arg)
+{
+	int	i;
+
+	i = 0;
+	while (full_arg[i])
+	{
+		if (ft_strncmp(&full_arg[i], "\"\"", 2) == 0)
+			return (i);
+		if (ft_strncmp(&full_arg[i], "\'\'", 2) == 0)
+			return (i);
+		if (check_char(&full_arg[i]) < 0)
+			i = move_index_after_quote(full_arg, i);
+		else
+			i++;
+	}
+	return (i);
+}
+
 int	check_if_redirection_is_in_quotes(char *str, char *full_arg, int *i)
 {
 	int			j;
@@ -67,7 +86,7 @@ int	check_if_redirection_is_in_quotes(char *str, char *full_arg, int *i)
 		&& check_closing_quotes(&full_arg[*i - 1]) == 0)
 	{
 		*i += j;
-		if (check_only_redirection(str) == 1)
+		if (check_only_redirection(str) > 0)
 			*i = move_to_end_of_arg(full_arg, *i);
 		return (1);
 	}
@@ -77,35 +96,6 @@ int	check_if_redirection_is_in_quotes(char *str, char *full_arg, int *i)
 	return (0);
 }
 
-int	move_index_redirection(char *full_arg, char *str, int i)
-{
-	int	j;
-
-	j = ft_strlen(str);
-	while (ft_strncmp_skip_quotes(&full_arg[i], str, j) != 0)
-		i++;
-	if (j == 0)
-	{
-		while (ft_strncmp(&full_arg[i], "\"\"", 2) != 0)
-			i++;
-		i = move_to_end_of_arg(full_arg, i);
-	}
-	else
-	{
-		i += j;
-		while (full_arg[i] && (check_char(&full_arg[i]) < 1
-				|| check_closing_quotes(&full_arg[i]) == 1))
-		{
-			if (check_char(&full_arg[i]) < 0
-				&& check_closing_quotes(&full_arg[i]) == 0)
-				i = move_index_after_quote(full_arg, i);
-			else
-				i++;
-		}
-	}
-	return (i);
-}
-
 int	get_arg_type(t_data *data, char *str, char *full_arg, int trigger)
 {
 	int			ret;
@@ -113,7 +103,11 @@ int	get_arg_type(t_data *data, char *str, char *full_arg, int trigger)
 
 	ret = check_only_redirection(str);
 	if (ret != 0 && check_if_redirection_is_in_quotes(str, full_arg, &i) == 1)
+	{
+		if (reset_index_if_needed(data, i, trigger, str) == 0)
+			i = 0;
 		return (-1);
+	}
 	if (ret != 2 && ret != 1)
 		i = move_index_redirection(full_arg, str, i);
 	if (reset_index_if_needed(data, i, trigger, str) == 0)
