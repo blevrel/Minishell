@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 10:44:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/12 12:22:37 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/14 12:02:38 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -52,7 +52,7 @@ t_cmd	*init_simple_cmd(t_data *data, int i, t_cmd *res, int index_pipe)
 	res->cmd[nb_arg] = NULL;
 	init_null_cmd(res, count_arg(data->arg, &k));
 	res->limiter = check_limiter(data->parsing, i);
-	res = fill_simple_cmd(data, res, i, j);
+	res = fill_simple_cmd(data, res, i - 1, j);
 	if (index_pipe + 1 == check_nbpipe(data->arg)
 		|| check_valid_cmd_for_static_reset(data, res->cmd[0]) == 1)
 		k = 0;
