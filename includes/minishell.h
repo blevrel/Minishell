@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/12 16:22:03 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/14 09:46:11 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -225,6 +225,7 @@ void	free_simple_cmd(t_cmd *cmd);
 void	free_multiple_cmd(t_cmd **cmd);
 void	clean_data(t_data *data, int trigger);
 void	free_file(t_cmd *cmd);
+void	free_pipex(int **pipexfd, int size);
 
 //PARSING_HEREDOC
 int		check_here_doc_null(char *str);
