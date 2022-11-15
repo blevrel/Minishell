@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 09:28:07 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/13 09:27:15 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/15 11:47:01 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -40,7 +40,7 @@ char	*remove_first_arg_in_full_arg(t_data *data)
 		i++;
 	if (check_char(&data->arg[i]) < 0)
 		i = move_index_after_quote(data->arg, i + 1);
-	while (check_char(&data->arg[i]) == 0)
+	while (data->arg[i] && check_char(&data->arg[i]) == 0)
 		i++;
 	while (check_char(&data->arg[i]) == 1)
 		i++;
@@ -68,7 +68,7 @@ void	remove_arg_if_needed(t_data *data)
 	}
 	save_parsing[i] = NULL;
 	i = 0;
-	while (!save_parsing[i][0])
+	while (data->parsing[0] && !save_parsing[i][0])
 	{
 		data->parsing = remove_first_arg(data);
 		i++;

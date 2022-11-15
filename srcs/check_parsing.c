@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 17:15:26 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/14 16:54:05 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/15 10:20:51 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -49,5 +49,3 @@ int	check_only_redirection(char *str)
 		ret = 0;
 	return (ret);
 }
-
-

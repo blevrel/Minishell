@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:43:38 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/14 16:54:44 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/15 09:28:36 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	move_to_end_of_arg(char *str, int i)
 		i++;
 	while (str[i] && check_char(&str[i]) < 1)
 	{
-		if (check_char(&str[i]) < 0)
+		if (check_char(&str[i]) < 0 && check_closing_quotes(&str[i]) == 0)
 			i = move_index_after_quote(str, i);
 		else
 			i++;

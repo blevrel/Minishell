@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:48:53 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/14 14:36:00 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/15 09:55:12 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -20,14 +20,8 @@ int	check_if_space_is_needed(char *cmd, char *first_occ)
 	next_char = next_non_spc_char(cmd_size, first_occ);
 	if (check_char(&first_occ[cmd_size]) < 0)
 	{
-		if (first_occ[cmd_size + 1] == first_occ[cmd_size])
-		{
-			if (check_char(&first_occ[cmd_size + 2]) == 1
-				&& check_closing_quotes(&first_occ[cmd_size]) == 1)
-				return (1);
-		}
-		if (check_char(&first_occ[cmd_size + 1]) == 1
-			&& check_closing_quotes(&first_occ[cmd_size]) == 1)
+		cmd_size = move_to_end_of_arg(first_occ, cmd_size);
+		if (check_char(&first_occ[cmd_size]) == 1)
 			return (1);
 	}
 	if (check_char(&first_occ[cmd_size]) == 1 && check_char(&next_char) <= 0)

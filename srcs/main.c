@@ -6,18 +6,15 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/13 09:25:43 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/15 11:37:09 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
 int	g_signal_trigger = 0;
 
-void	init_cmd(t_data *data)
+void	parsing(t_data *data)
 {
-	data->arg = check_syntax_error(data->arg);
-	if (data->arg == NULL)
-		return ;
 	data->parsing = alloc_final_tab(data);
 	if (!data->parsing || !data->parsing[0])
 		return ;
@@ -27,6 +24,16 @@ void	init_cmd(t_data *data)
 	if (next_non_spc_char(0, data->arg) != 34
 		&& next_non_spc_char(0, data->arg) != 39)
 		remove_arg_if_needed(data);
+}
+
+void	init_cmd(t_data *data)
+{
+	data->arg = check_syntax_error(data->arg);
+	if (data->arg == NULL)
+		return ;
+	parsing(data);
+	if (!data->parsing || !data->parsing[0])
+		return ;
 	if (ft_strcmp(data->parsing[0], "exit") == 0)
 	{
 		ft_exit(data);

@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 10:45:41 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/13 09:19:18 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/15 10:18:18 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -68,7 +68,9 @@ int	check_exit_arg(char **args)
 	res = 0;
 	while (args[1][i] && res != 1 && i < 18)
 	{
-		if (ft_isdigit(args[1][i]) == 2048)
+		if (i == 0 && (args[1][i] == '-' || args[1][i] == '+'))
+			i++;
+		else if (ft_isdigit(args[1][i]) == 2048)
 			i++;
 		else
 			res = 1;
