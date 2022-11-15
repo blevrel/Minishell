@@ -6,7 +6,7 @@
 #    By: pirabaud <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/30 09:35:24 by pirabaud          #+#    #+#              #
-#    Updated: 2022/11/14 14:48:11 by blevrel          ###   ########.fr        #
+#    Updated: 2022/11/15 09:34:48 by pirabaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ SRCS  = ft_fill_char_and_increment.c ft_isalpha.c ft_isdigit.c ft_isalnum.c \
 	  	get_next_line_utils.c join_gnl.c ft_strcmp.c	\
 	  	ft_dup_dp.c ft_lstadd_front.c ft_lstnew.c ft_lstsize.c \
 		ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c \
-		ft_lstclear.c ft_lstiter.c ft_lstmap.c
+		ft_lstclear.c ft_lstiter.c ft_lstmap.c ft_print_error.c \
+		ft_print_error_utils.c
 
 OBJS	= ${SRCS:.c=.o}
 

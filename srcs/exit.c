@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 10:45:41 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/13 09:19:18 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/15 10:34:07 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -23,13 +23,13 @@ int	print_exit_error(int trigger, char *arg, int return_value)
 	if (trigger == 1)
 	{
 		printf("exit\n");
-		printf("minishell: exit: %s: numeric argument required\n", arg);
+		ft_print_error("minishell: exit: %s: Numeric argument required\n", arg);
 		return (2);
 	}
 	if (trigger == 2)
 	{
 		printf("exit\n");
-		printf("minishell: exit: too many arguments\n");
+		ft_print_error("minishell: exit: Too many arguments\n");
 		return (1);
 	}
 	return (-1);

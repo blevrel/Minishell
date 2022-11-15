@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:08:26 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/09 10:00:33 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/15 09:31:04 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -72,16 +72,16 @@ char	*check_syntax_error(char *str)
 
 	if (next_non_spc_char(0, str) == '|')
 	{
-		ft_printf("Syntax error\n");
+		ft_print_error("Syntax error\n");
 		return (NULL);
 	}
 	if (check_closing_quotes(str) == 1)
 	{
-		ft_printf("Missing_quote\n");
+		ft_print_error("Missing_quote\n");
 		return (NULL);
 	}
 	res = parse_arg_for_syntax_error(str);
 	if (res == NULL)
-		ft_printf("Syntax error\n");
+		ft_print_error("Syntax error\n");
 	return (res);
 }

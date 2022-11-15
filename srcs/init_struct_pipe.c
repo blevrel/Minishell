@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 10:44:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/14 12:02:38 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/15 09:32:25 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -73,7 +73,7 @@ t_cmd	*init_simple_struct(t_data *data, int index_pipe, t_cmd **cmd_pipe)
 		return (NULL);
 	else if (ft_strlen(data->parsing[0]) == 0)
 	{
-		ft_printf("\"\" : command not found\n");
+		ft_print_error("\"\" : command not found\n");
 		free_simple_cmd(res);
 		return (NULL);
 	}

@@ -6,7 +6,7 @@
 /*   By: pirabaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:24:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/11 15:29:01 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/15 09:25:06 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,12 @@ char	*get_next_line(int fd, int buffer_size);
 char	*join_gnl(char *s1, char *s2);
 int		ft_strcmp(const char *s1, const char *s2);
 char	**dup_dp(char **str);
+int		ft_print_error(const char *s, ...);
+int		check_print_error(char c, va_list param);
+int		putnbr_unsigned_error(unsigned int nb);
+int		putnbr_adress_error(unsigned long long int nb, char *str);
+int		putnbr_hex_error(unsigned int nb, char *str);
+int		ft_putnbr_base_error(int nb, int base, char *str);
+int		ft_putchar_error(char c);
+int		ft_putstr_error(char *str);
 #endif

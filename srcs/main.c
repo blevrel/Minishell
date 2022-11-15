@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/13 09:25:43 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/15 10:29:38 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -72,7 +72,7 @@ int	main(int argc, char **argv, char **env)
 
 	if (argc != 1)
 	{
-		printf("Program takes no arguments\n");
+		ft_print_error("Program takes no arguments\n");
 		return (0);
 	}
 	signal_handler();

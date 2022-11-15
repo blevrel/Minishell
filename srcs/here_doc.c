@@ -6,14 +6,14 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 16:34:01 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/14 13:31:46 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/15 09:31:50 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
 void	here_doc_err_msg(t_data *data, char *limiter)
 {
-	ft_printf("minishell: warning: here-document delimited \
+	ft_print_error("minishell: warning: here-document delimited \
 by end-of-file (wanted '%s')\n", limiter);
 	clean_data(data, 1);
 	exit(0);

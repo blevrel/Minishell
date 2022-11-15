@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/14 16:56:14 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/15 12:08:08 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -23,6 +23,7 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <dirent.h>
 # define IN_PARENT 0
 # define IN_HERE_DOC 1
 # define IN_COMMAND 2
