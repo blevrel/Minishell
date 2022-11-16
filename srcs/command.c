@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/16 13:35:57 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/16 14:34:32 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ void	dup_simple_call(t_cmd *cmd, t_data *data)
 
 void	child_simple_cmd(t_data *data)
 {
+	int		ret_value;
+
 	dup_simple_call(data->cmd[0], data);
 	if (check_builtin(data->cmd[0], data))
 	{
@@ -84,8 +86,9 @@ void	child_simple_cmd(t_data *data)
 	if (data->cmd[0]->path)
 		if (execve(data->cmd[0]->path, data->cmd[0]->cmd, data->envp) == -1)
 			data->return_value = 2;
+	ret_value = data->return_value;
 	clean_data(data, 1);
-	exit (data->return_value);
+	exit (ret_value);
 }
 
 int	simple_cmd(t_data *data)
