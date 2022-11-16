@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:54 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/16 14:56:13 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/16 17:28:53 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -96,9 +96,8 @@ int	check_cmd(char *cmd, t_data *data)
 		data->return_value = 126;
 		return (1);
 	}
-	else if (cmd && opendir(cmd) != NULL)
+	else if (check_dir(cmd) == 1)
 	{
-		ft_print_error("minishell: %s: Is a directory\n", cmd);
 		data->return_value = 126;
 		return (1);
 	}

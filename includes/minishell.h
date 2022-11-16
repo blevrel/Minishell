@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/16 15:28:18 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/16 17:29:23 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -114,6 +114,7 @@ char	*ft_strjoin_no_malloc(char *s1, char *s2);
 //CHECK_PATH
 char	*check_path(char *cmd, t_data *data);
 int		check_valid_cmd_for_static_reset(t_data *data, char *cmd);
+int		check_dir(char *cmd);
 
 //CHECK_SYNTAX_ERROR
 char	*check_syntax_error(char *str);

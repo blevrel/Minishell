@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 17:20:55 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/16 16:49:51 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/16 17:28:29 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,22 @@ int	check_pipexfd(t_data *data, int i)
 	if (pipe(data->pipexfd[i]) == -1)
 	{
 		ft_print_error("pipe failed\n");
+		return (1);
+	}
+	return (0);
+}
+
+int	check_dir(char *cmd)
+{
+	DIR	*dir;
+
+	if (cmd == NULL)
+		return (0);
+	dir = opendir(cmd);
+	if (dir != NULL)
+	{
+		closedir(dir);
+		ft_print_error("minishell: %s: Is a directory\n", cmd);
 		return (1);
 	}
 	return (0);
