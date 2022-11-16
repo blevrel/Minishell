@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/15 18:02:53 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/16 19:28:50 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -41,9 +41,9 @@ void	init_cmd(t_data *data)
 	}
 	data->arg = tokenize_full_arg_with_quotes(data->arg, data);
 	data->cmd = init_struct_cmd(data);
+	init_path_heredoc(data);
 	if (data->cmd == NULL)
 		return ;
-	init_path_heredoc(data);
 	if (check_pipe(data) == 1)
 		return ;
 	simple_cmd(data);
