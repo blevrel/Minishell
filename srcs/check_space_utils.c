@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 16:50:44 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/15 17:16:26 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/16 15:00:38 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -74,5 +74,3 @@ void	space_before_first_arg(char *full_arg, int arg_i)
 			arg_i++;
 	}
 }
-
-

@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:54 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/16 11:40:26 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/16 14:56:13 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -23,9 +23,8 @@ char	*init_res(char *env, char *cmd)
 	tmp = ft_strjoin(path[i], "/");
 	res = ft_strjoin(tmp, cmd);
 	free(tmp);
-	while (access(res, F_OK) != 0 && path[i] != NULL)
+	while (access(res, F_OK) != 0 && path[++i] != NULL)
 	{
-		i++;
 		free(res);
 		tmp = ft_strjoin(path[i], "/");
 		res = ft_strjoin(tmp, cmd);
@@ -35,7 +34,7 @@ char	*init_res(char *env, char *cmd)
 	{
 		free_double_tab(path);
 		free(res);
-		return(NULL);
+		return (NULL);
 	}
 	free_double_tab(path);
 	return (res);
@@ -79,8 +78,6 @@ int	check_valid_cmd_for_static_reset(t_data *data, char *cmd)
 
 int	check_cmd(char *cmd, t_data *data)
 {
-	if (check_command(cmd) == 1)
-		return (0);
 	if (!(ft_strncmp(cmd, "./", 2) == 0 || ft_strncmp(cmd, "/", 1) == 0))
 	{
 		ft_print_error("%s : command not found\n", cmd);
