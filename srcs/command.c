@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/16 11:31:05 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/16 14:23:00 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ void	dup_simple_call(t_cmd *cmd, t_data *data)
 int	simple_cmd(t_data *data)
 {
 	pid_t	son;
+	int		ret_value;
 
+	ret_value = 0;
 	if (builtin(data->cmd[0]->cmd[0], data) == 0)
 		return (0);
 	ignore_signals();
@@ -85,17 +87,17 @@ int	simple_cmd(t_data *data)
 	{
 		dup_simple_call(data->cmd[0], data);
 		if (check_builtin(data->cmd[0], data))
+			ret_value = data->return_value;
+		else
 		{
-			clean_data(data, 1);
-			exit (data->return_value);
+			unset_signals();
+			data->cmd[0]->path = check_path(data->cmd[0]->cmd[0], data);
+			if (data->cmd[0]->path)
+				if (execve(data->cmd[0]->path, data->cmd[0]->cmd, data->envp) == -1)
+					ret_value = 2;
 		}
-		unset_signals();
-		data->cmd[0]->path = check_path(data->cmd[0]->cmd[0], data);
-		if (data->cmd[0]->path)
-			if (execve(data->cmd[0]->path, data->cmd[0]->cmd, data->envp) == -1)
-				data->return_value = 2;
 		clean_data(data, 1);
-		exit (data->return_value);
+		exit(ret_value);
 	}
 	return_value(&son, data, 1);
 	signal_handler();
