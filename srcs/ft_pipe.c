@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:17:04 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/16 15:35:18 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/16 16:56:36 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -49,7 +49,7 @@ void	start_child(t_data *data, int nb_pipe)
 		return ;
 	if (data->son[i] == 0)
 		fi_pipe(data);
-	while (++i < (nb_pipe - 1))
+	while (++i < nb_pipe)
 	{
 		if (check_pipexfd(data, i) == -1)
 			return ;
@@ -61,7 +61,7 @@ void	start_child(t_data *data, int nb_pipe)
 		close_pipes(data, i);
 	}
 	data->son[i] = fork();
-	if (data->son[i] == 0)	
+	if (data->son[i] == 0)
 		l_pipe(data, i);
 	close_pipes(data, i);
 }
@@ -71,7 +71,7 @@ void	free_pipex(int **pipexfd, int size)
 	int	i;
 
 	i = 0;
-	while (size > 1 && i < size)
+	while (i < size)
 	{
 		free(pipexfd[i]);
 		pipexfd[i] = 0;
@@ -91,7 +91,7 @@ int	ft_pipe(t_data *data)
 	data->pipexfd = malloc_pipe(nb_pipe);
 	if (verif_malloc_int_arr(data->pipexfd) == 1)
 		return (1);
-	data->son = malloc(nb_pipe * sizeof(pid_t));
+	data->son = malloc((nb_pipe + 1) * sizeof(pid_t));
 	if (!data->son)
 	{
 		ft_putstr_fd("Malloc failed\n", 2);

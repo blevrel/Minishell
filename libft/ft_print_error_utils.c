@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 08:56:13 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/15 09:39:49 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/16 14:46:07 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 int	ft_putchar_error(char c)
 {
-	return(write(2, &c, 1));
+	return (write(2, &c, 1));
 }
 
 int	ft_putstr_error(char *str)
 {
 	int	i;
 	int	count;
-	
+
 	i = 0;
 	count = 0;
 	if (str == NULL)
@@ -63,6 +63,7 @@ int	ft_putnbr_error(int nb)
 		count += ft_putchar_error(nb % 10 + '0');
 	return (count);
 }
+
 int	print_adress_error(va_list param)
 {
 	int						count;
