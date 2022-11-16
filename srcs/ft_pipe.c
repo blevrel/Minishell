@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:17:04 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/16 14:00:36 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/16 15:35:18 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -27,29 +27,43 @@ int	count_nb_here_doc(char **cmd)
 	return (count);
 }
 
+int	check_fork(t_data *data, int i)
+{
+	if (data->son[i] < 0)
+	{
+		ft_print_error("fork failed\n");
+		return (1);
+	}
+	return (0);
+}
+
 void	start_child(t_data *data, int nb_pipe)
 {
 	int	i;
 
-	i = 1;
-	ignore_signals();
-//	data->son[i] = fork();
-//	if (data->son[i] == 0)
+	i = 0;
+	if (check_pipexfd(data, i) == -1)
+		return ;
+	data->son[i] = fork();
+	if (check_fork(data, i) == 1)
+		return ;
+	if (data->son[i] == 0)
 		fi_pipe(data);
-//	else if (data->son[i] < -1)
-//		ft_print_error("fork failed\n");
-//	i++;
-	while (nb_pipe > 2)
+	while (++i < (nb_pipe - 1))
 	{
-		n_pipe(data, i);
-		i++;
-		nb_pipe--;
+		if (check_pipexfd(data, i) == -1)
+			return ;
+		data->son[i] = fork();
+		if (check_fork(data, i) == 1)
+			return ;
+		if (data->son[i] == 0)
+			n_pipe(data, i);
+		close_pipes(data, i);
 	}
-	l_pipe(data, i);
-	return_value(data->son, data, check_nbpipe(data->arg));
-	signal_handler();
-	unlink("here_doc");
-
+	data->son[i] = fork();
+	if (data->son[i] == 0)	
+		l_pipe(data, i);
+	close_pipes(data, i);
 }
 
 void	free_pipex(int **pipexfd, int size)
@@ -83,7 +97,11 @@ int	ft_pipe(t_data *data)
 		ft_putstr_fd("Malloc failed\n", 2);
 		return (1);
 	}
+	ignore_signals();
 	start_child(data, nb_pipe);
+	return_value(data->son, data, check_nbpipe(data->arg));
+	signal_handler();
+	unlink("here_doc");
 	free_pipex(data->pipexfd, nb_pipe);
 	return (0);
 }

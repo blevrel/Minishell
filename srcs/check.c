@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 17:20:55 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/15 14:44:30 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/16 15:26:12 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,15 @@ int	check_command(char *str)
 	else if (ft_strcmp(str, "echo") == 0)
 		return (1);
 
+	return (0);
+}
+
+int	check_pipexfd(t_data *data, int i)
+{
+	if(pipe(data->pipexfd[i]) == -1)
+	{
+		ft_print_error("pipe failed\n");
+		return (1);
+	}
 	return (0);
 }
