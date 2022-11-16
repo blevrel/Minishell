@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:17:04 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/14 16:15:45 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/16 14:00:36 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -33,7 +33,12 @@ void	start_child(t_data *data, int nb_pipe)
 
 	i = 1;
 	ignore_signals();
-	fi_pipe(data);
+//	data->son[i] = fork();
+//	if (data->son[i] == 0)
+		fi_pipe(data);
+//	else if (data->son[i] < -1)
+//		ft_print_error("fork failed\n");
+//	i++;
 	while (nb_pipe > 2)
 	{
 		n_pipe(data, i);
@@ -43,6 +48,8 @@ void	start_child(t_data *data, int nb_pipe)
 	l_pipe(data, i);
 	return_value(data->son, data, check_nbpipe(data->arg));
 	signal_handler();
+	unlink("here_doc");
+
 }
 
 void	free_pipex(int **pipexfd, int size)

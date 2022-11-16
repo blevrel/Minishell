@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/16 11:31:05 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/16 13:35:57 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ void	dup_simple_call(t_cmd *cmd, t_data *data)
 
 	if (cmd->infile != NULL)
 	{
-		//if (cmd->heredoc == 1)
-		//	here_doc(cmd, data);
 		fd = open(cmd->infile, O_RDONLY);
 		if (fd == -1)
 		{
@@ -73,6 +71,23 @@ void	dup_simple_call(t_cmd *cmd, t_data *data)
 		dup_fd_outfile(cmd, data);
 }
 
+void	child_simple_cmd(t_data *data)
+{
+	dup_simple_call(data->cmd[0], data);
+	if (check_builtin(data->cmd[0], data))
+	{
+		clean_data(data, 1);
+		exit (data->return_value);
+	}
+	unset_signals();
+	data->cmd[0]->path = check_path(data->cmd[0]->cmd[0], data);
+	if (data->cmd[0]->path)
+		if (execve(data->cmd[0]->path, data->cmd[0]->cmd, data->envp) == -1)
+			data->return_value = 2;
+	clean_data(data, 1);
+	exit (data->return_value);
+}
+
 int	simple_cmd(t_data *data)
 {
 	pid_t	son;
@@ -82,21 +97,9 @@ int	simple_cmd(t_data *data)
 	ignore_signals();
 	son = fork();
 	if (son == 0)
-	{
-		dup_simple_call(data->cmd[0], data);
-		if (check_builtin(data->cmd[0], data))
-		{
-			clean_data(data, 1);
-			exit (data->return_value);
-		}
-		unset_signals();
-		data->cmd[0]->path = check_path(data->cmd[0]->cmd[0], data);
-		if (data->cmd[0]->path)
-			if (execve(data->cmd[0]->path, data->cmd[0]->cmd, data->envp) == -1)
-				data->return_value = 2;
-		clean_data(data, 1);
-		exit (data->return_value);
-	}
+		child_simple_cmd(data);
+	else if (son < 0)
+		ft_print_error("fork failed\n");
 	return_value(&son, data, 1);
 	signal_handler();
 	unlink("here_doc");

@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 08:30:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/09 11:48:26 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/16 13:25:57 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,21 @@ char	**new_export(t_cmd *cmd, t_data *data)
 	new_export = sort_env(new_export);
 	free_double_tab(data->export);
 	return (new_export);
+}
+
+char	**fill_new_value(char **new_exp, t_data *data, char *value, int	*i)
+{
+	int	new;
+
+	new = search_env(value, data->envp);
+	if (new >= 0)
+		replace_value(value, new, data);
+	new = search_env(value, data->export);
+	if (new >= 0)
+		new_exp = replace_value_export(value, new, new_exp);
+	else
+		new_exp[(*i)++] = new_value(value);
+	return (new_exp);
 }
 
 void	ft_export(t_cmd *cmd, t_data *data)

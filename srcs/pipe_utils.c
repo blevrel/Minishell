@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 10:22:53 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/16 10:55:49 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/16 14:23:08 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -42,7 +42,6 @@ void	fi_pipe(t_data *data)
 		clean_data(data, 1);
 		exit(data->return_value);
 	}
-	unlink("here_doc");
 }
 
 void	n_pipe(t_data *data, int i)
@@ -64,7 +63,7 @@ void	n_pipe(t_data *data, int i)
 		}
 		unset_signals();
 		data->cmd[i]->path = check_path(data->cmd[i]->cmd[0], data);
-		if (data->cmd[i]->path) 
+		if (data->cmd[i]->path)
 			if (execve(data->cmd[i]->path, data->cmd[i]->cmd, data->envp) == -1)
 				data->return_value = 2;
 		free_pipex(data->pipexfd, check_nbpipe(data->arg));
@@ -90,7 +89,7 @@ void	l_pipe(t_data *data, int i)
 		}
 		unset_signals();
 		data->cmd[i]->path = check_path(data->cmd[i]->cmd[0], data);
-		if (data->cmd[i]->path) 
+		if (data->cmd[i]->path)
 			if (execve(data->cmd[i]->path, data->cmd[i]->cmd, data->envp) == -1)
 				data->return_value = 2;
 		free_pipex(data->pipexfd, check_nbpipe(data->arg));

@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 16:34:01 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/15 17:41:19 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/16 13:06:24 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -86,8 +86,8 @@ void	create_file(char **limiter, t_data *data)
 
 void	here_doc(t_cmd *cmd, t_data *data)
 {
-	pid_t son;
-	int value;
+	pid_t	son;
+	int		value;
 
 	son = fork();
 	if (son == 0)

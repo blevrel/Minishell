@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 10:44:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/15 18:25:09 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/16 13:05:07 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -77,7 +77,6 @@ t_cmd	*init_simple_struct(t_data *data, int index_pipe, t_cmd **cmd_pipe)
 		free_simple_cmd(res);
 		return (NULL);
 	}
-	
 	return (res);
 }
 
@@ -122,6 +121,6 @@ void	init_path_heredoc(t_data *data)
 		if (data->cmd[i]->heredoc == 1)
 			here_doc(data->cmd[i], data);
 		i++;
-		nb_cmd--;	
+		nb_cmd--;
 	}
 }

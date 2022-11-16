@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 11:16:11 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/15 17:20:56 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/16 14:12:01 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ void	check_dup_pipe_first(t_cmd *cmd, int **pipexfd, int i, t_data *data)
 
 	if (cmd->infile != NULL)
 	{
-		//if (ft_strcmp(cmd->infile, "here_doc") == 0 || cmd->heredoc == 1)
-		//	here_doc(cmd, data);
 		fd = open(cmd->infile, O_RDONLY);
 		if (fd == -1)
 		{
@@ -62,8 +60,6 @@ void	check_dup_pipe_last(t_cmd *cmd, int **pipexfd, int i, t_data *data)
 
 	if (cmd->infile != NULL)
 	{
-	//	if (ft_strcmp(cmd->infile, "here_doc") == 0 || cmd->heredoc == 1)
-	//		here_doc(cmd, data);
 		fd = open(cmd->infile, O_RDONLY);
 		if (fd == -1)
 		{
@@ -85,8 +81,6 @@ void	check_dup_pipe_n(t_cmd *cmd, int **pipexfd, int i, t_data *data)
 
 	if (cmd->infile != NULL)
 	{
-		//if (ft_strcmp(cmd->infile, "here_doc") == 0)
-		//	here_doc(cmd, data);
 		fd = open(cmd->infile, O_RDONLY);
 		if (fd == -1)
 		{

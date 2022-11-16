@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:35:35 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/15 14:36:46 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/16 13:24:31 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,22 +100,12 @@ char	**replace_value_export(char *str, int line, char **export)
 char	**fill_new_export(char **new_exp, t_cmd *cmd, t_data *data, int i)
 {
 	int	j;
-	int	new;
 
 	j = 0;
 	while (cmd->cmd[++j])
 	{
 		if (check_value(cmd->cmd[j]) == 0)
-		{
-			new = search_env(cmd->cmd[j], data->envp);
-			if (new >= 0)
-				replace_value(cmd->cmd[j], new, data);
-			new = search_env(cmd->cmd[j], data->export);
-			if (new >= 0)
-				new_exp = replace_value_export(cmd->cmd[j], new, new_exp);
-			else
-				new_exp[i++] = new_value(cmd->cmd[j]);
-		}
+			new_exp = fill_new_value(new_exp, data, cmd->cmd[j], &i);
 		else if (check_value(cmd->cmd[j]) == 1)
 		{
 			ft_print_error("minishell: export: `%s': not a valid identifier\n",

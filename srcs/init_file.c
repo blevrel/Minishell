@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 07:37:05 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/15 17:35:02 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/16 13:05:50 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	checkerror_open(char **verif)
 		if (verif[1] == NULL)
 			ft_print_error("minishell: : No such file or directory\n");
 		else
-			//ft_print_error("minishell: %s: No such file or directory\n", res->infile);
 			ft_print_error("minishell: %s: %s\n", verif[1], strerror(errno));
 		return (1);
 	}
