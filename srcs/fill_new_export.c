@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:35:35 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/15 10:34:55 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/15 14:36:46 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,11 @@ char	**fill_new_export(char **new_exp, t_cmd *cmd, t_data *data, int i)
 				new_exp[i++] = new_value(cmd->cmd[j]);
 		}
 		else if (check_value(cmd->cmd[j]) == 1)
-			ft_print_error("minishell: export: `%s': Not a valid identifier\n",
+		{
+			ft_print_error("minishell: export: `%s': not a valid identifier\n",
 				cmd->cmd[j]);
+			data->return_value = 1;
+		}
 	}
 	new_exp[i] = NULL;
 	return (new_exp);

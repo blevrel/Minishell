@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:54 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/15 13:47:45 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/15 17:05:00 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -31,12 +31,13 @@ char	*init_res(char *env, char *cmd)
 		res = ft_strjoin(tmp, cmd);
 		free(tmp);
 	}
-	free_double_tab(path);
 	if (path[i] == NULL)
 	{
+		free_double_tab(path);
 		free(res);
 		return(NULL);
 	}
+	free_double_tab(path);
 	return (res);
 }
 
@@ -65,7 +66,7 @@ int	check_valid_cmd_for_static_reset(t_data *data, char *cmd)
 	if (data->envp[line] == NULL)
 		return (1);
 	res = init_res(data->envp[line], cmd);
-	if (access(res, F_OK) == 0 && access(res, X_OK) == 0)
+	if (res && access(res, F_OK) == 0 && access(res, X_OK) == 0)
 	{
 		free(res);
 		return (0);
@@ -80,7 +81,6 @@ int	check_cmd(char *cmd, t_data *data)
 {
 	if (check_command(cmd) == 1)
 		return (0);
-	
 	if (!(ft_strncmp(cmd, "./", 2) == 0 || ft_strncmp(cmd, "/", 1) == 0))
 	{
 		ft_print_error("%s : command not found\n", cmd);
@@ -116,6 +116,10 @@ char	*check_path(char *cmd, t_data *data)
 	int		line;
 
 	line = 0;
+	if (cmd == NULL)
+		return (NULL);
+	if (check_command(cmd) == 1)
+		return (ft_strdup(cmd));
 	while (data->envp[line] != NULL
 		&& ft_memcmp(data->envp[line], "PATH", 4) != 0)
 		line++;
@@ -127,7 +131,7 @@ char	*check_path(char *cmd, t_data *data)
 		return (NULL);
 	}
 		res = init_res(data->envp[line], cmd);
-	if (access(res, F_OK) == 0 && access(res, X_OK) == 0)
+	if (res && access(res, F_OK) == 0 && access(res, X_OK) == 0)
 		return (res);
 	free(res);
 	if (check_cmd(cmd, data) == 0)

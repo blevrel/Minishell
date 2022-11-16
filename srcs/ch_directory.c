@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 08:58:04 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/15 09:29:28 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/15 15:01:27 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -39,7 +39,12 @@ void	directory(t_cmd *cmd, t_data *data)
 
 	i = 0;
 	j = 0;
-	if (chdir(cmd->cmd[1]) == 0)
+	if (size_tab(cmd->cmd) > 2)
+	{
+		ft_print_error("minishell: cd: too many arguments\n");
+		data->return_value = 1;
+	}
+	else if (chdir(cmd->cmd[1]) == 0)
 	{
 		while (data->envp[i] && ft_strncmp(data->envp[i], "PWD", 3) != 0)
 				++i;
@@ -54,6 +59,9 @@ void	directory(t_cmd *cmd, t_data *data)
 			data->envp[i] = fill_pwd_env(data->envp[i], 0);
 	}
 	else
+	{
 		ft_print_error("minishell: %s: %s: No such file or directory\n",
 			cmd->cmd[0], cmd->cmd[1]);
+			data->return_value = 1;
+	}
 }

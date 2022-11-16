@@ -6,20 +6,22 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 07:37:05 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/15 10:28:58 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/15 17:35:02 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <errno.h>
 
-int	checkerror_open(char **verif, t_cmd *res)
+int	checkerror_open(char **verif)
 {
 	if (check_open(&verif[0]) == 1)
 	{
 		if (verif[1] == NULL)
 			ft_print_error("minishell: : No such file or directory\n");
 		else
-			ft_print_error("minishell: %s: No such file or directory\n", res->infile);
+			//ft_print_error("minishell: %s: No such file or directory\n", res->infile);
+			ft_print_error("minishell: %s: %s\n", verif[1], strerror(errno));
 		return (1);
 	}
 	return (0);
@@ -56,7 +58,7 @@ int	init_file(t_cmd *res, t_data *data, int i)
 	}
 	else
 		res->outfile_append = dup_outfile(data, res, i);
-	if (checkerror_open(&data->parsing[i], res) == 1)
+	if (checkerror_open(&data->parsing[i]) == 1)
 		return (1);
 	return (0);
 }

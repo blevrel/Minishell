@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 16:34:01 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/15 09:31:50 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/15 17:41:19 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -86,8 +86,19 @@ void	create_file(char **limiter, t_data *data)
 
 void	here_doc(t_cmd *cmd, t_data *data)
 {
-	g_signal_trigger = IN_HERE_DOC;
-	signal_handler();
-	create_file(cmd->limiter, data);
+	pid_t son;
+	int value;
+
+	son = fork();
+	if (son == 0)
+	{
+		g_signal_trigger = IN_HERE_DOC;
+		signal_handler();
+		create_file(cmd->limiter, data);
+		value = data->return_value;
+		clean_data(data, 1);
+		exit(value);
+	}
+	waitpid(son, NULL, 0);
 	return ;
 }

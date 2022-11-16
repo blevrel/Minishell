@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/15 12:08:08 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/15 18:14:55 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -70,6 +70,7 @@ int		check_command(char *str);
 char	**sort_env(char **env);
 void	init_null_cmd(t_cmd *res, int nb_cmd);
 int		init_data(t_data *data, char **env);
+void	init_path_heredoc(t_data *data);
 
 //REMOVE_FIRST_ARGS
 char	**remove_first_arg(t_data *data);
@@ -83,7 +84,6 @@ int		reset_index_if_needed(t_data *data, int i, int trigger, char *cmd);
 int		get_arg_type(t_data *data, char *str, char *full_arg, int trigger);
 int		size_heredoc(char *line, t_data *data, char *limiter);
 void	here_doc(t_cmd *cmd, t_data *data);
-void	here_doc_pipe(t_cmd *cmd, int **pipexfd, t_data *data, int i);
 char	*tokenize_here_doc_limiter(char *str);
 char	*fill_limiter(char *str, char *res);
 
