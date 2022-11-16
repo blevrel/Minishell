@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/16 13:20:45 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/16 17:03:17 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -178,9 +178,9 @@ int		check_multiple_options(char *res);
 int		check_option_format(char *full_arg, char *option);
 void	space_before_first_arg(char *full_arg, int arg_i);
 int		is_valid_option(char **cmd, int cmd_i);
-void	echo(char **cmd, t_data *data, int i, int arg_i);
+void	echo(char **cmd, t_data *data, int i, char *tok_arg);
 void	pick_correct_echo(t_cmd *cmd, t_data *data);
-void	echo_n(char **cmd, t_data *data, int arg_i, int cmd_i);
+void	echo_n(char **cmd, t_data *data, int cmd_i, char *tok_arg);
 char	*join_echo_options(char **cmd, char *full_arg);
 int		check_if_space_is_needed(char *cmd, char *first_occ);
 char	*ft_strnstr_skip_quotes(char *big, char *little, size_t len);
