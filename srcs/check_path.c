@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:54 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/15 14:31:47 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/16 11:40:26 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -114,6 +114,10 @@ char	*check_path(char *cmd, t_data *data)
 	int		line;
 
 	line = 0;
+	if (cmd == NULL)
+		return (NULL);
+	if (check_command(cmd) == 1)
+		return (ft_strdup(cmd));
 	while (data->envp[line] != NULL
 		&& ft_memcmp(data->envp[line], "PATH", 4) != 0)
 		line++;

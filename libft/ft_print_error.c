@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 08:44:02 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/15 09:36:01 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/15 14:32:54 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	ft_print_error(const char *format, ...)
 		if (format[i] == '%')
 		{
 			++i;
-			count = count + check_print(format[i], param);
+			count = count + check_print_error(format[i], param);
 			++i;
 		}
 		else

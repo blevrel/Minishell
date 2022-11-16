@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 17:20:55 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/02 10:26:52 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/15 14:44:30 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,10 @@ int	check_command(char *str)
 		return (1);
 	else if (ft_strcmp(str, "cd") == 0)
 		return (1);
+	else if (ft_strcmp(str, "pwd") == 0)
+		return (1);
+	else if (ft_strcmp(str, "echo") == 0)
+		return (1);
+
 	return (0);
 }

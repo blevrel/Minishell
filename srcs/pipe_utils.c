@@ -6,15 +6,13 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 10:22:53 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/14 16:15:28 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/16 10:55:49 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-void	wait_process_and_close_pipes(t_data *data, int i)
+void	close_pipes(t_data *data, int i)
 {
-	if (ft_strcmp("here_doc", data->cmd[i]->infile) == 0)
-		waitpid(data->son[i], NULL, 0);
 	close(data->pipexfd[i - 1][1]);
 	close(data->pipexfd[i - 1][0]);
 	unlink("here_doc");
@@ -33,18 +31,17 @@ void	fi_pipe(t_data *data)
 		{
 			free_pipex(data->pipexfd, check_nbpipe(data->arg));
 			clean_data(data, 1);
-			exit (1);
+			exit (data->return_value);
 		}
 		unset_signals();
-		if (execve(data->cmd[0]->path, data->cmd[0]->cmd, data->envp) == -1)
-		{
-			free_pipex(data->pipexfd, check_nbpipe(data->arg));
-			clean_data(data, 1);
-			exit(2);
-		}
+		data->cmd[0]->path = check_path(data->cmd[0]->cmd[0], data);
+		if (data->cmd[0]->path)
+			if (execve(data->cmd[0]->path, data->cmd[0]->cmd, data->envp) == -1)
+					data->return_value = 2;
+		free_pipex(data->pipexfd, check_nbpipe(data->arg));
+		clean_data(data, 1);
+		exit(data->return_value);
 	}
-	if (ft_strcmp("here_doc", data->cmd[0]->infile) == 0)
-		waitpid(data->son[0], NULL, 0);
 	unlink("here_doc");
 }
 
@@ -63,17 +60,18 @@ void	n_pipe(t_data *data, int i)
 		{
 			free_pipex(data->pipexfd, check_nbpipe(data->arg));
 			clean_data(data, 1);
-			exit (1);
+			exit (data->return_value);
 		}
 		unset_signals();
-		if (execve(data->cmd[i]->path, data->cmd[i]->cmd, data->envp) == -1)
-		{
-			free_pipex(data->pipexfd, check_nbpipe(data->arg));
-			clean_data(data, 1);
-			exit (2);
-		}
+		data->cmd[i]->path = check_path(data->cmd[i]->cmd[0], data);
+		if (data->cmd[i]->path) 
+			if (execve(data->cmd[i]->path, data->cmd[i]->cmd, data->envp) == -1)
+				data->return_value = 2;
+		free_pipex(data->pipexfd, check_nbpipe(data->arg));
+		clean_data(data, 1);
+		exit (data->return_value);
 	}
-	wait_process_and_close_pipes(data, i);
+	close_pipes(data, i);
 }
 
 void	l_pipe(t_data *data, int i)
@@ -88,15 +86,16 @@ void	l_pipe(t_data *data, int i)
 		{
 			free_pipex(data->pipexfd, check_nbpipe(data->arg));
 			clean_data(data, 1);
-			exit (1);
+			exit (data->return_value);
 		}
 		unset_signals();
-		if (execve(data->cmd[i]->path, data->cmd[i]->cmd, data->envp) == -1)
-		{
-			free_pipex(data->pipexfd, check_nbpipe(data->arg));
-			clean_data(data, 1);
-			exit(2);
-		}
+		data->cmd[i]->path = check_path(data->cmd[i]->cmd[0], data);
+		if (data->cmd[i]->path) 
+			if (execve(data->cmd[i]->path, data->cmd[i]->cmd, data->envp) == -1)
+				data->return_value = 2;
+		free_pipex(data->pipexfd, check_nbpipe(data->arg));
+		clean_data(data, 1);
+		exit(data->return_value);
 	}
 	close(data->pipexfd[i - 1][1]);
 	close(data->pipexfd[i - 1][0]);
