@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 14:54:28 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/09 15:47:17 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/16 18:48:55 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	search_env(char *str, char **env)
 		}
 		if (str[k] == '+')
 			++k;
-		if (env[j][i] == str[k])
+		if (env[j][i] == '\0' || env[j][i] == str[k])
 			return (j);
 		++j;
 	}

@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:48:53 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/16 17:03:35 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/16 18:04:29 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -79,4 +79,5 @@ void	pick_correct_echo(t_cmd *cmd, t_data *data)
 	}
 	else
 		echo(cmd->cmd, data, cmd_i, tok_arg);
+	free(tok_arg);
 }

@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 10:22:53 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/16 16:24:36 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/16 20:03:50 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -15,7 +15,6 @@ void	close_pipes(t_data *data, int i)
 {
 	close(data->pipexfd[i - 1][1]);
 	close(data->pipexfd[i - 1][0]);
-	unlink("here_doc");
 }
 
 void	fi_pipe(t_data *data)

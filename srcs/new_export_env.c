@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 14:09:36 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/09 16:01:29 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/16 19:01:53 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,22 @@ char	*join_value_env(char *str, int line, char **env)
 {
 	int		i;
 	char	*tmp;
+	char	*tmp2;
 
+	tmp2 = NULL;
 	i = 0;
 	while (str[i] && str[i] != '=')
 		++i;
 	if (str[i] == '=')
 		++i;
+	if(ft_strchr_int(env[line], '=') == 0)
+	{
+		tmp = ft_strjoin(env[line], "=");
+		tmp2 = ft_strjoin(tmp, &str[i]);
+		free(tmp);
+		free(env[line]);
+		return (tmp2);
+	}
 	tmp = ft_strjoin(env[line], &str[i]);
 	free(env[line]);
 	env[line] = NULL;
