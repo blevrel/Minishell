@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 17:13:21 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/12 14:34:07 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/16 16:46:27 by pirabaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -15,20 +15,13 @@ int	check_nbpipe(char *full_arg)
 {
 	int	res;
 	int	i;
-	int	quote;
 
 	i = 0;
-	res = 1;
+	res = 0;
 	while (full_arg[i])
 	{
 		if (check_char(&full_arg[i]) < 0)
-		{
-			quote = full_arg[i];
-			i++;
-			while (full_arg[i] != quote)
-				i++;
-			i++;
-		}
+			i = move_index_after_quote(full_arg, i);
 		if (full_arg[i] == '|')
 			res++;
 		if (full_arg[i] && check_char(&full_arg[i]) >= 0)

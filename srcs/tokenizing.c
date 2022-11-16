@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:42:21 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/16 17:59:12 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/16 20:23:41 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -86,27 +86,40 @@ char	*tokenizing_arg(t_data *data, int i)
 	return (res);
 }
 
+void	fill_tokenizing(t_data *data, char **res)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (data->parsing[i])
+	{
+		while (env_not_found(data, i) == 1)
+			i++;
+		res[j] = tokenizing_arg(data, i);
+		if (!res[j])
+		{
+			free_double_tab(res);
+			res = NULL;
+			return ;
+		}
+		i++;
+		j++;
+	}
+	res[j] = NULL;
+}
+
 char	**tokenizing(t_data *data)
 {
 	char	**res;
-	int		i;
+	int		size;
 
-	i = 0;
-	res = malloc((size_tab(data->parsing) + 1) * sizeof (char *));
+	size = size_tab_tokenizing(data);
+	res = malloc((size + 1) * sizeof (char *));
 	if (verif_malloc_arr(res))
 		return (NULL);
-	while (data->parsing[i] != NULL)
-	{
-		res[i] = tokenizing_arg(data, i);
-		if (!res[i])
-		{
-			free_double_tab(res);
-			free_double_tab(data->parsing);
-			return (NULL);
-		}
-		i++;
-	}
-	res[i] = NULL;
+	fill_tokenizing(data, res);
 	free_double_tab(data->parsing);
 	return (res);
 }

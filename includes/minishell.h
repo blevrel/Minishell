@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/16 17:03:17 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/16 19:03:38 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -114,6 +114,7 @@ char	*ft_strjoin_no_malloc(char *s1, char *s2);
 //CHECK_PATH
 char	*check_path(char *cmd, t_data *data);
 int		check_valid_cmd_for_static_reset(t_data *data, char *cmd);
+int		check_dir(char *cmd);
 
 //CHECK_SYNTAX_ERROR
 char	*check_syntax_error(char *str);
@@ -145,6 +146,9 @@ int		check_quote(char *arg, int *i);
 int		check_closing_quotes(char *s);
 int		size_in_quote(char *str, int *i, int quote, t_data *data);
 int		size_tokenize(char *src, char **env, t_data *data);
+int		size_tab_tokenizing(t_data *data);
+int		env_not_found(t_data *data, int i);
+int		only_quotes(char *str);
 int		fill_tokenized_with_quote(t_data *data, char *res, char *src);
 int		tokenize_arg(char *res, char *src, t_data *data);
 int		size_env(char *str);
@@ -196,6 +200,8 @@ int		count_nb_here_doc(char **cmd);
 void	check_dup_pipe_first(t_cmd *cmd, int **pipexfd, int i, t_data *data);
 void	check_dup_pipe_n(t_cmd *cmd, int **pipexfd, int i, t_data *data);
 void	check_dup_pipe_last(t_cmd *cmd, int **pipexfd, int i, t_data *data);
+int		check_pipexfd(t_data *data, int i);
+void	close_pipes(t_data *data, int i);
 
 //EXPORT
 char	**new_env_export(char **cmd, char **env);

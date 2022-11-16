@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:08:32 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/14 14:47:34 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/16 19:22:39 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -32,6 +32,57 @@ int	size_in_quote(char *str, int *i, int quote, t_data *data)
 	}
 	(*i)++;
 	return (count);
+}
+
+int	size_tab_tokenizing(t_data *data)
+{
+	int	i;
+	int	j;
+	int	res;
+
+	i = 0;
+	j = 0;
+	res = 0;
+	while (data->parsing[i])
+	{
+		if (env_not_found(data, i) == 1)
+			i++;
+		else
+		{
+			i++;
+			res++;
+		}
+	}
+	return (res);
+}
+
+int	only_quotes(char *str)
+{
+	int	i;
+	int	quote;
+
+	if (!str)
+		return (1);
+	i = 0;
+	quote = str[i];
+	while (str[i])
+	{
+		if (str[i] != quote)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	env_not_found(t_data *data, int i)
+{
+	if (!data->parsing[i])
+		return (0);
+	if (size_tokenize(data->parsing[i], data->envp, data) == 0
+		&& ft_strlen(data->parsing[i]) != 0 && i != 0
+		&& only_quotes(data->parsing[i]) == 1)
+		return (1);
+	return (0);
 }
 
 int	size_tokenize(char *src, char **env, t_data *data)
