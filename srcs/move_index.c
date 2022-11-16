@@ -6,10 +6,9 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:43:38 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/15 09:28:36 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/15 16:57:44 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 
 int	move_indextoenv(char *str, int i)

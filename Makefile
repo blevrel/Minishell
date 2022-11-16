@@ -6,7 +6,7 @@
 #    By: blevrel <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 09:35:57 by blevrel           #+#    #+#              #
-#    Updated: 2022/11/13 11:13:17 by blevrel          ###   ########.fr        #
+#    Updated: 2022/11/15 17:02:29 by blevrel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRCS  =	srcs/alloc_parsing.c \
 		srcs/check_path.c \
 		srcs/check_quotes.c \
 		srcs/check_redirection.c \
+		srcs/check_space_utils.c \
 		srcs/check_syntax_error.c \
 		srcs/cmd_arr_with_echo_n.c \
 		srcs/command.c \

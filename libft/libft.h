@@ -6,7 +6,7 @@
 /*   By: pirabaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:24:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/15 09:25:06 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/15 18:03:45 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 int		ft_atoi(const char *nptr);
+long long	ft_atoll(const char *nptr);
+double		ft_atod(const char *nptr);
+float		ft_atof(const char *nptr);
 void	*ft_calloc(size_t nmemb, size_t size);
 void	ft_fill_char_and_increment(char *res, char *src, int *i, int *j);
 char	*ft_strdup(const char *s);

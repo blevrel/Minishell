@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 09:47:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/14 12:02:10 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/15 15:17:32 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -90,13 +90,12 @@ t_cmd	*fill_simple_cmd(t_data *data, t_cmd *res, int i, int j)
 		if (value == 1)
 		{
 			if (init_file(res, data, i) == 1)
-			{
-				trigger = 0;
-				return (res);
-			}
-			if (data->parsing[i + 1])
+				trigger = -2;
+			else if (data->parsing[i + 1])
 				i++;
 		}
+		else if (value == -42)
+			return (res);
 		else if (value == 2)
 			break ;
 		else

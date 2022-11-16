@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 15:35:25 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/14 18:04:22 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/15 15:18:24 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -102,6 +102,11 @@ int	get_arg_type(t_data *data, char *str, char *full_arg, int trigger)
 	static int	i = 0;
 
 	ret = check_only_redirection(str);
+	if (trigger == -1)
+	{
+		i = 0;
+		return (-42);
+	}
 	if (ret != 0 && check_if_redirection_is_in_quotes(str, full_arg, &i) == 1)
 	{
 		if (reset_index_if_needed(data, i, trigger, str) == 0)
