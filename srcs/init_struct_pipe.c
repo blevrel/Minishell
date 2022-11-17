@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 10:44:27 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/16 19:30:43 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/17 10:32:09 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -115,6 +115,8 @@ void	init_path_heredoc(t_data *data)
 	int	i;
 
 	i = 0;
+	if (!data->cmd)
+		return ;
 	nb_cmd = check_nbpipe(data->arg);
 	while (nb_cmd >= 0)
 	{

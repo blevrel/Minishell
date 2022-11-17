@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 15:35:25 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/16 13:51:26 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/17 10:10:41 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -104,7 +104,7 @@ int	get_arg_type(t_data *data, char *str, char *full_arg, int trigger)
 	ret = check_only_redirection(str);
 	if (trigger == -1)
 	{
-		if (next_non_spc_char(i, full_arg) == '\0')
+		if (reset_pipe_index_if_needed(&full_arg[i]) == 0)
 			i = 0;
 		return (-42);
 	}

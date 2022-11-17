@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 11:16:11 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/16 19:49:05 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/17 09:37:25 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,27 +37,19 @@ void	check_dup_pipe_first(t_cmd *cmd, int **pipexfd, int i, t_data *data)
 	if (cmd->infile != NULL)
 	{
 		fd = open(cmd->infile, O_RDONLY);
-		printf("%s\n", cmd->infile);
 		if (fd == -1)
 		{
-			printf("%s\n", cmd->infile);
 			free_pipex(pipexfd, check_nbpipe(data->arg));
 			clean_data(data, 1);
 			exit(1);
 		}
-		printf("%s\n", cmd->infile);
 		dup2(fd, 0);
 		close(fd);
 	}
 	if (cmd->outfile != NULL || cmd->outfile_append != NULL)
-	{
 		dup_entry(cmd, data);
-	}
 	else
-	{
 		dup2(pipexfd[i][1], 1);
-		printf("tu va la ?\n");
-	}
 }
 
 void	check_dup_pipe_last(t_cmd *cmd, int **pipexfd, int i, t_data *data)

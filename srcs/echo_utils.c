@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 14:25:34 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/16 16:50:32 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/17 10:13:04 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -92,7 +92,5 @@ char	*tokenize_full_arg(char *arg, t_data *data)
 			ft_fill_char_and_increment(res, arg, &i, &j);
 		}
 	}
-	//free(arg);
-	//arg = NULL;
 	return (res);
 }

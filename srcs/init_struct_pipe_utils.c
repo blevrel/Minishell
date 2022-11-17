@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 09:47:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/16 11:39:54 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/17 10:12:17 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -83,10 +83,10 @@ t_cmd	*fill_simple_cmd(t_data *data, t_cmd *res, int i, int j)
 	int	value;
 	int	trigger;
 
-	trigger = 0;
+	trigger = -1;
 	while (data->parsing[++i] != NULL)
 	{
-		value = get_arg_type(data, data->parsing[i], data->arg, trigger);
+		value = get_arg_type(data, data->parsing[i], data->arg, ++trigger);
 		if (value == 1)
 		{
 			if (init_file(res, data, i) == 1)
@@ -100,7 +100,6 @@ t_cmd	*fill_simple_cmd(t_data *data, t_cmd *res, int i, int j)
 			break ;
 		else
 			res->cmd[j++] = ft_strdup(data->parsing[i]);
-		trigger++;
 	}
 	res->cmd[j] = NULL;
 	return (res);
