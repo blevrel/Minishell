@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:42:21 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/16 20:23:41 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/17 10:46:18 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -76,11 +76,8 @@ char	*tokenizing_arg(t_data *data, int i)
 	}
 	res = malloc((size_tokenize(data->parsing[i], data->envp, data) + 1)
 			* sizeof(char));
-	if (!res)
-	{
-		ft_putstr_fd("Malloc failed", 2);
+	if (verif_malloc_str(&res, 0) == 1)
 		return (NULL);
-	}
 	if (fill_tokenize_arg(res, data->parsing[i], data) == 1)
 		return (NULL);
 	return (res);
@@ -97,7 +94,10 @@ void	fill_tokenizing(t_data *data, char **res)
 	{
 		while (env_not_found(data, i) == 1)
 			i++;
-		res[j] = tokenizing_arg(data, i);
+		if (data->parsing[i])
+			res[j] = tokenizing_arg(data, i);
+		else
+			continue ;
 		if (!res[j])
 		{
 			free_double_tab(res);

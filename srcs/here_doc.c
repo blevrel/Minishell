@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 16:34:01 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/16 19:57:57 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/21 10:57:08 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -39,7 +39,7 @@ void	fill_tokenized_here_doc_line(char *new_line, char *line,
 	}
 }
 
-char	*tokenize_here_doc_line(t_data *data, char *limiter)
+char	*tokenize_here_doc_line(t_data *data, char *limiter, int fd)
 {
 	char	*line;
 	char	*new_line;
@@ -48,7 +48,9 @@ char	*tokenize_here_doc_line(t_data *data, char *limiter)
 	if (g_signal_trigger == -1)
 	{
 		clean_data(data, 1);
-		exit(0);
+		close_fds();
+		close(fd);
+		exit(132);
 	}
 	if (line == NULL)
 		here_doc_err_msg(data, limiter);
@@ -70,13 +72,13 @@ void	create_file(char **limiter, t_data *data)
 	while (limiter[i] != NULL)
 	{
 		fd = open ("here_doc", O_WRONLY | O_TRUNC | O_CREAT, 0644);
-		line = tokenize_here_doc_line(data, limiter[i]);
+		line = tokenize_here_doc_line(data, limiter[i], fd);
 		while (ft_strcmp(line, limiter[i]) != 0)
 		{
 			ft_putstr_fd(line, fd);
 			ft_putchar_fd('\n', fd);
 			free(line);
-			line = tokenize_here_doc_line(data, limiter[i]);
+			line = tokenize_here_doc_line(data, limiter[i], fd);
 		}
 		free(line);
 		++i;
@@ -88,17 +90,22 @@ void	here_doc(t_cmd *cmd, t_data *data)
 {
 	pid_t	son;
 	int		value;
+	int		status;
 
+	ignore_signals();
+	data->return_value = 0;
 	son = fork();
 	if (son == 0)
 	{
-		g_signal_trigger = IN_HERE_DOC;
-		signal_handler();
+		signal_handler_here_doc();
 		create_file(cmd->limiter, data);
 		value = data->return_value;
 		clean_data(data, 1);
+		close_fds();
 		exit(value);
 	}
-	waitpid(son, NULL, 0);
+	waitpid(son, &status, 0);
+	data->return_value = get_return_value(status);
+	signal_handler();
 	return ;
 }

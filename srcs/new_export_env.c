@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 14:09:36 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/17 10:13:22 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/17 10:40:22 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	**new_env_export(char **cmd, char **env)
 
 	new_env = malloc((search_new_env(cmd, env)
 				+ size_tab(env) + 1) * sizeof(char *));
-	if (!new_env)
+	if (verif_malloc_arr(new_env) == 1)
 		return (NULL);
 	i = size_tab(env);
 	j = 1;

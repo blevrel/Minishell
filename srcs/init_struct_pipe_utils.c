@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 09:47:41 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/17 10:12:17 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/21 11:35:22 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -54,21 +54,21 @@ int	check_open(char **cmd)
 {
 	int	fd;
 
-	if (ft_strcmp(cmd[0], ">") == 0)
+	if (cmd[1] && *cmd[1] && ft_strcmp(cmd[0], ">") == 0)
 	{
 		fd = open(cmd[1], O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		if (fd == -1)
 			return (1);
 		close (fd);
 	}
-	if (ft_strcmp(cmd[0], ">>") == 0)
+	if (cmd[1] && *cmd[1] && ft_strcmp(cmd[0], ">>") == 0)
 	{
 		fd = open(cmd[1], O_WRONLY | O_APPEND | O_CREAT, 0644);
 		if (fd == -1)
 			return (1);
 		close (fd);
 	}
-	if (ft_strcmp(cmd[0], "<") == 0)
+	if (cmd[1] && *cmd[1] && ft_strcmp(cmd[0], "<") == 0)
 	{
 		fd = open(cmd[1], O_RDONLY);
 		if (fd == -1)

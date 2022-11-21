@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:45:33 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/16 19:28:50 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/19 11:20:21 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -30,7 +30,10 @@ void	init_cmd(t_data *data)
 {
 	data->arg = check_syntax_error(data->arg);
 	if (data->arg == NULL)
+	{
+		data->return_value = 2;
 		return ;
+	}
 	parsing(data);
 	if (!data->parsing || !data->parsing[0])
 		return ;
@@ -57,9 +60,14 @@ void	routine(t_data *data)
 	{
 		trigger = 0;
 		data->arg = readline("Mishell-> ");
+		if (g_signal_trigger == -2)
+		{
+			data->return_value = 130;
+			g_signal_trigger = 0;
+		}
 		if (data->arg && data->arg[0])
 			add_history(data->arg);
-		if (data->arg == NULL)
+		if (!data->arg)
 		{
 			free(data->arg);
 			return ;

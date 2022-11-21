@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 17:20:55 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/16 17:28:29 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/21 10:45:18 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,11 @@ int	check_dir(char *cmd)
 		return (1);
 	}
 	return (0);
+}
+
+void	close_fds(void)
+{
+	close(0);
+	close(1);
+	close(2);
 }

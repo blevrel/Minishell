@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:08:26 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/15 09:31:04 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/19 11:47:59 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -47,41 +47,45 @@ char	*parse_arg_for_syntax_error(char *str)
 	char	save_char;
 
 	i = 0;
-	while (str[i])
+	while (str[i++])
 	{
 		if (list_syntax_errors(&str[i]) == 1)
+		{
+			free(str);
 			return (NULL);
+		}
 		if (list_syntax_errors(&str[i]) > 1)
 		{
 			save_char = str[i];
 			i = move_index_after_space(str, i, str[i]);
 			if (!str[i] || (save_char != '|' && check_char(&str[i]) > 1))
+			{
+				free(str);
 				return (NULL);
+			}
 		}
 		if (check_char(&str[i]) < 0)
 			i = move_index_after_quote(str, i);
-		else if (str[i])
-			i++;
 	}
 	return (str);
 }
 
 char	*check_syntax_error(char *str)
 {
-	char	*res;
-
 	if (next_non_spc_char(0, str) == '|')
 	{
 		ft_print_error("Syntax error\n");
+		free(str);
 		return (NULL);
 	}
 	if (check_closing_quotes(str) == 1)
 	{
 		ft_print_error("Missing_quote\n");
+		free(str);
 		return (NULL);
 	}
-	res = parse_arg_for_syntax_error(str);
-	if (res == NULL)
+	str = parse_arg_for_syntax_error(str);
+	if (str == NULL)
 		ft_print_error("Syntax error\n");
-	return (res);
+	return (str);
 }

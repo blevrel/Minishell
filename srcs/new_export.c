@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 08:30:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/16 13:25:57 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/17 10:38:54 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	**new_export(t_cmd *cmd, t_data *data)
 	new_export = malloc((nb_new + size_tab(data->export) + 1) * sizeof(char *));
 	if (!new_export)
 	{
-		ft_putstr_fd("error malloc", 2);
+		ft_putstr_fd("Malloc failed\n", 2);
 		return (NULL);
 	}
 	new_export = cpy_tab(new_export, data->export);

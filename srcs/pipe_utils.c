@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 10:22:53 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/16 20:03:50 by pirabaud         ###   ########.fr       */
+/*   Updated: 2022/11/21 10:48:05 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -29,6 +29,7 @@ void	fi_pipe(t_data *data)
 		free_pipex(data->pipexfd, check_nbpipe(data->arg));
 		ret = data->return_value;
 		clean_data(data, 1);
+		close_fds();
 		exit(ret);
 	}
 	unset_signals();
@@ -39,6 +40,7 @@ void	fi_pipe(t_data *data)
 	free_pipex(data->pipexfd, check_nbpipe(data->arg));
 	ret = data->return_value;
 	clean_data(data, 1);
+	close_fds();
 	exit(ret);
 }
 
@@ -56,6 +58,7 @@ void	n_pipe(t_data *data, int i)
 		free_pipex(data->pipexfd, check_nbpipe(data->arg));
 		ret = data->return_value;
 		clean_data(data, 1);
+		close_fds();
 		exit(ret);
 	}
 	unset_signals();
@@ -66,6 +69,7 @@ void	n_pipe(t_data *data, int i)
 	free_pipex(data->pipexfd, check_nbpipe(data->arg));
 	ret = data->return_value;
 	clean_data(data, 1);
+	close_fds();
 	exit(ret);
 }
 
@@ -81,6 +85,7 @@ void	l_pipe(t_data *data, int i)
 		free_pipex(data->pipexfd, check_nbpipe(data->arg));
 		ret = data->return_value;
 		clean_data(data, 1);
+		close_fds();
 		exit(ret);
 	}
 	unset_signals();
@@ -91,6 +96,7 @@ void	l_pipe(t_data *data, int i)
 	free_pipex(data->pipexfd, check_nbpipe(data->arg));
 	ret = data->return_value;
 	clean_data(data, 1);
+	close_fds();
 	exit(ret);
 }
 

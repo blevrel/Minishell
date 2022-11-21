@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:10:58 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/16 15:07:06 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/21 10:46:23 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	child_simple_cmd(t_data *data)
 	{
 		ret_value = data->return_value;
 		clean_data(data, 1);
+		close_fds();
 		exit(ret_value);
 	}
 	unset_signals();
@@ -89,6 +90,7 @@ void	child_simple_cmd(t_data *data)
 			data->return_value = 2;
 	ret_value = data->return_value;
 	clean_data(data, 1);
+	close_fds();
 	exit (ret_value);
 }
 
@@ -103,7 +105,7 @@ int	simple_cmd(t_data *data)
 	if (son == 0)
 		child_simple_cmd(data);
 	else if (son < 0)
-		ft_print_error("fork failed\n");
+		ft_print_error("Fork failed\n");
 	return_value(&son, data, 1);
 	signal_handler();
 	unlink("here_doc");

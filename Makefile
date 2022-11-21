@@ -6,7 +6,7 @@
 #    By: blevrel <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 09:35:57 by blevrel           #+#    #+#              #
-#    Updated: 2022/11/15 17:02:29 by blevrel          ###   ########.fr        #
+#    Updated: 2022/11/19 11:12:53 by blevrel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME = minishell
 
 SRCS  =	srcs/alloc_parsing.c \
 		srcs/ch_directory.c \
+		srcs/catch_signals.c \
 		srcs/check.c \
 		srcs/check_builtin.c \
 		srcs/check_echo_options.c \

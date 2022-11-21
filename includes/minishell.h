@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 09:46:20 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/16 19:03:38 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/21 10:45:55 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -24,9 +24,6 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <dirent.h>
-# define IN_PARENT 0
-# define IN_HERE_DOC 1
-# define IN_COMMAND 2
 
 extern int	g_signal_trigger;
 
@@ -89,7 +86,9 @@ char	*fill_limiter(char *str, char *res);
 
 //SIGNALS
 void	catch_signal(int signal);
+void	catch_signal_here_doc(int signal);
 void	signal_handler(void);
+void	signal_handler_here_doc(void);
 void	ignore_signals(void);
 void	unset_signals(void);
 
@@ -110,6 +109,7 @@ char	**cpy_tab(char **dest, char **src);
 char	next_non_spc_char(int i, char *str);
 int		ft_strncmp_skip_quotes(char *s1, char *s2, size_t len);
 char	*ft_strjoin_no_malloc(char *s1, char *s2);
+void	close_fds(void);
 
 //CHECK_PATH
 char	*check_path(char *cmd, t_data *data);
@@ -243,6 +243,7 @@ int		check_fill_heredoc_null(char **final_tab, char *arg, int *i, int *j);
 char	*fill_returnvalue(t_data *data, char *res, int *i);
 int		replace_valuereturn(char *dest, int *j, t_data *data);
 int		size_return_value(t_data *data);
+int		get_return_value(int status);
 
 //MOVE_INDEX
 int		move_indextoenv(char *str, int i);
