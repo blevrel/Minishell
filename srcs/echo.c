@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:48:53 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/17 17:30:09 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/21 15:03:25 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -67,6 +67,7 @@ void	pick_correct_echo(t_cmd *cmd, t_data *data)
 	int		cmd_i;
 	char	*options;
 	char	*tok_arg;
+	char	*echo_start;
 
 	cmd_i = 0;
 	tok_arg = tokenize_full_arg(data->arg, data);
@@ -74,7 +75,8 @@ void	pick_correct_echo(t_cmd *cmd, t_data *data)
 	{
 		options = join_echo_options(cmd->cmd, tok_arg);
 		cmd_i = move_cmd_arr_index(cmd->cmd, options);
-		echo_n(cmd->cmd, data, cmd_i - 1, tok_arg);
+		echo_start = ft_strnstr(tok_arg, "echo", 4);
+		echo_n(cmd->cmd, data, cmd_i - 1, &echo_start[5 + ft_strlen(options)]);
 		free(options);
 	}
 	else

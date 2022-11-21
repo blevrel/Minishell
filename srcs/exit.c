@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 10:45:41 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/19 12:15:27 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/21 14:04:20 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -56,6 +56,7 @@ void	ft_exit(t_data *data)
 	free_double_tab(data->envp);
 	free_parsing(data);
 	free(data);
+	close_fds();
 	exit(exit_val);
 }
 

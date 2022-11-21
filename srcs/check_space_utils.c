@@ -6,7 +6,7 @@
 /*   By: blevrel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 16:50:44 by blevrel           #+#    #+#             */
-/*   Updated: 2022/11/16 15:00:38 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/21 15:12:53 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -55,22 +55,22 @@ int	check_if_space_is_needed(char *cmd, char *first_occ)
 
 void	space_before_first_arg(char *full_arg, int arg_i)
 {
-	while (check_char(&full_arg[arg_i]) == 1)
+	while (full_arg[arg_i] && check_char(&full_arg[arg_i]) == 1)
 		arg_i++;
-	while (check_char(&full_arg[arg_i]) != 1)
+	while (full_arg[arg_i] && check_char(&full_arg[arg_i]) != 1)
 		arg_i++;
-	while ((check_char(&full_arg[arg_i]) == 1)
+	while ((full_arg[arg_i] && (check_char(&full_arg[arg_i]) == 1))
 		|| (check_char(&full_arg[arg_i]) < 0
 			&& full_arg[arg_i] == full_arg[arg_i + 1]))
 	{
-		if (check_char(&full_arg[arg_i]) < 0
+		if (full_arg[arg_i] && check_char(&full_arg[arg_i]) < 0
 			&& full_arg[arg_i] == full_arg[arg_i + 1])
 		{
 			arg_i += 2;
 			if (check_char(&full_arg[arg_i]) == 1)
 				ft_printf(" ");
 		}
-		else
+		else if (full_arg[arg_i + 1])
 			arg_i++;
 	}
 }

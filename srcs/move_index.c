@@ -6,7 +6,7 @@
 /*   By: pirabaud <pirabaud@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:43:38 by pirabaud          #+#    #+#             */
-/*   Updated: 2022/11/15 16:57:44 by blevrel          ###   ########.fr       */
+/*   Updated: 2022/11/21 13:55:01 by blevrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -60,6 +60,8 @@ int	move_index_after_quote(char *str, int i)
 int	move_to_end_of_arg(char *str, int i)
 {
 	while (check_char(&str[i]) == 1)
+		i++;
+	while (str[i] && check_char(&str[i]) == 2)
 		i++;
 	while (str[i] && check_char(&str[i]) < 1)
 	{
